@@ -1,0 +1,10 @@
+/* include reset styles and bootsrap 4 grid */
+
+@import url('bootstrap-reboot.css');
+@import url('bootstrap-grid.css');
+/* main styles */
+
+h1 {
+  color: red;
+  text-align: center;
+}
