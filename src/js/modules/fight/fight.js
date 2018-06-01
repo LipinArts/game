@@ -1,5 +1,5 @@
 class Fight {
-	constructor() {}
+	constructor() { }
 }
 const sayHi = () => console.log('module Fight connected');
 export default sayHi;

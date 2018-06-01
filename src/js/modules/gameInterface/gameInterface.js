@@ -1,4 +1,5 @@
 class GameInterface {
+	// comment for init commit as test commit
 
 }
 
