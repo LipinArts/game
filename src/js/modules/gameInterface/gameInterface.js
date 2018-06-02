@@ -1,4 +1,4 @@
-import GameManager from './modules/gameManager/gameManager';
+import GameManager from '../gameManager/gameManager';
 
 export default class GameInterface {
 	constructor() {
@@ -12,11 +12,11 @@ export default class GameInterface {
 	}
 
 	showGameMenu() {
-		document.getElementById('gameMenu_id').setAttribute('style', 'display:block'); // or document.getElementById('gameMenu_id').style.display=block;
+		document.getElementById('gameMenu_id').style.display = 'block';
 	}
 
 	hideGameMenu() {
-		document.getElementById('gameMenu_id').setAttribute('style', 'display:none');  // or document.getElementById('gameMenu_id').style.display=none;
+		document.getElementById('gameMenu_id').style.display = 'none';
 	}
 
 	initKeyboardControlInput() {
@@ -24,39 +24,47 @@ export default class GameInterface {
 		let keyMap = {
 			39: 'nextTarget',    // ->
 			37: 'prevTarget',    // <-
-			32: 'impact',        //space
-			56: 'decreaseVol',   //8
-			57: 'increaseVol',   //9
+			32: 'impact',        // space
+			56: 'decreaseVol',   // 8
+			57: 'increaseVol',   // 9
 			48: 'music_Off_On',  // 0
 			27: 'showGameMenu'   // esc
 		};
 
-		function keydown(event) {
+		function keydownHandler(event) {
 			switch (keyMap[event.keyCode]) {
-				case 'decreaseVol':
-					//Sound_Module.decreaseMusicVol(that.musicPlaylist, 0.05);
-					break;
-				case 'increaseVol':
-					//Sound_Module.increaseMusicVol(that.musicPlaylist, 0.05);
-					break;
+			case 'decreaseVol':
+				// Sound_Module.decreaseMusicVol(that.musicPlaylist, 0.05);
+				break;
+			case 'increaseVol':
+				// Sound_Module.increaseMusicVol(that.musicPlaylist, 0.05);
+				break;
+			default:
+				if (that.gameManager) {
+					that.gameManager.keydown(keyMap[event.keyCode]);
+				}
+				break;
 			}
-			that.gameManager.keydown(keyMap[event.keyCode]);
 		}
 
-		function keyup(event) {
+		function keyupHandler(event) {
 			switch (keyMap[event.keyCode]) {
-				case 'musicOff_On':
-					//Sound_Module.musicPause_Unpause(that.musicPlaylist);
-					break;
-				case 'showGameMenu':
-					this.showGameMenu();
-					break;
+			case 'music_Off_On':
+				// Sound_Module.musicPause_Unpause(that.musicPlaylist);
+				break;
+			case 'showGameMenu':
+				that.showGameMenu();
+				break;
+			default:
+				if (that.gameManager) {
+					that.gameManager.keyup(keyMap[event.keyCode]);
+				}
+				break;
 			}
-			that.gameManager.keyup(keyMap[event.keyCode]);
 		}
 
-		window.addEventListener('keydown', keydown, false);
-		window.addEventListener('keyup', keyup, false);
+		window.addEventListener('keydown', keydownHandler, false);
+		window.addEventListener('keyup', keyupHandler, false);
 	}
 
 }
