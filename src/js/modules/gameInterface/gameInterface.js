@@ -40,7 +40,7 @@ export default class GameInterface {
 				// Sound_Module.increaseMusicVol(that.musicPlaylist, 0.05);
 				break;
 			default:
-				if (that.gameManager) {
+				if (that.gameManager && keyMap[event.keyCode]) {
 					that.gameManager.keydown(keyMap[event.keyCode]);
 				}
 				break;
@@ -56,7 +56,7 @@ export default class GameInterface {
 				that.showGameMenu();
 				break;
 			default:
-				if (that.gameManager) {
+				if (that.gameManager && keyMap[event.keyCode]) {
 					that.gameManager.keyup(keyMap[event.keyCode]);
 				}
 				break;
