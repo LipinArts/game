@@ -7,12 +7,12 @@ export default class GameManager {
 		console.log('GameManager: startGame()');
 	}
 
-	keydown(key) {
-		console.log('GameManager: player keydown key ' + key);
+	keydown(action) {
+		console.log('GameManager: player keydown key ' + action);
 	}
 
-	keyup(key) {
-		console.log('GameManager: player keyup key ' + key);
+	keyup(action) {
+		console.log('GameManager: player keyup key ' + action);
 	}
 
 }
