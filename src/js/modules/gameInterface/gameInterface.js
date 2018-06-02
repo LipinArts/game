@@ -2,7 +2,7 @@ import GameManager from './modules/gameManager/gameManager';
 
 export default class GameInterface {
 	constructor() {
-		this.init_keyboard_control_input();
+		this.initKeyboardControlInput();
 	}
 
 	pressStartNewGameButton() {
@@ -19,7 +19,7 @@ export default class GameInterface {
 		document.getElementById('gameMenu_id').setAttribute('style', 'display:none');  // or document.getElementById('gameMenu_id').style.display=none;
 	}
 
-	init_keyboard_control_input() {
+	initKeyboardControlInput() {
 		const that = this;
 		let keyMap = {
 			39: 'nextTarget',    // ->
