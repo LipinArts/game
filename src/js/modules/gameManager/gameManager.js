@@ -6,10 +6,12 @@ export default class GameManager {
 	}
 
 	startGameCycle() {
-		let player = this.generateGroupOfUnits('player');
+		let diffucult = 1;
+		let player = this.generateGroupOfUnits('player', diffucult);
 		console.log(player);
 		while (this.isGroupAlive(player)) {
-			let monster = this.generateGroupOfUnits('monster' + this.monsterGroupsCounter);
+			diffucult = diffucult * 1.5;
+			let monster = this.generateGroupOfUnits('monster' + this.monsterGroupsCounter, diffucult);
 			this.monsterGroupsCounter++;
 			console.log(monster);
 			let survivingUnits = new Fight(player, monster);
@@ -38,14 +40,14 @@ export default class GameManager {
 		console.log('GameManager: player keyup key ' + action);
 	}
 
-	generateGroupOfUnits(typeGroup) {
+	generateGroupOfUnits(typeGroup, diffucult) {
 		const unitGroup = [];
 		unitGroup.typeGroup = typeGroup;
 		for (let i = 0; i < 3; i++) {
 			unitGroup.push(
 				{
 					'unit': 'unit number ' + i,
-					'hp': 10
+					'hp': diffucult * 10
 				});
 		}
 		return unitGroup;
