@@ -1,16 +1,31 @@
+import Fight from '../fight/fight';
+
 export default class GameManager {
 	constructor() {
-		console.log('GameManager: created new GameManager');
 		this.monsterGroupsCounter = 0;
+		this.player = 'initial';
 	}
 
 	startGame() {
-		console.log('GameManager: startGame()');
-		let playerGroup = this.genericUnitGroup('player');
-		console.log(playerGroup);
+		this.player = this.generateGroupOfUnits('player');
+		console.log(this.player);
 		while (this.isPlayerAlive()) {
-			let monsterGroup = this.genericUnitGroup('monster' + this.monsterGroupsCounter);
-			console.log(monsterGroup);
+			let monster = this.generateGroupOfUnits('monster' + this.monsterGroupsCounter);
+			this.monsterGroupsCounter++;
+			console.log(monster);
+			let survivingUnits = new Fight(this.player, monster);
+			this.player = survivingUnits.attacker;
+
+			// for tests
+			if (this.monsterGroupsCounter > 5) {
+				this.player.fill(
+					{
+						'unit': 'dead unit',
+						'hp': 0
+					});
+				console.log('all player units are dead');
+			}
+
 		}
 	}
 
@@ -22,19 +37,21 @@ export default class GameManager {
 		console.log('GameManager: player keyup key ' + action);
 	}
 
-	genericUnitGroup(typeGroup) {
+	generateGroupOfUnits(typeGroup) {
 		let unitGroup = [];
-		unitGroup.nameGroup = typeGroup;
+		unitGroup.typeGroup = typeGroup;
 		for (let i = 0; i < 3; i++) {
-			unitGroup.push({ 'unit': 'unit number ' + i });
+			unitGroup.push(
+				{
+					'unit': 'unit number ' + i,
+					'hp': 10
+				});
 		}
 		return unitGroup;
 	}
 
 	isPlayerAlive() {
-		this.monsterGroupsCounter++;
-		if (this.monsterGroupsCounter > 5) return false;
-		return true;
+		return this.player.some(unit => unit.hp > 0);
 	}
 
 }
