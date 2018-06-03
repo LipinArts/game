@@ -1,19 +1,19 @@
 import _ from 'lodash';
-import unit from '../../unitConfig';
+import unitConfig from '../../unitConfig';
 
 export default class FightUnit {
-	constructor(unit, name, difficulty) {
-		this.unit = unit ? unit : 'monster';
+	constructor(type = 'monster', difficulty = 1) {
+		this.type = type;
 		this.name = name;
 		this.hp = '';
-		this.difficulty = difficulty ? difficulty : 1;
+		this.difficulty = difficulty;
 		this.abilities = {};
 		this.sprites = {};
 		this.generate();
 	}
 
 	generate() {
-		switch (unit) {
+		switch (this.type) {
 		case 'player':
 			this.generatePlayerUnit();
 			break;
@@ -27,89 +27,20 @@ export default class FightUnit {
 	}
 
 	generateMonsterUnit() {
-		this.generateMonsterName();
-		this.hp = unit.monsters.hp * this.difficulty;
-
-		this.sprites.head = {
-			path: unit.monsters.sprites.heads_path,
-			sX: unit.monsters.sprites.heads_X[_.random(0, unit.monsters.sprites.heads_X.length)],
-			sY: unit.monsters.sprites.heads_Y,
-			sWidth: unit.monsters.sprites.heads_width,
-			sHeight: unit.monsters.sprites.heads_height,
-			dX: 0,
-			dY: 0,
-			dWidth: 0,
-			dHeight: 0
-		};
-		this.sprites.body = {
-			path: unit.monsters.sprites.bodies_path,
-			sX: unit.monsters.sprites.bodies_X[_.random(0, unit.monsters.sprites.bodies_X.length)],
-			sY: unit.monsters.sprites.bodies_Y,
-			sWidth: unit.monsters.sprites.bodies_width,
-			sHeight: unit.monsters.sprites.bodies_height,
-			dX: 0,
-			dY: 0,
-			dWidth: 0,
-			dHeight: 0
-		};
-		this.sprites.hands = {
-			path: unit.monsters.sprites.hands_path,
-			sX: unit.monsters.sprites.hands_X[_.random(0, unit.monsters.sprites.hands_X.length)],
-			sY: unit.monsters.sprites.hands_Y,
-			sWidth: unit.monsters.sprites.hands_width,
-			sHeight: unit.monsters.sprites.hands_height,
-			dX: 0,
-			dY: 0,
-			dWidth: 0,
-			dHeight: 0
-		};
-		this.sprites.legs = {
-			path: unit.monsters.sprites.hands_path,
-			sX: unit.monsters.sprites.hands_X[_.random(0, unit.monsters.sprites.hands_X.length)],
-			sY: unit.monsters.sprites.hands_Y,
-			sWidth: unit.monsters.sprites.hands_width,
-			sHeight: unit.monsters.sprites.hands_height,
-			dX: 0,
-			dY: 0,
-			dWidth: 0,
-			dHeight: 0
-		};
-
+		this.generateUnitName(unitConfig.monsters.adjectives, unitConfig.monsters.names_1, unitConfig.monsters.names_2);
+		this.hp = unitConfig.monsters.hp * this.difficulty;
 	}
 
 	generatePlayerUnit() {
-		this.generatePlayerName();
-		this.hp = unit.players.hp * this.difficulty;
-
-		this.sprites = {
-			path: unit.players.sprites.path,
-			sX: 0,
-			sY: 0,
-			sWidth: 0,
-			sHeight: 0,
-			dX: 0,
-			dY: 0,
-			dWidth: 0,
-			dHeight: 0
-		};
+		this.generateUnitName(unitConfig.players.adjectives, unitConfig.players.names_1, unitConfig.players.names_2);
+		this.hp = unitConfig.players.hp * this.difficulty;
 	}
 
-	generateMonsterName() {
-		const firstName = unit.monsters.adjectives[_.random(0, unit.monsters.adjectives.length)];
-		const secondName = unit.monsters.names_1[_.random(0, unit.monsters.names_1.length)];
-		const thirdName = unit.monsters.names_2[_.random(0, unit.monsters.names_2.length)];
+	generateUnitName(first, second, third) {
+		const firstName = first[_.random(0, first.length - 1)];
+		const secondName = second[_.random(0, second.length - 1)];
+		const thirdName = third[_.random(0, third.length - 1)];
 		this.name = `${firstName} ${secondName} ${thirdName}`;
-	}
-
-	generatePlayerName() {
-		const firstName = unit.players.adjectives[_.random(0, unit.players.adjectives.length)];
-		let secondName;
-		if (this.name) {
-			secondName = this.name;
-		} else {
-			secondName = unit.players.names[_.random(0, unit.players.names.length)];
-		}
-		this.name = `${firstName} ${secondName}`;
 	}
 
 }
