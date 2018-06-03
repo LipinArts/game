@@ -6,7 +6,7 @@ export default class FightUnit {
 		this.unit = unit ? unit : 'monster';
 		this.name = name;
 		this.hp = '';
-		this.damage = '';
+		this.difficulty = difficulty ? difficulty : 1;
 		this.abilities = {};
 		this.sprites = {};
 		this.generate();
@@ -28,41 +28,72 @@ export default class FightUnit {
 
 	generateMonsterUnit() {
 		this.generateMonsterName();
+		this.hp = unit.monsters.hp * this.difficulty;
 
-		// this.unitSprites.head = {
-		// 	path: unit.monsters.heads_path, // путь к спрайту
-		// 	width: unit.monsters.heads_width,
-		// 	height: unit.monsters.heads_height,
-		// 	bgPosX: unit.monsters.heads_bg_posX[_.random(0, unit.monsters.heads_bg_posX.length)], // рандомный выбор головы из спрайта по координатам X
-		// 	bgPosY: unit.monsters.heads_bg_posY, // координаты головы спрайта по Y
-		// };
-		// this.unitSprites.body = {
-		// 	path: unit.monsters.bodies_path,
-		// 	width: unit.monsters.bodies_width,
-		// 	height: unit.monsters.bodies_height,
-		// 	bgPosX: unit.monsters.bodies_bg_posX[_.random(0, unit.monsters.bodies_bg_posX.length)],
-		// 	bgPosY: unit.monsters.bodies_bg_posY,
-		// };
-		// this.unitSprites.hands = {
-		// 	path: unit.monsters.hands_path,
-		// 	width: unit.monsters.hands_width,
-		// 	height: unit.monsters.hands_height,
-		// 	bgPosX: unit.monsters.hands_bg_posX[_.random(0, unit.monsters.hands_bg_posX.length)],
-		// 	bgPosY: unit.monsters.hands_bg_posY,
-		// };
-		// this.unitSprites.legs = {
-		// 	path: unit.monsters.hands_path,
-		// 	width: unit.monsters.hands_width,
-		// 	height: unit.monsters.hands_height,
-		// 	bgPosX: unit.monsters.hands_bg_posX[_.random(0, unit.monsters.hands_bg_posX.length)],
-		// 	bgPosY: unit.monsters.hands_bg_posY,
-		//	};
+		this.sprites.head = {
+			path: unit.monsters.sprites.heads_path,
+			sX: unit.monsters.sprites.heads_X[_.random(0, unit.monsters.sprites.heads_X.length)],
+			sY: unit.monsters.sprites.heads_Y,
+			sWidth: unit.monsters.sprites.heads_width,
+			sHeight: unit.monsters.sprites.heads_height,
+			dX: 0,
+			dY: 0,
+			dWidth: 0,
+			dHeight: 0
+		};
+		this.sprites.body = {
+			path: unit.monsters.sprites.bodies_path,
+			sX: unit.monsters.sprites.bodies_X[_.random(0, unit.monsters.sprites.bodies_X.length)],
+			sY: unit.monsters.sprites.bodies_Y,
+			sWidth: unit.monsters.sprites.bodies_width,
+			sHeight: unit.monsters.sprites.bodies_height,
+			dX: 0,
+			dY: 0,
+			dWidth: 0,
+			dHeight: 0
+		};
+		this.sprites.hands = {
+			path: unit.monsters.sprites.hands_path,
+			sX: unit.monsters.sprites.hands_X[_.random(0, unit.monsters.sprites.hands_X.length)],
+			sY: unit.monsters.sprites.hands_Y,
+			sWidth: unit.monsters.sprites.hands_width,
+			sHeight: unit.monsters.sprites.hands_height,
+			dX: 0,
+			dY: 0,
+			dWidth: 0,
+			dHeight: 0
+		};
+		this.sprites.legs = {
+			path: unit.monsters.sprites.hands_path,
+			sX: unit.monsters.sprites.hands_X[_.random(0, unit.monsters.sprites.hands_X.length)],
+			sY: unit.monsters.sprites.hands_Y,
+			sWidth: unit.monsters.sprites.hands_width,
+			sHeight: unit.monsters.sprites.hands_height,
+			dX: 0,
+			dY: 0,
+			dWidth: 0,
+			dHeight: 0
+		};
 
 	}
 
 	generatePlayerUnit() {
 		this.generatePlayerName();
+		this.hp = unit.players.hp * this.difficulty;
+
+		this.sprites = {
+			path: unit.players.sprites.path,
+			sX: 0,
+			sY: 0,
+			sWidth: 0,
+			sHeight: 0,
+			dX: 0,
+			dY: 0,
+			dWidth: 0,
+			dHeight: 0
+		};
 	}
+
 	generateMonsterName() {
 		const firstName = unit.monsters.adjectives[_.random(0, unit.monsters.adjectives.length)];
 		const secondName = unit.monsters.names_1[_.random(0, unit.monsters.names_1.length)];
@@ -81,13 +112,4 @@ export default class FightUnit {
 		this.name = `${firstName} ${secondName}`;
 	}
 
-	// render() { // отрисовывает юнита
-	// 	let head = document.createElement('div');
-	// 	head.style.width = this.unitSprites.head.width + 'px';
-	// 	head.style.height = this.unitSprites.head.height + 'px';
-	// 	head.style.backgroundImage = `url(${this.unitSprites.head.path})`;
-	// 	head.style.backgroundPositionX = this.unitSprites.head.bgPosX + 'px';
-	// 	head.style.backgroundPositionY = this.unitSprites.head.bgPosY + 'px';
-	// 	document.getElementById('unit').appendChild(head);
-	// }
 }
