@@ -5,7 +5,7 @@ export default class GameManager {
 		this.monsterGroupsCounter = 0;
 	}
 
-	startGame() {
+	startGameCycle() {
 		let player = this.generateGroupOfUnits('player');
 		console.log(player);
 		while (this.isGroupAlive(player)) {
@@ -26,6 +26,8 @@ export default class GameManager {
 			}
 
 		}
+		const score = this.calcScore();
+		this.showScore(score);
 	}
 
 	keydown(action) {
@@ -37,7 +39,7 @@ export default class GameManager {
 	}
 
 	generateGroupOfUnits(typeGroup) {
-		let unitGroup = [];
+		const unitGroup = [];
 		unitGroup.typeGroup = typeGroup;
 		for (let i = 0; i < 3; i++) {
 			unitGroup.push(
@@ -51,6 +53,14 @@ export default class GameManager {
 
 	isGroupAlive(player) {
 		return player.some(unit => unit.hp > 0);
+	}
+
+	calcScore() {
+		return this.monsterGroupsCounter * 10;
+	}
+
+	showScore() {
+		console.log('open modal score window');
 	}
 
 }
