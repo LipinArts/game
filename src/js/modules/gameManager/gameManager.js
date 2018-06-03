@@ -3,22 +3,21 @@ import Fight from '../fight/fight';
 export default class GameManager {
 	constructor() {
 		this.monsterGroupsCounter = 0;
-		this.player = 'initial';
 	}
 
 	startGame() {
-		this.player = this.generateGroupOfUnits('player');
-		console.log(this.player);
-		while (this.isPlayerAlive()) {
+		let player = this.generateGroupOfUnits('player');
+		console.log(player);
+		while (this.isGroupAlive(player)) {
 			let monster = this.generateGroupOfUnits('monster' + this.monsterGroupsCounter);
 			this.monsterGroupsCounter++;
 			console.log(monster);
-			let survivingUnits = new Fight(this.player, monster);
-			this.player = survivingUnits.attacker;
+			let survivingUnits = new Fight(player, monster);
+			player = survivingUnits.attacker;
 
 			// for tests
 			if (this.monsterGroupsCounter > 5) {
-				this.player.fill(
+				player.fill(
 					{
 						'unit': 'dead unit',
 						'hp': 0
@@ -50,8 +49,8 @@ export default class GameManager {
 		return unitGroup;
 	}
 
-	isPlayerAlive() {
-		return this.player.some(unit => unit.hp > 0);
+	isGroupAlive(player) {
+		return player.some(unit => unit.hp > 0);
 	}
 
 }
