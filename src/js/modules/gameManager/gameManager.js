@@ -1,4 +1,5 @@
 import Fight from '../fight/fight';
+import FightUnit from '../fightUnit/fightUnit';
 
 export default class GameManager {
 	constructor() {
@@ -8,25 +9,12 @@ export default class GameManager {
 	startGameCycle() {
 		let diffucult = 1;
 		let player = this.generateGroupOfUnits('player', diffucult);
-		console.log(player);
 		while (this.isGroupAlive(player)) {
-			diffucult = diffucult * 1.5;
 			let monster = this.generateGroupOfUnits('monster' + this.monsterGroupsCounter, diffucult);
+			diffucult = diffucult * 1.5;
 			this.monsterGroupsCounter++;
-			console.log(monster);
 			let survivingUnits = new Fight(player, monster);
 			player = survivingUnits.attacker;
-
-			// for tests
-			if (this.monsterGroupsCounter > 5) {
-				player.fill(
-					{
-						'unit': 'dead unit',
-						'hp': 0
-					});
-				console.log('all player units are dead');
-			}
-
 		}
 		const score = this.calcScore();
 		this.showScore(score);
@@ -44,11 +32,7 @@ export default class GameManager {
 		const unitGroup = [];
 		unitGroup.typeGroup = typeGroup;
 		for (let i = 0; i < 3; i++) {
-			unitGroup.push(
-				{
-					'unit': 'unit number ' + i,
-					'hp': diffucult * 10
-				});
+			unitGroup.push(new FightUnit(typeGroup, diffucult));
 		}
 		return unitGroup;
 	}
