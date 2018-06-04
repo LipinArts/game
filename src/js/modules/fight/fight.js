@@ -1,5 +1,8 @@
-class Fight {
-	constructor() { }
+export default class Fight {
+	constructor(attacker, defender) {
+		return {
+			'attacker': attacker,
+			'defender': defender
+		};
+	}
 }
-const sayHi = () => console.log('module Fight connected');
-export default sayHi;
