@@ -53,8 +53,8 @@ export default class GameManager {
 		return unitGroup;
 	}
 
-	isGroupAlive(player) {
-		return player.some(unit => unit.hp > 0);
+	isGroupAlive(groupOfUnits) {
+		return groupOfUnits.some(unit => unit.hp > 0);
 	}
 
 	calcScore() {
