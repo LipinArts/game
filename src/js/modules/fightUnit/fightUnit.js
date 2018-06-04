@@ -14,21 +14,33 @@ export default class FightUnit {
 
 	generate() {
 		switch (this.type) {
-		case 'player':
-			this.generatePlayerUnit();
-			break;
-		case 'monster':
-			this.generateMonsterUnit();
-			break;
-		default:
-			this.generateMonsterUnit();
-			break;
+			case 'player':
+				this.generatePlayerUnit();
+				break;
+			case 'monster':
+				this.generateMonsterUnit();
+				break;
+			default:
+				this.generateMonsterUnit();
+				break;
 		}
 	}
 
 	generateMonsterUnit() {
 		this.generateUnitName(unitConfig.monsters.adjectives, unitConfig.monsters.names_1, unitConfig.monsters.names_2);
 		this.hp = unitConfig.monsters.hp * this.difficulty;
+		this.generateSprites(unitConfig.monsters.sprites.head, unitConfig.monsters.sprites.body, unitConfig.monsters.sprites.hands, unitConfig.monsters.sprites.legs);
+	}
+
+	generateSprites(head, body, hands, legs) {
+		this.sprites.head = head;
+		this.sprites.head.sX = head.sX[_.random(0, head.sX.length - 1)];
+		this.sprites.body = body;
+		this.sprites.body.sX = body.sX[_.random(0, body.sX.length - 1)];
+		this.sprites.hands = hands;
+		this.sprites.hands.sX = hands.sX[_.random(0, hands.sX.length - 1)];
+		this.sprites.legs = legs;
+		this.sprites.legs.sX = legs.sX[_.random(0, legs.sX.length - 1)];
 	}
 
 	generatePlayerUnit() {
