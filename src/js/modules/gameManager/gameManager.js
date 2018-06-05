@@ -4,6 +4,7 @@ import FightUnit from '../fightUnit/fightUnit';
 export default class GameManager {
 	constructor() {
 		this.monsterGroupsCounter = 0;
+		this.fight;
 	}
 
 	startGameCycle() {
@@ -13,8 +14,8 @@ export default class GameManager {
 			let monster = this.generateGroupOfUnits('monster' + this.monsterGroupsCounter, diffucult);
 			diffucult = diffucult * 1.5;
 			this.monsterGroupsCounter++;
-			let survivingUnits = new Fight(player, monster);
-			player = survivingUnits.attacker;
+			this.fight = new Fight(player, monster);
+			player = this.fight.attacker;
 
 			if (this.monsterGroupsCounter > 10000) {
 				throw new Error('emergency exit from GameManager lvlCycle');
@@ -25,11 +26,15 @@ export default class GameManager {
 	}
 
 	keydown(action) {
-		console.log('GameManager: player keydown key ' + action);
+		if (this.fight) {
+			this.fight.keydown(action);
+		}
 	}
 
 	keyup(action) {
-		console.log('GameManager: player keyup key ' + action);
+		if (this.fight) {
+			this.fight.keyupActions(action);
+		}
 	}
 
 	generateGroupOfUnits(typeGroup, diffucult) {
