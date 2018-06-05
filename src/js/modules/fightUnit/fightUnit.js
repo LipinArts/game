@@ -14,15 +14,15 @@ export default class FightUnit {
 
 	generate() {
 		switch (this.type) {
-			case 'player':
-				this.generatePlayerUnit();
-				break;
-			case 'monster':
-				this.generateMonsterUnit();
-				break;
-			default:
-				this.generateMonsterUnit();
-				break;
+		case 'player':
+			this.generatePlayerUnit();
+			break;
+		case 'monster':
+			this.generateMonsterUnit();
+			break;
+		default:
+			this.generateMonsterUnit();
+			break;
 		}
 	}
 
@@ -46,8 +46,8 @@ export default class FightUnit {
 	generatePlayerUnit() {
 		this.generateUnitName(unitConfig.players.adjectives, unitConfig.players.names_1, unitConfig.players.names_2);
 		this.hp = unitConfig.players.hp * this.difficulty;
+		this.generateSprites(unitConfig.players.sprites.head, unitConfig.players.sprites.body, unitConfig.players.sprites.hands, unitConfig.players.sprites.legs);
 	}
-
 	generateUnitName(first, second, third) {
 		const firstName = first[_.random(0, first.length - 1)];
 		const secondName = second[_.random(0, second.length - 1)];

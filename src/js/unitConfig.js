@@ -5,7 +5,42 @@ export default {
 		adjectives: ['Умный', 'Красивый', 'Бесстрашный', 'Привлекательный', 'Непобедимый', 'Непоколебимый', 'Милый', 'Воинственный', 'Железный', 'Непробиваемый', 'Стойкий', 'Неуязвимый', 'Пушистый', 'Талантливый', 'Ловкий', 'Сообразительный', 'Смелый', 'Титановый', 'Пуленепробиваемый', 'Суперский', 'Мастерский', 'Лапушный', 'Мимимишный', 'Зайчиковый', 'Обалденный', 'Богоподобный', 'Искренний', 'Кайфовый'],
 		hp: 100,
 		sprites: {
-			path: ''
+			head: {
+				path: 'src/img/player/heads/heads.png',
+				width: 168,
+				height: 86,
+				sX: [0, 168, 336, 504, 672, 840, 1008, 1176],
+				sY: 0,
+				dX: 0,
+				dY: 0,
+			},
+			body: {
+				path: 'src/img/player/bodies/bodies.png',
+				width: 168,
+				height: 103,
+				sX: [0, 168, 336, 504, 672, 840],
+				sY: 0,
+				dX: 0,
+				dY: 60,
+			},
+			hands: {
+				path: 'src/img/player/hands/hands.png',
+				width: 168,
+				height: 130,
+				sX: [0, 168, 336, 504, 672, 840],
+				sY: 0,
+				dX: 0,
+				dY: 65,
+			},
+			legs: {
+				path: 'src/img/player/legs/legs.png',
+				width: 168,
+				height: 112,
+				sX: [0, 168, 336, 504, 672, 840],
+				sY: 0,
+				dX: 0,
+				dY: 150,
+			}
 		}
 	},
 	monsters: {
@@ -16,31 +51,39 @@ export default {
 		sprites: {
 			head: {
 				path: 'src/img/monster/heads/heads.png',
-				width: 158,
+				width: 311,
 				height: 180,
-				sX: [0, 159, 317, 475, 633],
+				sX: [0, 311, 622, 933, 1244],
 				sY: 0,
+				dX: 0,
+				dY: 0,
 			},
 			body: {
 				path: 'src/img/monster/bodies/bodies.png',
-				width: 162,
+				width: 311,
 				height: 203,
-				sX: [0, 163, 326, 488, 651],
+				sX: [0, 311, 622, 933, 1244],
 				sY: 0,
+				dX: 0,
+				dY: 150,
 			},
 			hands: {
 				path: 'src/img/monster/hands/hands.png',
-				width: 293,
+				width: 311,
 				height: 231,
-				sX: [0, 293, 586, 879, 1172],
+				sX: [0, 311, 622, 933, 1244],
 				sY: 0,
+				dX: 0,
+				dY: 168,
 			},
 			legs: {
 				path: 'src/img/monster/legs/legs.png',
 				width: 311,
 				height: 216,
-				sX: [0, 311, 587, 898, 1209],
+				sX: [0, 311, 622, 933, 1244],
 				sY: 0,
+				dX: 0,
+				dY: 310,
 			}
 		}
 	},
