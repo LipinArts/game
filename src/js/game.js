@@ -7,7 +7,9 @@ document.getElementById('startButt_id').addEventListener('click', () => {
 	gameInterface.pressStartNewGameButton();
 }, false);
 
-const unit = new FightUnit('player');
+const unit = new FightUnit();
+
+
 
 //unit canvas render test function
 function testUnit() {
@@ -22,21 +24,9 @@ function testUnit() {
 	hands.src = unit.sprites.hands.path;
 	legs.src = unit.sprites.legs.path;
 	body.src = unit.sprites.body.path;
-
-	let tick_count = 0;
 	body.onload = function () {
-		tick();
-		requestAnimationFrame(tick);
+		draw();
 	};
-
-	function tick() {
-		if (tick_count > 25) {
-			draw();
-			tick_count = 0;
-		}
-		tick_count += 1;
-		requestAnimationFrame(tick);
-	}
 
 	function draw() {
 		ctx.drawImage(legs, unit.sprites.legs.sX, unit.sprites.legs.sY, unit.sprites.legs.width, unit.sprites.legs.height, unit.sprites.legs.dX, unit.sprites.legs.dY, unit.sprites.legs.width, unit.sprites.legs.height);
