@@ -15,6 +15,10 @@ export default class GameManager {
 			this.monsterGroupsCounter++;
 			let survivingUnits = new Fight(player, monster);
 			player = survivingUnits.attacker;
+
+			if (this.monsterGroupsCounter > 10000) {
+				throw new Error('emergency exit from GameManager lvlCycle');
+			}
 		}
 		const score = this.calcScore();
 		this.showScore(score);
