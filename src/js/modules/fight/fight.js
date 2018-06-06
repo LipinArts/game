@@ -4,6 +4,7 @@ export default class Fight {
 		this.defender = defender;
 		this.round = 0;
 		this.enableSelectingFlag = false;
+		this.isImpactDone = false;
 
 		this.fightModulCycle();
 
@@ -66,6 +67,12 @@ export default class Fight {
 	unitTurn(unit) {
 		const target = this.selectUnitForImpact();
 		this.impact(unit, target);
+		return new Promise(resolve => {
+			while (!this.isImpactDone) {
+				this.enableSelectingFlag = true;
+			}
+			resolve();
+		});
 	}
 
 	selectUnitForImpact() {
@@ -73,7 +80,7 @@ export default class Fight {
 	}
 
 	impact(atackerUnit, target) {
-
+		this.isImpactDone = true;
 	}
 
 	keyupActions(event) {
