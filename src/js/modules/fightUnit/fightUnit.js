@@ -15,12 +15,12 @@ export default class FightUnit {
 	generate() {
 		switch (this.type) {
 		case 'player':
-			this.generateUnit(unitConfig.monsters.adjectives, unitConfig.monsters.names_1, unitConfig.monsters.names_2, unitConfig.monsters.hp);
-			this.generateSprites(unitConfig.monsters.sprites.head, unitConfig.monsters.sprites.body, unitConfig.monsters.sprites.hands, unitConfig.monsters.sprites.legs);
+			this.generateUnit(unitConfig.players.adjectives, unitConfig.players.names_1, unitConfig.players.names_2, unitConfig.players.hp);
+			this.generateSprites(unitConfig.players.sprites.head, unitConfig.players.sprites.body, unitConfig.players.sprites.hands, unitConfig.players.sprites.legs);
 			break;
 		case 'monster':
 			this.generateUnit(unitConfig.monsters.adjectives, unitConfig.monsters.names_1, unitConfig.monsters.names_2, unitConfig.monsters.hp);
-			this.generateSprites(unitConfig.players.sprites.head, unitConfig.players.sprites.body, unitConfig.players.sprites.hands, unitConfig.players.sprites.legs);
+			this.generateSprites(unitConfig.monsters.sprites.head, unitConfig.monsters.sprites.body, unitConfig.monsters.sprites.hands, unitConfig.monsters.sprites.legs);
 			break;
 		default:
 			this.generateUnit(unitConfig.monsters.adjectives, unitConfig.monsters.names_1, unitConfig.monsters.names_2, unitConfig.monsters.hp);
@@ -35,13 +35,13 @@ export default class FightUnit {
 	}
 
 	generateSprites(head, body, hands, legs) {
-		this.sprites.head = head;
+		this.sprites.head = _.clone(head);
 		this.sprites.head.sX = head.sX[_.random(0, head.sX.length - 1)];
-		this.sprites.body = body;
+		this.sprites.body = _.clone(body);
 		this.sprites.body.sX = body.sX[_.random(0, body.sX.length - 1)];
-		this.sprites.hands = hands;
+		this.sprites.hands = _.clone(hands);
 		this.sprites.hands.sX = hands.sX[_.random(0, hands.sX.length - 1)];
-		this.sprites.legs = legs;
+		this.sprites.legs = _.clone(legs);
 		this.sprites.legs.sX = legs.sX[_.random(0, legs.sX.length - 1)];
 	}
 
