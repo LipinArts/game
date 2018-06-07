@@ -4,9 +4,9 @@ export default {
 		['<pre>Что выведет этот код?<br><code> let f = function g() { return 23; };<br> alert( typeof g() );</code></pre>', ['number', 'undefined', 'function', 'ошибка'], 'ошибка'],
 		['<pre>Правда ли что <code>a == b</code>?<br><code> const a = [1, 2, 3];<br> const b = [1, 2, 3];</code></pre>', ['true', 'false'], 'false'],
 		['<pre>Что выведет этот код?<br><code> alert( +"Infinity" );</code></pre>', ['Infinity', 'NaN', '0', 'ошибка'], 'Infinity'],
-		['<pre>Что выведет этот код?<br><code> console.log(10..toString())</code></pre>', ['\'10\'', '10', 'ошибка'], '\'10\''],
+		['<pre>Что выведет этот код?<br><code> console.log(10..toString())</code></pre>', ['"10"', '10', 'ошибка'], '"10"'],
 	],
-	translation: [
+	translate: [
 		['to implement', ['выполнять', 'реализовать', 'осуществлять']],
 		['layout', ['макет', 'компановка', 'разметка', 'раскладка']],
 		['determinate', ['определенный', 'точно установленный', 'заданный']],
