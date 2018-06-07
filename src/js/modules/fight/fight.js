@@ -18,7 +18,6 @@ export default class Fight {
 		this.canvas = document.getElementById('canvas');
 		this.ctx = this.canvas.getContext('2d');
 
-
 		this.gameLoopRunning = false;
 		if (this.isFightNotOver() === false) {
 			console.log('input data is wrong');
@@ -89,6 +88,9 @@ export default class Fight {
 		else {
 			this.gameLoopRunning = false;
 			console.log('fight is over');
+			if (this.isGroupAlive(this.attacker)) {
+				this.generatorlvl.next();
+			}
 		}
 	}
 
@@ -99,7 +101,6 @@ export default class Fight {
 	updateSelecting() {
 		if (KeyboardController.pressedKeys.nextTarget) {
 			console.log('next target');
-			//this.generatorlvl.next();
 			KeyboardController.pressedKeys.nextTarget = false;
 			this.selectedUnit = this.nextTarget();
 		}
@@ -240,13 +241,26 @@ export default class Fight {
 	}
 
 	impact(atackerUnit, target) {
-		target.hp = target.hp - 10;
+		target.hp = target.hp - 60;
 	}
 
 	nextTarget() {
 		this.selectedUnitIndex++;
 		if (this.selectedUnitIndex > this.attacker.length * 2 - 1) {
 			this.selectedUnitIndex = 0;
+		}
+		if (this.selectedUnitIndex < this.attacker.length) {
+			return this.attacker[this.selectedUnitIndex];
+		}
+		else {
+			return this.defender[this.selectedUnitIndex - 3];
+		}
+	}
+
+	prevTarget() {
+		this.selectedUnitIndex--;
+		if (this.selectedUnitIndex < 0) {
+			this.selectedUnitIndex = this.attacker.length * 2 - 1;
 		}
 		if (this.selectedUnitIndex < this.attacker.length) {
 			return this.attacker[this.selectedUnitIndex];
@@ -270,19 +284,5 @@ export default class Fight {
 			return this.defender[this.activeUnitIndex - 3];
 		}
 	}
-
-	prevTarget() {
-		this.selectedUnitIndex--;
-		if (this.selectedUnitIndex < 0) {
-			this.selectedUnitIndex = this.attacker.length * 2 - 1;
-		}
-		if (this.selectedUnitIndex < this.attacker.length) {
-			return this.attacker[this.selectedUnitIndex];
-		}
-		else {
-			return this.defender[this.selectedUnitIndex - 3];
-		}
-	}
-
 
 }
