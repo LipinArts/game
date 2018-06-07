@@ -7,35 +7,68 @@ export default class GameManager {
 		this.fight;
 	}
 
+	// startGameCycle_OLD() {
+	// 	let diffucult = 1;
+	// 	let player = this.generateGroupOfUnits('player', diffucult);
+
+	// 	while (this.isGroupAlive(player)) {
+	// 		let monster = this.generateGroupOfUnits('monster' + this.monsterGroupsCounter, diffucult);
+	// 		diffucult = diffucult * 1.5;
+	// 		this.monsterGroupsCounter++;
+	// 		this.fight = new Fight(player, monster);
+	// 		console.log(this.fight);
+	// 		player = this.fight.attacker;
+
+	// 		if (this.monsterGroupsCounter > 5) {
+	// 			throw new Error('emergency exit from GameManager lvlCycle');
+	// 		}
+	// 	}
+	// 	const score = this.calcScore();
+	// 	this.showScore(score);
+	// }
+
 	startGameCycle() {
-		let diffucult = 1;
-		let player = this.generateGroupOfUnits('player', diffucult);
-		while (this.isGroupAlive(player)) {
-			let monster = this.generateGroupOfUnits('monster' + this.monsterGroupsCounter, diffucult);
-			diffucult = diffucult * 1.5;
-			this.monsterGroupsCounter++;
-			this.fight = new Fight(player, monster);
-			player = this.fight.attacker;
+		// let generator = this.lvlGenerator();
+		// generator.next().value;
+		this.lvlGenerator();
+	}
 
-			if (this.monsterGroupsCounter > 10000) {
-				throw new Error('emergency exit from GameManager lvlCycle');
+	lvlGenerator() {
+		const that = this;
+		let generator = gen();
+		let lastFight;
+		function* gen() {
+			let diffucult = 1;
+			let player = that.generateGroupOfUnits('player', diffucult);
+			function createLvll() {
+				that.fight = null;
+				let monster = that.generateGroupOfUnits('monster' + that.monsterGroupsCounter, diffucult);
+				diffucult = diffucult * 1.5;
+				that.monsterGroupsCounter++;
+				console.log('generator=  ', generator);
+				that.fight = new Fight(player, monster, generator);
+				console.log(that.fight);
+				player = that.fight.attacker;
+
+				if (that.monsterGroupsCounter > 5) {
+					throw new Error('emergency exit from GameManager lvlCycle');
+				}
+				return that.fight.attacker;
 			}
+			yield createLvll();
+			yield createLvll();
+			yield createLvll();
+			yield createLvll();
+			yield createLvll();
+			yield createLvll();
+			yield createLvll();
+			yield createLvll();
+			yield createLvll();
 		}
-		const score = this.calcScore();
-		this.showScore(score);
+
+		generator.next();
 	}
 
-	keydown(action) {
-		if (this.fight) {
-			this.fight.keydown(action);
-		}
-	}
-
-	keyup(action) {
-		if (this.fight) {
-			this.fight.keyupActions(action);
-		}
-	}
 
 	generateGroupOfUnits(typeGroup, diffucult) {
 		const unitGroup = [];
@@ -47,7 +80,8 @@ export default class GameManager {
 	}
 
 	isGroupAlive(groupOfUnits) {
-		return groupOfUnits.some(unit => unit.hp > 0);
+		return true;
+		//return groupOfUnits.some(unit => unit.hp > 0);
 	}
 
 	calcScore() {
