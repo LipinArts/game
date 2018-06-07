@@ -12,7 +12,7 @@ export default class Fight {
 		this.activeUnit = this.attacker[0];
 
 		this.selectedUnitIndex = 0;
-		this.maxUnits = this.attacker.length + this.defender.length;
+		this.activeUnitIndex = 0;
 
 		this.generatorlvl = generator;
 
@@ -85,7 +85,7 @@ export default class Fight {
 	update() {
 		if (this.isFightNotOver()) {
 			this.updateSelecting();
-
+			this.updateAtciveUnit();
 		}
 		else {
 			this.gameLoopRunning = false;
@@ -112,6 +112,10 @@ export default class Fight {
 			}
 		}
 
+	}
+
+	updateAtciveUnit() {
+		this.testNextRoundButton();
 	}
 
 	render() {
@@ -146,6 +150,40 @@ export default class Fight {
 		this.ctx.save();
 		this.ctx.fillStyle = 'green';
 		this.ctx.fillRect(x1, y1, 175, 275);
+		this.ctx.restore();
+
+
+		// draw active Unit background
+		let xAct1, yAct1;
+		if (this.activeUnit === this.attacker[0]) {
+			xAct1 = 200;
+			yAct1 = 100;
+		}
+		if (this.activeUnit === this.attacker[1]) {
+			xAct1 = 0;
+			yAct1 = 400;
+		}
+		if (this.activeUnit === this.attacker[2]) {
+			xAct1 = 400;
+			yAct1 = 400;
+		}
+		if (this.activeUnit === this.defender[0]) {
+			xAct1 = 1500;
+			yAct1 = 100;
+		}
+		if (this.activeUnit === this.defender[1]) {
+			xAct1 = 1300;
+			yAct1 = 400;
+		}
+		if (this.activeUnit === this.defender[2]) {
+			xAct1 = 1700;
+			yAct1 = 400;
+		}
+		this.ctx.save();
+		this.ctx.fillStyle = 'yellow';
+		this.ctx.fillRect(xAct1 + 10, yAct1 + 5, 155, 265);
+		this.ctx.restore();
+
 
 		this.drawUnit(this.attacker[0], 200, 100);
 		this.drawUnit(this.attacker[1], 0, 400);
@@ -154,6 +192,8 @@ export default class Fight {
 		this.drawUnit(this.defender[0], 1500, 100);
 		this.drawUnit(this.defender[1], 1300, 400);
 		this.drawUnit(this.defender[2], 1700, 400);
+
+		this.drawUnitHPBar(this.selectedUnit, this.selectedUnit);
 	}
 
 	drawUnit(unit, posX = 0, posY = 0) {
@@ -172,6 +212,20 @@ export default class Fight {
 		this.ctx.drawImage(hands, unit.sprites.hands.sX, unit.sprites.hands.sY, unit.sprites.hands.width, unit.sprites.hands.height, unit.sprites.hands.dX + posX, unit.sprites.hands.dY + posY, unit.sprites.hands.width, unit.sprites.hands.height);
 	}
 
+	drawUnitHPBar(activeUnit, selectedUnit) {
+		this.ctx.save();
+		this.ctx.fillStyle = 'red';
+		this.ctx.fillRect(40, 10, 575, 50);
+		this.ctx.fillRect(this.canvas.width - 40 - 575, 10, 575, 50);
+
+		this.ctx.font = '30px Arial';
+		this.ctx.fillStyle = 'black';
+		this.ctx.fillText('Unit HP ' + activeUnit.hp, 50, 50);
+		this.ctx.fillText('Unit HP' + selectedUnit.hp, this.canvas.width - 30 - 575, 50);
+
+		this.ctx.restore();
+
+	}
 
 	isGroupAlive(groupOfUnits) {
 		return groupOfUnits.some(unit => unit.hp > 0);
@@ -199,6 +253,21 @@ export default class Fight {
 		}
 	}
 
+	nextActiveUnit() {
+		this.activeUnitIndex++;
+		if (this.activeUnitIndex > this.attacker.length * 2 - 1) {
+			this.round++;
+			console.log('start new round');
+			this.activeUnitIndex = 0;
+		}
+		if (this.activeUnitIndex < this.attacker.length) {
+			return this.attacker[this.activeUnitIndex];
+		}
+		else {
+			return this.defender[this.activeUnitIndex - 3];
+		}
+	}
+
 	prevTarget() {
 		this.selectedUnitIndex--;
 		if (this.selectedUnitIndex < 0) {
@@ -210,6 +279,16 @@ export default class Fight {
 		else {
 			return this.defender[this.selectedUnitIndex - 3];
 		}
+	}
+
+
+	testNextRoundButton() {
+		if (KeyboardController.pressedKeys.impact) {
+			console.log('next unit turn');
+			KeyboardController.pressedKeys.impact = false;
+			this.activeUnit = this.nextActiveUnit();
+		}
+
 	}
 
 }
