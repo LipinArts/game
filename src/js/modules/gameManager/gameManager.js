@@ -49,11 +49,8 @@ export default class GameManager {
 				console.log(that.fight);
 				player = that.fight.attacker;
 
-				if (that.monsterGroupsCounter > 5) {
-					//throw new Error('emergency exit from GameManager lvlCycle');
-					player = [{
-						hp: 0
-					}];
+				if (that.monsterGroupsCounter > 1000) {
+					throw new Error('emergency exit from GameManager lvlCycle');
 				}
 
 			}
