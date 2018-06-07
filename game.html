@@ -30,29 +30,62 @@
 </head>
 
 <body>
-  <!-- Custom HTML -->
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <h1 id="h1">The Game page</h1>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12" style="text-align: center;">
-        <div class="gameMenu" id="gameMenu_id">
-          <div class="buttons">
-            <button class="menu_butt" id="startButt_id" type="button">
-              Start new game
-            </button>
-          </div>
+  <div id="game-container" class="game-container">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 id="h1">The Game page</h1>
         </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12" style="text-align: center;">
+          <div class="gameMenu" id="gameMenu_id">
+            <div class="buttons">
+              <button class="menu_butt" id="startButt_id" type="button">
+                Start new game
+              </button>
+            </div>
+          </div>
 
+        </div>
       </div>
     </div>
   </div>
 
-  <canvas id="canvas" width="1920" height="1080"></canvas>
+  <div class="modal-overlay ">
+    <div class="task-modal">
+      <h2 class="task-modal-name">Task Name</h2>
+      <div class="task-modal-question">
+        <pre>Что выведет этот код?<br><code> let f = function g() { return 23; };<br> alert( typeof g() );</code></pre>
+      </div>
+      <div class="task-modal-answer">
+        <ul class="task-modal-anwer-variants">
+          <li>
+            <label>
+              <input type="radio" value="0" name="answer">
+              <code>0</code>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="radio" value="1" name="answer">
+              <code>1</code>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="radio" value="2" name="answer">
+              <code>2</code>
+            </label>
+          </li>
+        </ul>
+      </div>
+      <button class="task-modal-btn">submit</button>
+    </div>
+  </div>
+  <canvas id="canvas" class="canvas" width="1920" height="1080"></canvas>
 </body>
 <script src="dist/js/game.js"></script>
+
 
 </html>

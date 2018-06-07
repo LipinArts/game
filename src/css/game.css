@@ -4,6 +4,60 @@
 @import url('bootstrap-grid.css');
 /* main styles */
 
+@font-face {
+  font-family: "Futurama";
+  font-style: normal;
+  font-weight: normal;
+  src: url("../fonts/Futurama/font_fr-ambient.WOFF") format("woff"), url("../fonts/Futurama/font_fr-ambient.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Futurama-bold";
+  font-style: normal;
+  font-weight: normal;
+  src: url("../fonts/Futurama/font_fr-bold.WOFF") format("woff"), url("../fonts/Futurama/font_fr-bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Butterbelly";
+  font-style: normal;
+  font-weight: normal;
+  src: url("../fonts/Futurama/font_butterbelly.WOFF") format("woff"), url("../fonts/Futurama/font_butterbelly.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Bender";
+  font-style: normal;
+  font-weight: normal;
+  src: url("../fonts/Bender/Bender.eot?#iefix") format("embedded-opentype"), url("../fonts/Bender/Bender.woff") format("woff"), url("../fonts/Bender/Bender.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Bender-bold";
+  font-style: normal;
+  font-weight: bold;
+  src: url("../fonts/Bender/Bender-bold.eot?#iefix") format("embedded-opentype"), url("../fonts/Bender/Bender-bold.woff") format("woff"), url("../fonts/Bender/Bender-bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Geometria";
+  font-style: normal;
+  font-weight: normal;
+  src: url("../fonts/Geometria/Geometria-Medium.eot?#iefix") format("embedded-opentype"), url("../fonts/Geometria/Geometria-Medium.woff") format("woff"), url("../fonts/Geometria/Geometria-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Geometria-bold";
+  font-style: normal;
+  font-weight: bold;
+  src: url("../fonts/Geometria/Geometria-Bold.eot?#iefix") format("embedded-opentype"), url("../fonts/Geometria/Geometria-Bold.woff") format("woff"), url("../fonts/Geometria/Geometria-Bold.ttf") format("truetype");
+}
+
+body {
+  font-size: 1em;
+  font-family: "Bender", "Geometria", sans-serif;
+}
+
 h1 {
   color: red;
   text-align: center;
@@ -11,4 +65,107 @@ h1 {
 
 .hide {
   display: none;
+}
+
+.blur {
+  -webkit-filter: blur(2px);
+  filter: blur(2px);
+}
+
+.game-container {
+  min-width: 100vw;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.modal-overlay {
+  position: fixed;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 998;
+}
+
+.task-modal {
+  display: grid;
+  min-width: 600px;
+  min-height: 400px;
+  -webkit-border-radius: 16px;
+  border-radius: 16px;
+  background-color: #fff;
+  -webkit-box-shadow: 0 8px 16px 0 rgba(0, 0, 0, .13);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, .13);
+  padding: 35px 45px 45px;
+  text-align: center;
+  color: #000;
+  z-index: 999;
+  position: relative;
+}
+
+.task-modal-name {
+  font-family: "Bender-bold";
+  margin: 0;
+}
+
+.task-modal-question {
+  margin-top: 15px;
+  text-align-last: left;
+  background-color: #f5f2f0;
+  padding: 5px;
+}
+
+.task-modal-question pre {
+  font-family: "Bender-bold";
+}
+
+.task-modal-answer {
+  margin-top: 15px;
+}
+
+.task-modal-anwer-variants {
+  list-style-type: none;
+  margin: 0px;
+  text-align-last: left;
+}
+
+.task-modal-btn {
+  margin-top: 15px;
+  font-family: "Futurama-bold";
+  justify-self: center;
+  letter-spacing: 1px;
+  background-color: #005485;
+  color: #5ae8ae;
+  text-transform: uppercase;
+  border: 3px solid #5ae8ae;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 150px;
+  height: 45px;
+  transition: all .2s ease-in-out
+}
+
+.task-modal-btn:focus {
+  outline: none;
+}
+
+.task-modal-btn:hover {
+  color: #ff8839;
+  border-color: #ff8839;
 }
