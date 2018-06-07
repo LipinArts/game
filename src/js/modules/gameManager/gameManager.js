@@ -36,7 +36,6 @@ export default class GameManager {
 	lvlGenerator() {
 		const that = this;
 		let generator = gen();
-		let lastFight;
 		function* gen() {
 			let diffucult = 1;
 			let player = that.generateGroupOfUnits('player', diffucult);
@@ -51,19 +50,16 @@ export default class GameManager {
 				player = that.fight.attacker;
 
 				if (that.monsterGroupsCounter > 5) {
-					throw new Error('emergency exit from GameManager lvlCycle');
+					//throw new Error('emergency exit from GameManager lvlCycle');
+					player = [{
+						hp: 0
+					}];
 				}
-				return that.fight.attacker;
+
 			}
-			yield createLvll();
-			yield createLvll();
-			yield createLvll();
-			yield createLvll();
-			yield createLvll();
-			yield createLvll();
-			yield createLvll();
-			yield createLvll();
-			yield createLvll();
+			while (that.isGroupAlive(player)) {
+				yield createLvll();
+			}
 		}
 
 		generator.next();

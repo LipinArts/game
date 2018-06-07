@@ -103,7 +103,8 @@ export default class Fight {
 	}
 
 	render() {
-		console.log('render');
+		console.log(this.defender[0].name + 'render');
+		// console.log('render');
 	}
 
 
