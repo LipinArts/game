@@ -6,7 +6,6 @@ export default class Fight {
 		this.defender = defender;
 		this.round = 0;
 		this.enableSelectingFlag = false;
-		this.isImpactDone = false;
 
 		this.selectedUnit = this.attacker[0];
 		this.activeUnit = this.attacker[0];
@@ -85,7 +84,7 @@ export default class Fight {
 	update() {
 		if (this.isFightNotOver()) {
 			this.updateSelecting();
-			this.updateAtciveUnit();
+			this.updateImpact();
 		}
 		else {
 			this.gameLoopRunning = false;
@@ -114,8 +113,13 @@ export default class Fight {
 
 	}
 
-	updateAtciveUnit() {
-		this.testNextRoundButton();
+	updateImpact() {
+		if (KeyboardController.pressedKeys.impact) {
+			console.log('impact done the next unit turn');
+			this.impact(this.activeUnit, this.selectedUnit);
+			KeyboardController.pressedKeys.impact = false;
+			this.activeUnit = this.nextActiveUnit();
+		}
 	}
 
 	render() {
@@ -214,6 +218,7 @@ export default class Fight {
 
 	drawUnitHPBar(activeUnit, selectedUnit) {
 		this.ctx.save();
+
 		this.ctx.fillStyle = 'red';
 		this.ctx.fillRect(40, 10, 575, 50);
 		this.ctx.fillRect(this.canvas.width - 40 - 575, 10, 575, 50);
@@ -224,7 +229,6 @@ export default class Fight {
 		this.ctx.fillText('Unit HP' + selectedUnit.hp, this.canvas.width - 30 - 575, 50);
 
 		this.ctx.restore();
-
 	}
 
 	isGroupAlive(groupOfUnits) {
@@ -236,9 +240,8 @@ export default class Fight {
 	}
 
 	impact(atackerUnit, target) {
-		this.isImpactDone = true;
+		target.hp = target.hp - 10;
 	}
-
 
 	nextTarget() {
 		this.selectedUnitIndex++;
@@ -281,14 +284,5 @@ export default class Fight {
 		}
 	}
 
-
-	testNextRoundButton() {
-		if (KeyboardController.pressedKeys.impact) {
-			console.log('next unit turn');
-			KeyboardController.pressedKeys.impact = false;
-			this.activeUnit = this.nextActiveUnit();
-		}
-
-	}
 
 }
