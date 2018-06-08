@@ -1,5 +1,8 @@
 import _ from 'lodash';
+import $ from 'jquery';
+import 'jquery-ui-sortable-npm';
 import taskConfig from '../../taskConfig';
+
 /*eslint no-case-declarations: 0*/
 
 export default class UserTask {
@@ -31,12 +34,14 @@ export default class UserTask {
 		}
 	}
 
+
 	renderTask(task) {
 		const modalOverlay = document.createElement('div');
 		modalOverlay.className = 'modal-overlay';
 		modalOverlay.setAttribute('id', 'modal-overlay');
 		const taskModal = document.createElement('div');
 		taskModal.className = 'task-modal';
+
 		modalOverlay.appendChild(taskModal);
 
 		const title = document.createElement('h2');
@@ -97,6 +102,23 @@ export default class UserTask {
 
 			break;
 		case 'sequence':
+			title.textContent = 'Правильная последовательность';
+			question.innerHTML = 'Расположите в правильной последовательности следующий код:';
+			const taskShuffle = _.shuffle(task);
+			for (let i = 0; i < task.length; i++) {
+				const answerVariantItem = document.createElement('li');
+				const pre = document.createElement('pre');
+				const inputText = document.createElement('code');
+				pre.appendChild(inputText);
+				inputText.textContent = taskShuffle[i];
+				answerVariantsList.classList.add('task-modal-answer-sequence');
+				answerVariantItem.appendChild(pre);
+				answerVariantsList.appendChild(answerVariantItem);
+				answer.appendChild(answerVariantsList);
+				taskModal.appendChild(answer);
+
+			}
+
 			break;
 		case 'audition':
 			break;
@@ -110,6 +132,8 @@ export default class UserTask {
 		taskModal.appendChild(button);
 
 		document.body.appendChild(modalOverlay);
+		$('.task-modal-anwer-variants').sortable();
+
 	}
 	checkAnswer(task) {
 		let userAnswer;
@@ -141,6 +165,23 @@ export default class UserTask {
 			}
 			break;
 		case 'sequence':
+			userAnswer = document.querySelectorAll('.task-modal-anwer-variants')[0];
+			results = [];
+			let taskAnswer = [];
+			for (let i = 0; i < userAnswer.children.length; i++) {
+				results.push(userAnswer.children[i].innerText.trim());
+				taskAnswer.push(task[i].trim());
+			}
+
+			taskAnswer = taskAnswer.join('');
+			results = results.join('');
+
+			if (results === taskAnswer) {
+				console.log(true);
+			} else {
+				console.log(false);
+
+			}
 			break;
 		case 'audition':
 			break;

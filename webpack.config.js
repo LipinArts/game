@@ -2,6 +2,7 @@
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
+
 const conf = {
 	entry: {
 		main: './src/js/game.js',
@@ -26,6 +27,7 @@ const conf = {
 	plugins: [
 		new CleanWebpackPlugin(['dist']), // clean folder 'dist'
 	],
+
 };
 
 module.exports = (env, options) => {

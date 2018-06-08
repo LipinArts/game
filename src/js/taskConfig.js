@@ -14,7 +14,7 @@ export default {
 		['deployment', ['развертывание', 'размещение', 'внедрение', 'применение']]
 	],
 	sequence: [
-		['function bind(func, context ) {', ' const bindArgs = [].slice.call(arguments, 2);', ' return function wrapper() {', '  const args = [].slice.call(arguments);', '  const unshiftArgs = bindArgs.concat(args);', '  return func.apply(context, unshiftArgs);', ' };', '}'],
+		['function bind(func, context ) {', ' const bindArgs = [].slice.call(arguments, 2);', ' return function wrapper() {', '  const args = [].slice.call(arguments);', '  const unshiftArgs = bindArgs.concat(args);', '  return func.apply(context, unshiftArgs);', ' };', '}']
 	],
 	audition: [
 		['undefined'],
