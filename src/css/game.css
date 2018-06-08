@@ -63,6 +63,11 @@ h1 {
   text-align: center;
 }
 
+label,
+input[type='text'] {
+  min-width: 100%;
+}
+
 .hide {
   display: none;
 }
@@ -139,10 +144,21 @@ h1 {
   margin-top: 15px;
 }
 
+.task-modal-answer-title {
+  font-family: "Bender-bold";
+  font-size: 1.2rem;
+  letter-spacing: .5px;
+}
+
 .task-modal-anwer-variants {
   list-style-type: none;
   margin: 0px;
-  text-align-last: left;
+  padding: 0;
+  text-align: left;
+}
+
+.task-modal-anwer-variants li {
+  width: 100%;
 }
 
 .task-modal-anwer-variants input {
@@ -150,6 +166,7 @@ h1 {
 }
 
 .task-modal-btn {
+  position: relative;
   margin-top: 15px;
   font-family: "Futurama-bold";
   justify-self: center;
@@ -163,7 +180,7 @@ h1 {
   cursor: pointer;
   width: 150px;
   height: 45px;
-  transition: all .2s ease-in-out
+  transition: color .2s ease-in-out, border-color .2s ease-in-out
 }
 
 .task-modal-btn:focus {
@@ -174,6 +191,13 @@ h1 {
   color: #ff8839;
   border-color: #ff8839;
 }
+
+.task-modal-btn:active {
+  top: 2px;
+  box-shadow: 0px 3px 10px #000
+}
+
+/* popper.js styles */
 
 .link-anchor {
   position: relative;

@@ -4,7 +4,7 @@ import Utils from './modules/utils/utils';
 import GameInterface from './modules/gameInterface/gameInterface';
 import UserTask from './modules/userTask/userTask';
 
-const x = new UserTask();
+const x = new UserTask('translate');
 console.log(x);
 
 
