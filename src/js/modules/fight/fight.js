@@ -198,7 +198,7 @@ export default class Fight {
 		this.drawUnit(this.defender[1], 1300, 400);
 		this.drawUnit(this.defender[2], 1700, 400);
 
-		this.drawUnitHPBar(this.selectedUnit, this.selectedUnit);
+		this.drawUnitHPBarAndName(this.activeUnit, this.selectedUnit);
 	}
 
 	drawUnit(unit, posX = 0, posY = 0) {
@@ -217,17 +217,17 @@ export default class Fight {
 		this.ctx.drawImage(hands, unit.sprites.hands.sX, unit.sprites.hands.sY, unit.sprites.hands.width, unit.sprites.hands.height, unit.sprites.hands.dX + posX, unit.sprites.hands.dY + posY, unit.sprites.hands.width, unit.sprites.hands.height);
 	}
 
-	drawUnitHPBar(activeUnit, selectedUnit) {
+	drawUnitHPBarAndName(activeUnit, selectedUnit) {
 		this.ctx.save();
 
 		this.ctx.fillStyle = 'red';
 		this.ctx.fillRect(40, 10, 575, 50);
 		this.ctx.fillRect(this.canvas.width - 40 - 575, 10, 575, 50);
 
-		this.ctx.font = '30px Arial';
+		this.ctx.font = '25px Arial';
 		this.ctx.fillStyle = 'black';
-		this.ctx.fillText('Unit HP ' + activeUnit.hp, 50, 50);
-		this.ctx.fillText('Unit HP' + selectedUnit.hp, this.canvas.width - 30 - 575, 50);
+		this.ctx.fillText('HP ' + activeUnit.hp + '  ' + activeUnit.name, 50, 50);
+		this.ctx.fillText('HP' + selectedUnit.hp + '  ' + selectedUnit.name, this.canvas.width - 30 - 575, 50);
 
 		this.ctx.restore();
 	}
