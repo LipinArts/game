@@ -1,4 +1,11 @@
 export default class Utils {
+
+	static setSprite(src) {
+		let img = document.createElement('img');
+		img.setAttribute('src', src);
+		return img;
+	}
+
 	//unit canvas render test function
 	static testUnitRender(unit, posX = 0, posY = 0) {
 		const canvas = document.getElementById('canvas');
