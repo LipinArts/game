@@ -16,7 +16,7 @@ export default class Fight {
 		this.generatorlvl = generator;
 		this.canvas = document.getElementById('canvas');
 		this.ctx = this.canvas.getContext('2d');
-		this.gameLoopRunning = false;
+		this.frameLoopRunning = false;
 
 		this.fightModulCycle();
 
@@ -47,7 +47,7 @@ export default class Fight {
 		}
 
 		function frame() {
-			if (that.gameLoopRunning) {
+			if (that.frameLoopRunning) {
 				now = timestamp();
 
 				dt = dt + Math.min(1, (now - last) / 1000);
@@ -61,7 +61,7 @@ export default class Fight {
 			}
 		}
 
-		this.gameLoopRunning = true;
+		this.frameLoopRunning = true;
 		requestAnimationFrame(frame);
 	}
 
@@ -71,10 +71,8 @@ export default class Fight {
 			this.updateImpact();
 		}
 		else {
-			this.gameLoopRunning = false;
-			// if (this.isGroupAlive(this.attacker)) {
+			this.frameLoopRunning = false;
 			this.generatorlvl.next();
-			// }
 		}
 	}
 

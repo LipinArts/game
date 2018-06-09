@@ -6,6 +6,16 @@ export default class Utils {
 		return img;
 	}
 
+	static minMaxValid(value, min, max) {
+		if (value > max) {
+			value = max;
+		}
+		if (value < min) {
+			value = min;
+		}
+		return value;
+	}
+
 	//unit canvas render test function
 	static testUnitRender(unit, posX = 0, posY = 0) {
 		const canvas = document.getElementById('canvas');
