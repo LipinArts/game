@@ -33,6 +33,7 @@ export default class GameManager {
 			while (that.isGroupAlive(player)) {
 				yield createLvll();
 			}
+			that.showScore(that.calcScore());
 		}
 		generator.next();
 	}
@@ -55,9 +56,9 @@ export default class GameManager {
 		return this.monsterGroupsCounter * 10;
 	}
 
-	showScore() {
+	showScore(score) {
 		console.log('Game Over');
-		console.log('open modal score window');
+		console.log('player score is ' + score);
 	}
 
 }

@@ -72,9 +72,9 @@ export default class Fight {
 		}
 		else {
 			this.gameLoopRunning = false;
-			if (this.isGroupAlive(this.attacker)) {
-				this.generatorlvl.next();
-			}
+			// if (this.isGroupAlive(this.attacker)) {
+			this.generatorlvl.next();
+			// }
 		}
 	}
 
