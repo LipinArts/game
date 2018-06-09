@@ -6,21 +6,18 @@ export default class Fight {
 		this.defender = defender;
 		this.round = 0;
 		this.enableSelectingFlag = false;
-
 		this.selectedUnit = this.attacker[0];
 		this.activeUnit = this.attacker[0];
-
 		this.selectedUnitIndex = 0;
 		this.activeUnitIndex = 0;
 		this.unitsAttackerCoordinates = [{ x: 200, y: 50 }, { x: 0, y: 360 }, { x: 400, y: 360 }];
 		this.unitsDefenderCoordinates = [{ x: 900, y: 50 }, { x: 700, y: 360 }, { x: 1100, y: 360 }];
-
+		this.backgroundSRC = 'src/img/fight/background.jpg';
 		this.generatorlvl = generator;
-
 		this.canvas = document.getElementById('canvas');
 		this.ctx = this.canvas.getContext('2d');
-
 		this.gameLoopRunning = false;
+
 		this.fightModulCycle();
 
 		return {
@@ -31,16 +28,11 @@ export default class Fight {
 
 	fightModulCycle() {
 		this.showLoadingScreen();
-		this.generateGameField();
 		this.startGameLoop();
 	}
 
 	showLoadingScreen() {
 		//console.log('loading screen');
-	}
-
-	generateGameField() {
-		//console.log('generateGameField()');
 	}
 
 	startGameLoop() {
@@ -115,6 +107,7 @@ export default class Fight {
 
 	render() {
 		this.clearCanvas();
+		this.drawBackground();
 		this.drawSelectedUnitFlag();
 		this.drawActiveUnitFlag();
 		this.drawAttackerUnits();
@@ -124,6 +117,12 @@ export default class Fight {
 
 	clearCanvas() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	}
+
+	drawBackground() {
+		const img = new Image();
+		img.src = this.backgroundSRC;
+		this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
 	}
 
 	drawUnit(unit, posX, posY) {
@@ -194,15 +193,16 @@ export default class Fight {
 
 		this.ctx.save();
 
-		this.ctx.fillStyle = 'white';
+
 		const widthBar = 200;
 		const heightBar = 50;
-		this.ctx.fillRect(xActive, yActive - heightBar, widthBar, heightBar);
-		if (activeUnit !== selectedUnit) {
-			this.ctx.fillRect(xSelected, ySelected - heightBar, widthBar, heightBar);
-		}
+		// this.ctx.fillStyle = 'white';
+		// this.ctx.fillRect(xActive, yActive - heightBar, widthBar, heightBar);
+		// if (activeUnit !== selectedUnit) {
+		// 	this.ctx.fillRect(xSelected, ySelected - heightBar, widthBar, heightBar);
+		// }
 
-		this.ctx.fillStyle = 'black';
+		this.ctx.fillStyle = 'white';
 		this.ctx.font = '15px Arial';
 		this.ctx.fillText(activeUnit.name, xActive, yActive - heightBar + 20);
 		this.ctx.font = '25px Arial';
