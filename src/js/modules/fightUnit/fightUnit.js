@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import unitConfig from '../../unitConfig';
+import Utils from '../utils/utils';
 
 export default class FightUnit {
 	constructor(type = 'monster', difficulty = 1) {
@@ -36,12 +37,16 @@ export default class FightUnit {
 
 	generateSprites(head, body, hands, legs) {
 		this.sprites.head = _.clone(head);
+		this.sprites.head.image = Utils.setSprite(head.path);
 		this.sprites.head.sX = head.sX[_.random(0, head.sX.length - 1)];
 		this.sprites.body = _.clone(body);
+		this.sprites.body.image = Utils.setSprite(body.path);
 		this.sprites.body.sX = body.sX[_.random(0, body.sX.length - 1)];
 		this.sprites.hands = _.clone(hands);
+		this.sprites.hands.image = Utils.setSprite(hands.path);
 		this.sprites.hands.sX = hands.sX[_.random(0, hands.sX.length - 1)];
 		this.sprites.legs = _.clone(legs);
+		this.sprites.legs.image = Utils.setSprite(legs.path);
 		this.sprites.legs.sX = legs.sX[_.random(0, legs.sX.length - 1)];
 	}
 

@@ -12,3 +12,31 @@ h1 {
 .hide {
   display: none;
 }
+.h100 {
+  height: 100%;
+}
+.game-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99;
+}
+.wrapper {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+.canvas-wrap {
+  align-self: center;
+  justify-self: center;
+  width: 1280px;
+  height: auto;
+  margin: 0 auto;
+}
+.canvas {
+  width: 100%;
+  height: auto;
+}
