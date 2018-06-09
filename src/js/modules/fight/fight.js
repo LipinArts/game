@@ -36,11 +36,11 @@ export default class Fight {
 	}
 
 	showLoadingScreen() {
-		console.log('loading screen');
+		//console.log('loading screen');
 	}
 
 	generateGameField() {
-		console.log('generateGameField()');
+		//console.log('generateGameField()');
 	}
 
 	startGameLoop() {
@@ -105,6 +105,11 @@ export default class Fight {
 			this.impact(this.activeUnit, this.selectedUnit);
 			KeyboardController.pressedKeys.impact = false;
 			this.activeUnit = this.nextActiveUnit();
+			let counter = 0;
+			while (!this.isUnitAlive(this.activeUnit) && counter < this.attacker.length + this.defender.length) {
+				counter++;
+				this.activeUnit = this.nextActiveUnit();
+			}
 		}
 	}
 
