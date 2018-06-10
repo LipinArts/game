@@ -1,54 +1,121 @@
 export default class SelectionWheel {
 	constructor(obj) {
-		this.obj = obj;
-		this.selectedProperty;
-		this.startSelectingCycle();
-		this.frameLoopRunning = false;
+		return new Promise((resolve) => {
+			const newModal = this.createModal(obj);
+			const gameField = document.getElementById('game-container');
+			const that = this;
 
-		return this.selectedProperty;
-	}
-
-	startSelectingCycle() {
-		const that = this;
-		let now;
-		let dt = 0;
-		let last = timestamp();
-		let step = 1 / 60;
-
-		function timestamp() {
-			return window.performance && window.performance.now ? window.performance.now() : new Date().getTime();
-		}
-
-		function frame() {
-			if (that.frameLoopRunning) {
-				now = timestamp();
-
-				dt = dt + Math.min(1, (now - last) / 1000);
-				while (dt > step) {
-					dt = dt - step;
-					that.update();
+			function clickHandler(event) {
+				let target = event.target;
+				if (event.target.className === 'skillButt') {
+					gameField.removeEventListener('click', clickHandler, false);
+					gameField.removeEventListener('mouseover', mouseoverHandler, false);
+					gameField.removeEventListener('mouseout', mouseoutHandler, false);
+					gameField.removeEventListener('hover', mouseoverHandler, false);
+					that.deleteModal(newModal);
+					resolve(that.getAbility(target));
 				}
-				that.render();
-				last = now;
-				requestAnimationFrame(frame);
 			}
-		}
 
-		this.frameLoopRunning = true;
-		requestAnimationFrame(frame);
+			function mouseoverHandler(event) {
+				let target = event.target;
+				if (event.target.className === 'skillButt') {
+					that.showImpactInfo(target);
+				}
+			}
+
+			function onfocusHandler(event) {
+				let target = event.target;
+				if (event.target.className === 'skillButt') {
+					console.log('focus');
+					that.showImpactInfo(target);
+				}
+			}
+
+			function mouseoutHandler(event) {
+				if (event.target.className === 'skillButt') {
+					that.clearImpactInfo();
+				}
+			}
+
+			const keyMap = {
+				39: 'right',
+				37: 'left',
+				27: 'esc',
+			};
+
+			function keyup(event) {
+				switch (keyMap[event.keyCode]) {
+				case 'right':
+					that.focus_next(document.getElementById('button_next_tip'));
+					break;
+				case 'left':
+					that.focus_prev(document.getElementById('button_prev_tip'));
+					break;
+				case 'esc':
+					that.close_component();
+					break;
+				}
+			}
+
+			gameField.addEventListener('click', clickHandler, false);
+			gameField.addEventListener('mouseover', mouseoverHandler, false);
+			gameField.addEventListener('mouseout', mouseoutHandler, false);
+			gameField.addEventListener('focus', onfocusHandler, false);
+			window.addEventListener('keyup', keyup, false);
+		});
 	}
 
-	update() {
-		if (this.selectingNotOver()) {
-			this.updateSelecting();
+	createModal(obj) {
+		const impactsNameProperties = this.getAllImpactsCollection(obj);
+		const impacts = [];
+		impactsNameProperties.forEach(nameProperty => {
+			impacts.push(obj[nameProperty]);
+		});
+		const parent = document.getElementById('game-container');
+		let buttonsContainer = document.createElement('div');
+		buttonsContainer.id = 'buttonsContainer_id';
+		const length = impactsNameProperties.length;
+		for (let i = 0; i < length; i++) {
+			const newButton = document.createElement('button');
+			const impact = JSON.stringify(impacts[i]);
+			newButton.setAttribute('impact', impact);
+			newButton.className = 'skillButt';
+			newButton.textContent = impactsNameProperties[i];
+			buttonsContainer.appendChild(newButton);
 		}
+		const infoField = document.createElement('div');
+		infoField.id = 'infofield_id';
+		buttonsContainer.appendChild(infoField);
+		parent.appendChild(buttonsContainer);
+		return buttonsContainer;
 	}
 
-	updateSelecting() {
-		if (KeyboardController.pressedKeys.impact) {
-			KeyboardController.pressedKeys.impact = false;
-			this.selectedUnit = this.nextTarget();
-		}
-
+	deleteModal(elem) {
+		const gameField = document.getElementById('game-container');
+		gameField.removeChild(elem);
 	}
+
+	getAbility(target) {
+		return target.getAttribute('impact');
+	}
+
+	getAllImpactsCollection(obj) {
+		return Object.keys(obj);
+	}
+
+	showImpactInfo(target) {
+		const infofield = document.getElementById('infofield_id');
+		infofield.textContent = target.getAttribute('impact');
+	}
+
+	clearImpactInfo() {
+		const infofield = document.getElementById('infofield_id');
+		infofield.textContent = '';
+	}
+
+	focus_that(element_id) {
+		element_id.focus();
+	}
+
 }

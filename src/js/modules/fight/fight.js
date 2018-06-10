@@ -1,4 +1,5 @@
 import KeyboardController from '../KeyboardController/KeyboardController';
+import SelectionWheel from '../SelectionWheel/SelectionWheel';
 
 export default class Fight {
 	constructor(attacker, defender, generator) {
@@ -90,10 +91,16 @@ export default class Fight {
 
 	}
 
-	updateImpact() {
+	async updateImpact() {
 		if (KeyboardController.pressedKeys.impact) {
-			this.impact(this.activeUnit, this.selectedUnit);
-			KeyboardController.pressedKeys.impact = false;
+			this.pauseGame();
+			let selectedImpactString = await new SelectionWheel(this.activeUnit.abilities);
+			const selectedImpact = JSON.parse(selectedImpactString);
+			this.unpauseGame();
+			this.resetKeyboardControl();
+
+			this.impact(this.activeUnit, this.selectedUnit, selectedImpact);
+
 			this.activeUnit = this.nextActiveUnit();
 			let counter = 0;
 			while (!this.isUnitAlive(this.activeUnit) && counter < this.attacker.length + this.defender.length) {
@@ -101,6 +108,23 @@ export default class Fight {
 				this.activeUnit = this.nextActiveUnit();
 			}
 		}
+	}
+
+	resetKeyboardControl() {
+		KeyboardController.pressedKeys.impact = false;
+		KeyboardController.pressedKeys.nextTarget = false;
+		KeyboardController.pressedKeys.prevTarget = false;
+	}
+
+	pauseGame() {
+		console.log('paused');
+		this.frameLoopRunning = false;
+	}
+
+	unpauseGame() {
+		console.log('unpaused');
+		this.frameLoopRunning = true;
+		this.startGameLoop();
 	}
 
 	render() {
@@ -227,8 +251,9 @@ export default class Fight {
 		return unit.hp > 0;
 	}
 
-	impact(atackerUnit, target) {
-		target.hp = target.hp - 60;
+	impact(atackerUnit, target, impact) {
+		console.log(impact);
+		target.hp = target.hp - impact.damage;
 	}
 
 	nextTarget() {
