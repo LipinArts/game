@@ -14,6 +14,7 @@ export default class SelectionWheel {
 					gameField.removeEventListener('click', clickHandler, false);
 					gameField.removeEventListener('mouseover', mouseoverHandler, false);
 					gameField.removeEventListener('mouseout', mouseoutHandler, false);
+					gameField.removeEventListener('focus', onfocusHandler, true);
 					window.removeEventListener('keyup', keyup, false);
 					that.deleteModal(newModal);
 					resolve(that.getAbility(target));
@@ -53,9 +54,15 @@ export default class SelectionWheel {
 				}
 			}
 
+			function onfocusHandler(event) {
+				let target = event.target;
+				that.showImpactInfo(target);
+			}
+
 			gameField.addEventListener('click', clickHandler, false);
 			gameField.addEventListener('mouseover', mouseoverHandler, false);
 			gameField.addEventListener('mouseout', mouseoutHandler, false);
+			gameField.addEventListener('focus', onfocusHandler, true);
 			window.addEventListener('keyup', keyup, false);
 		});
 	}
@@ -63,7 +70,6 @@ export default class SelectionWheel {
 	createModal(obj) {
 		const impactsNameProperties = this.getAllImpactsCollection(obj);
 		const impacts = [];
-		const that = this;
 		impactsNameProperties.forEach(nameProperty => {
 			impacts.push(obj[nameProperty]);
 		});
@@ -75,10 +81,6 @@ export default class SelectionWheel {
 		this.buttonQuantity = length;
 		for (let i = 0; i < length; i++) {
 			const newButton = document.createElement('button');
-			newButton.onfocus = function onfocusHandler(event) {
-				let target = event.target;
-				that.showImpactInfo(target);
-			};
 			this.buttons.push(newButton);
 			const impact = JSON.stringify(impacts[i]);
 			newButton.setAttribute('impact', impact);
