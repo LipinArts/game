@@ -1,5 +1,8 @@
 export default class SelectionWheel {
 	constructor(obj) {
+		this.buttons = [];
+		this.indexButton = -1;
+
 		return new Promise((resolve) => {
 			const newModal = this.createModal(obj);
 			const gameField = document.getElementById('game-container');
@@ -20,14 +23,6 @@ export default class SelectionWheel {
 			function mouseoverHandler(event) {
 				let target = event.target;
 				if (event.target.className === 'skillButt') {
-					that.showImpactInfo(target);
-				}
-			}
-
-			function onfocusHandler(event) {
-				let target = event.target;
-				if (event.target.className === 'skillButt') {
-					console.log('focus');
 					that.showImpactInfo(target);
 				}
 			}
@@ -61,7 +56,6 @@ export default class SelectionWheel {
 			gameField.addEventListener('click', clickHandler, false);
 			gameField.addEventListener('mouseover', mouseoverHandler, false);
 			gameField.addEventListener('mouseout', mouseoutHandler, false);
-			gameField.addEventListener('focus', onfocusHandler, false);
 			window.addEventListener('keyup', keyup, false);
 		});
 	}
@@ -69,6 +63,7 @@ export default class SelectionWheel {
 	createModal(obj) {
 		const impactsNameProperties = this.getAllImpactsCollection(obj);
 		const impacts = [];
+		const that = this;
 		impactsNameProperties.forEach(nameProperty => {
 			impacts.push(obj[nameProperty]);
 		});
@@ -76,8 +71,17 @@ export default class SelectionWheel {
 		let buttonsContainer = document.createElement('div');
 		buttonsContainer.id = 'buttonsContainer_id';
 		const length = impactsNameProperties.length;
+		this.buttonQuantity = length;
 		for (let i = 0; i < length; i++) {
 			const newButton = document.createElement('button');
+			newButton.onfocus = function onfocusHandler(event) {
+				let target = event.target;
+				if (event.target.className === 'skillButt') {
+					console.log('focus');
+					that.showImpactInfo(target);
+				}
+			};
+			this.buttons.push(newButton);
 			const impact = JSON.stringify(impacts[i]);
 			newButton.setAttribute('impact', impact);
 			newButton.className = 'skillButt';
@@ -112,6 +116,42 @@ export default class SelectionWheel {
 	clearImpactInfo() {
 		const infofield = document.getElementById('infofield_id');
 		infofield.textContent = '';
+	}
+
+	nextTarget() {
+		this.indexButton++;
+		if (this.indexButton > this.buttonQuantity - 1) {
+			this.indexButton = 0;
+		}
+		if (this.indexButton < this.buttonQuantity) {
+			return this.buttons[this.indexButton];
+		}
+		else {
+			return this.buttons[this.indexButton - 3];
+		}
+	}
+
+	prevTarget() {
+		this.indexButton--;
+		if (this.indexButton < 0) {
+			this.indexButton = this.buttonQuantity - 1;
+		}
+		if (this.indexButton < this.buttonQuantity) {
+			return this.buttons[this.indexButton];
+		}
+		else {
+			return this.buttons[this.indexButton - 3];
+		}
+	}
+
+	focus_next() {
+		const nextButton = this.nextTarget();
+		this.focus_that(nextButton);
+	}
+
+	focus_prev() {
+		const prevButton = this.prevTarget();
+		this.focus_that(prevButton);
 	}
 
 	focus_that(element_id) {
