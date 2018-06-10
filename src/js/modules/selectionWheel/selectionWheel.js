@@ -14,7 +14,7 @@ export default class SelectionWheel {
 					gameField.removeEventListener('click', clickHandler, false);
 					gameField.removeEventListener('mouseover', mouseoverHandler, false);
 					gameField.removeEventListener('mouseout', mouseoutHandler, false);
-					gameField.removeEventListener('hover', mouseoverHandler, false);
+					window.removeEventListener('keyup', keyup, false);
 					that.deleteModal(newModal);
 					resolve(that.getAbility(target));
 				}
@@ -70,21 +70,19 @@ export default class SelectionWheel {
 		const parent = document.getElementById('game-container');
 		let buttonsContainer = document.createElement('div');
 		buttonsContainer.id = 'buttonsContainer_id';
+		buttonsContainer.className = 'buttonsContainer';
 		const length = impactsNameProperties.length;
 		this.buttonQuantity = length;
 		for (let i = 0; i < length; i++) {
 			const newButton = document.createElement('button');
 			newButton.onfocus = function onfocusHandler(event) {
 				let target = event.target;
-				if (event.target.className === 'skillButt') {
-					console.log('focus');
-					that.showImpactInfo(target);
-				}
+				that.showImpactInfo(target);
 			};
 			this.buttons.push(newButton);
 			const impact = JSON.stringify(impacts[i]);
 			newButton.setAttribute('impact', impact);
-			newButton.className = 'skillButt';
+			newButton.className = 'skillButt button_' + i;
 			newButton.textContent = impactsNameProperties[i];
 			buttonsContainer.appendChild(newButton);
 		}
