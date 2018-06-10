@@ -67,7 +67,7 @@ export default class Fight {
 	}
 
 	update() {
-		if (this.isFightNotOver()) {
+		if (this.isFightNotOver() && this.frameLoopRunning) {
 			this.updateSelecting();
 			this.updateImpact();
 		}
@@ -98,9 +98,7 @@ export default class Fight {
 			const selectedImpact = JSON.parse(selectedImpactString);
 			this.unpauseGame();
 			this.resetKeyboardControl();
-
 			this.impact(this.activeUnit, this.selectedUnit, selectedImpact);
-
 			this.activeUnit = this.nextActiveUnit();
 			let counter = 0;
 			while (!this.isUnitAlive(this.activeUnit) && counter < this.attacker.length + this.defender.length) {
