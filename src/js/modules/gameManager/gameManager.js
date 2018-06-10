@@ -1,10 +1,12 @@
 import Fight from '../fight/fight';
 import FightUnit from '../fightUnit/fightUnit';
+import LocalStorageManager from '../localStorageManager/localStorageManager';
 
 export default class GameManager {
-	constructor() {
+	constructor(userData) {
 		this.monsterGroupsCounter = 0;
 		this.fight;
+		this.userData = userData;
 	}
 
 	startGameCycle() {
@@ -33,7 +35,8 @@ export default class GameManager {
 			while (that.isGroupAlive(player)) {
 				yield createLvll();
 			}
-			that.showScore(that.calcScore());
+			const currentScore = that.calcScore();
+			that.showScore(currentScore);
 		}
 		generator.next();
 	}
@@ -57,8 +60,8 @@ export default class GameManager {
 	}
 
 	showScore(score) {
-		console.log('Game Over');
-		console.log('player score is ' + score);
+		LocalStorageManager.chkAndUpdateTop10LocalStorageRecords('top10score', score * 1, this.userData);
+		LocalStorageManager.createTableOfRecordsFromLocalStore('top10score');
 	}
 
 }

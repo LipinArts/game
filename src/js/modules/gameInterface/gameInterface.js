@@ -1,5 +1,6 @@
 import GameManager from '../gameManager/gameManager';
 import KeyboardController from '../KeyboardController/KeyboardController';
+import LocalStorageManager from '../localStorageManager/localStorageManager';
 
 export default class GameInterface {
 	constructor() {
@@ -7,8 +8,9 @@ export default class GameInterface {
 	}
 
 	pressStartNewGameButton() {
+		const userData = LocalStorageManager.getUserDataFromInputs();
 		this.hideGameMenu();
-		this.gameManager = new GameManager();
+		this.gameManager = new GameManager(userData);
 		this.gameManager.startGameCycle();
 	}
 
