@@ -82,7 +82,7 @@ export default class SelectionWheel {
 			this.buttons.push(newButton);
 			const impact = JSON.stringify(impacts[i]);
 			newButton.setAttribute('impact', impact);
-			newButton.className = 'skillButt button_' + i;
+			newButton.className = 'skillButt';
 			newButton.textContent = impactsNameProperties[i];
 			buttonsContainer.appendChild(newButton);
 		}
