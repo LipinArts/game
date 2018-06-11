@@ -4,19 +4,9 @@
     "stage-3"
   ],
   "plugins": [
-<<<<<<< HEAD
     ["transform-runtime", {
       "polyfill": false,
       "regenerator": true
     }]
-=======
-    [
-      "transform-runtime",
-      {
-        "polyfill": false,
-        "regenerator": true
-      }
-    ]
->>>>>>> 14a93b73ee827d3f73b18f95083d6a35f6613d7d
   ]
 }
