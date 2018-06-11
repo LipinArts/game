@@ -1,6 +1,6 @@
 import Fight from '../fight/fight';
 import FightUnit from '../fightUnit/fightUnit';
-import LocalStorageManager from '../localStorageManager/localStorageManager';
+import Scoreboard from '../scoreboard/scoreboard';
 
 export default class GameManager {
 	constructor(userData) {
@@ -60,8 +60,8 @@ export default class GameManager {
 	}
 
 	showScore(score) {
-		LocalStorageManager.chkAndUpdateTop10LocalStorageRecords('top10score', score * 1, this.userData);
-		LocalStorageManager.createTableOfRecordsFromLocalStore('top10score');
+		Scoreboard.chkAndUpdateTop10LocalStorageRecords('top10score', score * 1, this.userData);
+		Scoreboard.createTableOfRecordsFromLocalStore('top10score');
 	}
 
 }

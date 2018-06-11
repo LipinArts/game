@@ -1,28 +1,7 @@
-export default class LocalStorageManager {
-
-	static getUserDataFromInputs() {
-		const inputs = document.getElementById('user_form').elements;
-		const userDataObj = {
-			'nickname': inputs.nickname.value
-		};
-		LocalStorageManager.saveLastLoginDataToStorage(userDataObj);
-		return userDataObj;
-	}
-
-	static saveLastLoginDataToStorage(userDataObj) {
-		localStorage.setItem('lastLoginUserData', JSON.stringify(userDataObj));
-	}
-
-	static loadLastUserDataFromStorageToInputs() {
-		if (localStorage.getItem('lastLoginUserData')) {
-			const lastUserData = JSON.parse(localStorage.getItem('lastLoginUserData'));
-			const inputs = document.getElementById('user_form').elements;
-			inputs.nickname.value = lastUserData.nickname;
-		}
-	}
-
+export default class Scoreboard {
 	static createTableOfRecordsFromLocalStore(name_localStorage) {
-		const records_list = document.getElementById('records-table');
+		const records_list = document.createElement('section');
+		records_list.setAttribute('id', 'records-table');
 		const list = document.createElement('ol');
 		const records = JSON.parse(localStorage.getItem(name_localStorage));
 		records.forEach(recordObj => {
@@ -42,6 +21,7 @@ export default class LocalStorageManager {
 			list.appendChild(listElem);
 		});
 		records_list.appendChild(list);
+		document.body.appendChild(records_list);
 	}
 
 	static chkAndUpdateTop10LocalStorageRecords(name_localStorage, current_score, user_data) {

@@ -1,7 +1,7 @@
 import GameInterface from './modules/gameInterface/gameInterface';
-import LocalStorageManager from './modules/localStorageManager/localStorageManager';
+import Utils from './modules/utils/utils';
 
-LocalStorageManager.loadLastUserDataFromStorageToInputs();
+Utils.setLastUserDataFromStorageToInput('input_nickname_id', 'lastLoginUserData', 'nickname');
 const gameInterface = new GameInterface();
 document.getElementById('startButt_id').addEventListener('click', () => {
 	gameInterface.pressStartNewGameButton();
