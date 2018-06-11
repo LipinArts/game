@@ -17,6 +17,8 @@
     "babel-preset-stage-3": "^6.24.1",
     "clean-webpack-plugin": "^0.1.19",
     "eslint": "^4.19.1",
+    "jquery": "^3.3.1",
+    "jquery-ui-sortable-npm": "^1.0.0",
     "webpack": "^4.10.0",
     "webpack-cli": "^2.1.4",
     "webpack-dev-server": "^3.1.4"

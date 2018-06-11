@@ -11,8 +11,26 @@ export default class Fight {
 		this.activeUnit = this.attacker[0];
 		this.selectedUnitIndex = 0;
 		this.activeUnitIndex = 0;
-		this.unitsAttackerCoordinates = [{ x: 200, y: 50 }, { x: 0, y: 360 }, { x: 400, y: 360 }];
-		this.unitsDefenderCoordinates = [{ x: 900, y: 50 }, { x: 700, y: 360 }, { x: 1100, y: 360 }];
+		this.unitsAttackerCoordinates = [{
+			x: 200,
+			y: 50
+		}, {
+			x: 0,
+			y: 360
+		}, {
+			x: 400,
+			y: 360
+		}];
+		this.unitsDefenderCoordinates = [{
+			x: 900,
+			y: 50
+		}, {
+			x: 700,
+			y: 360
+		}, {
+			x: 1100,
+			y: 360
+		}];
 		this.backgroundSRC = 'src/img/fight/background.jpg';
 		this.generatorlvl = generator;
 		this.canvas = document.getElementById('canvas');
@@ -70,8 +88,7 @@ export default class Fight {
 		if (this.isFightNotOver() && this.frameLoopRunning) {
 			this.updateSelecting();
 			this.updateImpact();
-		}
-		else {
+		} else {
 			this.frameLoopRunning = false;
 			this.generatorlvl.next();
 		}
@@ -81,8 +98,7 @@ export default class Fight {
 		if (KeyboardController.pressedKeys.nextTarget) {
 			KeyboardController.pressedKeys.nextTarget = false;
 			this.selectedUnit = this.nextTarget();
-		}
-		else {
+		} else {
 			if (KeyboardController.pressedKeys.prevTarget) {
 				this.selectedUnit = this.prevTarget();
 				KeyboardController.pressedKeys.prevTarget = false;
@@ -181,13 +197,15 @@ export default class Fight {
 			let index = this.attacker.indexOf(unitObj);
 			x = this.unitsAttackerCoordinates[index].x;
 			y = this.unitsAttackerCoordinates[index].y;
-		}
-		else {
+		} else {
 			let index = this.defender.indexOf(unitObj);
 			x = this.unitsDefenderCoordinates[index].x;
 			y = this.unitsDefenderCoordinates[index].y;
 		}
-		return { x: x, y: y };
+		return {
+			x: x,
+			y: y
+		};
 	}
 
 	drawAttackerUnits() {
@@ -261,8 +279,7 @@ export default class Fight {
 		}
 		if (this.selectedUnitIndex < this.attacker.length) {
 			return this.attacker[this.selectedUnitIndex];
-		}
-		else {
+		} else {
 			return this.defender[this.selectedUnitIndex - 3];
 		}
 	}
@@ -274,8 +291,7 @@ export default class Fight {
 		}
 		if (this.selectedUnitIndex < this.attacker.length) {
 			return this.attacker[this.selectedUnitIndex];
-		}
-		else {
+		} else {
 			return this.defender[this.selectedUnitIndex - 3];
 		}
 	}
@@ -288,8 +304,7 @@ export default class Fight {
 		}
 		if (this.activeUnitIndex < this.attacker.length) {
 			return this.attacker[this.activeUnitIndex];
-		}
-		else {
+		} else {
 			return this.defender[this.activeUnitIndex - 3];
 		}
 	}
