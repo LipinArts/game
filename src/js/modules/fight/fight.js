@@ -2,7 +2,7 @@ import KeyboardController from '../KeyboardController/KeyboardController';
 import SelectionWheel from '../SelectionWheel/SelectionWheel';
 
 export default class Fight {
-	constructor(attacker, defender, generator) {
+	constructor(attacker, defender, generatorlvl) {
 		this.attacker = attacker;
 		this.defender = defender;
 		this.round = 0;
@@ -14,13 +14,12 @@ export default class Fight {
 		this.unitsAttackerCoordinates = [{ x: 200, y: 50 }, { x: 0, y: 360 }, { x: 400, y: 360 }];
 		this.unitsDefenderCoordinates = [{ x: 900, y: 50 }, { x: 700, y: 360 }, { x: 1100, y: 360 }];
 		this.backgroundSRC = 'src/img/fight/background.jpg';
-		this.generatorlvl = generator;
+		this.generatorlvl = generatorlvl;
 		this.canvas = document.getElementById('canvas');
 		this.ctx = this.canvas.getContext('2d');
 		this.frameLoopRunning = false;
 
 		this.fightModulCycle();
-		this.showCanvasAfterLoading();
 
 		return {
 			'attacker': this.attacker,
@@ -30,6 +29,8 @@ export default class Fight {
 
 	fightModulCycle() {
 		this.showLoadingScreen();
+		this.showCanvasAfterLoading();
+		this.hideLoadingScreen();
 		this.startGameLoop();
 	}
 
@@ -38,7 +39,11 @@ export default class Fight {
 	}
 
 	showLoadingScreen() {
-		//console.log('loading screen');
+		//console.log('show loading screen');
+	}
+
+	hideLoadingScreen() {
+		//console.log('hide loading screen');
 	}
 
 	startGameLoop() {
@@ -133,7 +138,6 @@ export default class Fight {
 
 	render() {
 		this.clearCanvas();
-		//this.drawBackground();
 		this.drawSelectedUnitFlag();
 		this.drawActiveUnitFlag();
 		this.drawAttackerUnits();
@@ -143,9 +147,6 @@ export default class Fight {
 
 	clearCanvas() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-	}
-
-	drawBackground() {
 	}
 
 	drawUnit(unit, posX, posY) {
@@ -215,10 +216,9 @@ export default class Fight {
 		const ySelected = coordSelected.y;
 
 		this.ctx.save();
-
-
 		const widthBar = 200;
 		const heightBar = 50;
+
 		// this.ctx.fillStyle = 'white';
 		// this.ctx.fillRect(xActive, yActive - heightBar, widthBar, heightBar);
 		// if (activeUnit !== selectedUnit) {
