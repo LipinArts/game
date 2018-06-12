@@ -8,7 +8,8 @@ export default {
 			status: 'normal',
 			target: 'target',
 			duration: 0,
-			lvl: lvl
+			lvl: lvl,
+			icon_path: 'src/img/selectionWheel/casts/attack.jpg'
 		};
 	},
 	fireball: function (lvl) {
@@ -18,7 +19,8 @@ export default {
 			status: 'burn',
 			target: 'target',
 			duration: 0,
-			lvl: lvl
+			lvl: lvl,
+			icon_path: 'src/img/selectionWheel/casts/fireball.jpg'
 		};
 	},
 	burn: function (lvl) {
@@ -28,7 +30,8 @@ export default {
 			status: 'burn',
 			target: 'target',
 			duration: 3 + lvl,
-			lvl: lvl
+			lvl: lvl,
+			icon_path: 'src/img/selectionWheel/casts/burn.jpg'
 		};
 	},
 	freeze: function (lvl) {
@@ -38,7 +41,8 @@ export default {
 			status: 'freeze',
 			target: 'target',
 			duration: 3 + Math.floor(lvl / 4),
-			lvl: lvl
+			lvl: lvl,
+			icon_path: 'src/img/selectionWheel/casts/freeze.jpg'
 		};
 	},
 	healWeak: function (lvl) {
@@ -48,7 +52,8 @@ export default {
 			status: 'normal',
 			target: 'target',
 			duration: 0,
-			lvl: lvl
+			lvl: lvl,
+			icon_path: 'src/img/selectionWheel/casts/healWeak.jpg'
 		};
 	},
 	healPeriodic: function (lvl) {
@@ -58,7 +63,8 @@ export default {
 			status: 'heal',
 			target: 'target',
 			duration: 5 + Math.floor(lvl / 3),
-			lvl: lvl
+			lvl: lvl,
+			icon_path: 'src/img/selectionWheel/casts/healPeriodic.jpg'
 		};
 	},
 	poison: function (lvl) {
@@ -68,7 +74,8 @@ export default {
 			status: 'poison',
 			target: 'target',
 			duration: 5 + Math.floor(lvl / 2),
-			lvl: lvl
+			lvl: lvl,
+			icon_path: 'src/img/selectionWheel/casts/poison.jpg'
 		};
 	},
 	bash: function (lvl) {
@@ -78,7 +85,8 @@ export default {
 			status: 'stun',
 			target: 'target',
 			duration: 3 + Math.floor(lvl / 4),
-			lvl: lvl
+			lvl: lvl,
+			icon_path: 'src/img/selectionWheel/casts/bash.jpg'
 		};
 	},
 	ressurect: function (lvl) {
@@ -88,7 +96,8 @@ export default {
 			status: 'ressurect',
 			target: 'target',
 			duration: 0,
-			lvl: lvl
+			lvl: lvl,
+			icon_path: 'src/img/selectionWheel/casts/ressurect.jpg'
 		};
 	},
 	attackSuper: function (lvl) {
@@ -98,7 +107,8 @@ export default {
 			status: 'normal',
 			target: 'target',
 			duration: 0,
-			lvl: lvl
+			lvl: lvl,
+			icon_path: 'src/img/selectionWheel/casts/attackSuper.jpg'
 		};
 	},
 	fireStorm: function (lvl) {
@@ -108,7 +118,8 @@ export default {
 			status: 'burn',
 			target: 'enemies',
 			duration: 5 + Math.floor(lvl / 2),
-			lvl: lvl
+			lvl: lvl,
+			icon_path: 'src/img/selectionWheel/casts/fireStorm.jpg'
 		};
 	},
 	iceStorm: function (lvl) {
@@ -118,7 +129,8 @@ export default {
 			status: 'freeze',
 			target: 'enemies',
 			duration: 5 + Math.floor(lvl / 2),
-			lvl: lvl
+			lvl: lvl,
+			icon_path: 'src/img/selectionWheel/casts/iceStorm.jpg'
 		};
 	},
 	meteor: function (lvl) {
@@ -128,7 +140,8 @@ export default {
 			status: 'stun',
 			target: 'enemies',
 			duration: 3 + Math.floor(lvl / 4),
-			lvl: lvl
+			lvl: lvl,
+			icon_path: 'src/img/selectionWheel/casts/meteor.jpg'
 		};
 	},
 	healMass: function (lvl) {
@@ -138,7 +151,8 @@ export default {
 			status: 'heal',
 			target: 'allies',
 			duration: 0,
-			lvl: lvl
+			lvl: lvl,
+			icon_path: 'src/img/selectionWheel/casts/healMass.jpg'
 		};
 	},
 	ressurectMass: function (lvl) {
@@ -148,7 +162,8 @@ export default {
 			status: 'ressurect',
 			target: 'allies',
 			duration: 0,
-			lvl: lvl
+			lvl: lvl,
+			icon_path: 'src/img/selectionWheel/casts/ressurectMass.jpg'
 		};
 	},
 

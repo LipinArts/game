@@ -4,11 +4,90 @@
 @import url('bootstrap-grid.css');
 /* main styles */
 
+@font-face {
+  font-family: 'Futurama';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../fonts/Futurama/font_fr-ambient.WOFF') format('woff'),
+    url('../fonts/Futurama/font_fr-ambient.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Futurama-bold';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../fonts/Futurama/font_fr-bold.WOFF') format('woff'),
+    url('../fonts/Futurama/font_fr-bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Butterbelly';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../fonts/Futurama/font_butterbelly.WOFF') format('woff'),
+    url('../fonts/Futurama/font_butterbelly.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Bender';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../fonts/Bender/Bender.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/Bender/Bender.woff') format('woff'),
+    url('../fonts/Bender/Bender.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Bender-bold';
+  font-style: normal;
+  font-weight: bold;
+  src: url('../fonts/Bender/Bender-bold.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/Bender/Bender-bold.woff') format('woff'),
+    url('../fonts/Bender/Bender-bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Geometria';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../fonts/Geometria/Geometria-Medium.eot?#iefix')
+      format('embedded-opentype'),
+    url('../fonts/Geometria/Geometria-Medium.woff') format('woff'),
+    url('../fonts/Geometria/Geometria-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Geometria-bold';
+  font-style: normal;
+  font-weight: bold;
+  src: url('../fonts/Geometria/Geometria-Bold.eot?#iefix')
+      format('embedded-opentype'),
+    url('../fonts/Geometria/Geometria-Bold.woff') format('woff'),
+    url('../fonts/Geometria/Geometria-Bold.ttf') format('truetype');
+}
+
+body {
+  font-size: 1em;
+  font-family: 'Bender', 'Geometria', sans-serif;
+}
+
 h1 {
   color: red;
   text-align: center;
 }
-
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0;
+}
+label,
+input[type='text'] {
+  min-width: 100%;
+}
+.blur {
+  filter: blur(5px);
+}
 .hide {
   display: none;
 }
@@ -40,3 +119,145 @@ h1 {
   width: 100%;
   height: auto;
 }
+
+/*  SelectionWheel Style start   */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 998;
+}
+.selectionWheel-modal-wrap {
+  max-width: 696px;
+  width: 100%;
+  max-height: 697px;
+  height: 100%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.selectionWheel-modal {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.selectionWheel-bg {
+  position: absolute;
+  font-size: 1rem;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 516px;
+  height: auto;
+  z-index: 11;
+}
+
+.selection-btn {
+  display: inline-block;
+  height: 100%;
+  cursor: pointer;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+.selection-btn:focus {
+  outline: none;
+}
+.selectionWheel-back-btn {
+  position: absolute;
+  left: 50%;
+  bottom: 8.3%;
+  transform: translateX(-50%);
+  background-image: url('../img/selectionWheel/backBtnHover.png');
+  width: 40.4%;
+  height: 13.8%;
+  background-size: cover;
+  z-index: 13;
+  transition: background-image 0.2s;
+}
+
+.selectionWheel-back-btn:hover {
+  background-image: url('../img/selectionWheel/backBtn.png');
+}
+
+.selectionWheel-cast-info {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 50%;
+  height: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 14;
+}
+.selectionWheel-cast-info ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  height: 100%;
+}
+.selection-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  max-width: 130%;
+  transform: translate(-50%, -50%);
+}
+.selection-casts-wrap {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 13;
+}
+.selection-cast-icon {
+  position: absolute;
+  width: 16%;
+  height: 16%;
+  border-radius: 50%;
+  background-size: cover;
+  border: 5px solid #000;
+}
+
+.selection-cast-icon:hover {
+  border-color: #f16102;
+}
+
+.selection-cast-icon:nth-child(1) {
+  left: 6.5%;
+  top: 53%;
+}
+.selection-cast-icon:nth-child(2) {
+  left: 8.8%;
+  top: 26%;
+}
+.selection-cast-icon:nth-child(3) {
+  left: 28%;
+  top: 7.8%;
+}
+.selection-cast-icon:nth-child(4) {
+  right: 28%;
+  top: 7.8%;
+}
+.selection-cast-icon:nth-child(5) {
+  right: 8.8%;
+  top: 26%;
+}
+.selection-cast-icon:nth-child(6) {
+  right: 6.5%;
+  top: 53%;
+}
+/*  SelectionWheel Style end   */
