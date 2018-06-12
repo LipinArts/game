@@ -20,6 +20,7 @@ export default class Fight {
 		this.frameLoopRunning = false;
 
 		this.fightModulCycle();
+		this.showCanvasAfterLoading();
 
 		return {
 			'attacker': this.attacker,
@@ -30,6 +31,10 @@ export default class Fight {
 	fightModulCycle() {
 		this.showLoadingScreen();
 		this.startGameLoop();
+	}
+
+	showCanvasAfterLoading() {
+		this.canvas.classList.remove('hide');
 	}
 
 	showLoadingScreen() {
@@ -128,7 +133,7 @@ export default class Fight {
 
 	render() {
 		this.clearCanvas();
-		this.drawBackground();
+		//this.drawBackground();
 		this.drawSelectedUnitFlag();
 		this.drawActiveUnitFlag();
 		this.drawAttackerUnits();
@@ -141,9 +146,6 @@ export default class Fight {
 	}
 
 	drawBackground() {
-		const img = new Image();
-		img.src = this.backgroundSRC;
-		this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
 	}
 
 	drawUnit(unit, posX, posY) {

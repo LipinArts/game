@@ -52,6 +52,8 @@ label, input[type='text'] {
 .canvas {
     width: 100%;
     height: auto;
+    background-image: url(../img/fight/background.jpg);
+    background-size: cover;
 }
 /* SelectionWheel Style start */
 .modal-overlay {
