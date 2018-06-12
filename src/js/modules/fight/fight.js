@@ -95,7 +95,7 @@ export default class Fight {
 		if (KeyboardController.pressedKeys.impact) {
 			this.pauseGame();
 			const infoOutputScheme = { damage: 'Damage/Heal', status: 'Status', target: 'Targeting', duration: 'Duration', lvl: 'Difficult' };
-			let selectedImpactString = await new SelectionWheel(this.activeUnit.abilities, this.canvas, infoOutputScheme);
+			let selectedImpactString = await new SelectionWheel(this.activeUnit.abilities, this.canvas, infoOutputScheme, );
 			const selectedImpact = JSON.parse(selectedImpactString);
 			this.unpauseGame();
 			this.resetKeyboardControl();

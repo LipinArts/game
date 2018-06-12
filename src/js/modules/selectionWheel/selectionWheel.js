@@ -1,14 +1,15 @@
 export default class SelectionWheel {
-	constructor(inputObj, bluredElem, infoOutputScheme) {
+	constructor(inputObj, bluredElem, infoOutputScheme, srcBackgroundImage = 'src/img/selectionWheel/wheel.png') {
 		this.bluredElem = bluredElem;
 		this.infoOutputScheme = infoOutputScheme;
+		this.srcBackgroundImage = srcBackgroundImage;
 		this.parentOfModule = document.body;
 		this.additionalTextToID = '_selectionWheel_id';
 		this.buttons = [];
 		this.indexButton = -1;
-		const impactsNames = Object.keys(inputObj);
-		this.buttonsQuantity = impactsNames.length;
-		this.impactsObj = this.getAllImpactsObj(impactsNames, inputObj);
+		this.impactsNames = Object.keys(inputObj);
+		this.buttonsQuantity = this.impactsNames.length;
+		this.impactsObj = this.getAllImpactsObj(this.impactsNames, inputObj);
 		this.resolvePromiseFunc;
 
 		return new Promise(resolvePromiseFunc => {
@@ -40,7 +41,7 @@ export default class SelectionWheel {
 		modalBg.className = 'selectionWheel-bg';
 		modal.appendChild(modalBg);
 		const img = document.createElement('img');
-		img.setAttribute('src', 'src/img/selectionWheel/wheel.png');
+		img.setAttribute('src', this.srcBackgroundImage);
 		modalBg.appendChild(img);
 
 		const castsWrap = document.createElement('div');
@@ -65,7 +66,12 @@ export default class SelectionWheel {
 			newButton.classList.add('selection-btn');
 			newButton.classList.add('selection-cast-icon');
 			const icon_path = impact.icon_path;
-			newButton.style.backgroundImage = `url(${icon_path})`;
+			if (icon_path) {
+				newButton.style.backgroundImage = `url(${icon_path})`;
+				newButton.textContent = this.impactsNames[i];
+			} else {
+				newButton.textContent = this.impactsNames[i];
+			}
 			parent.appendChild(newButton);
 		}
 	}

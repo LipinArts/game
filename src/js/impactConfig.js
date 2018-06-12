@@ -56,7 +56,7 @@ export default {
 			icon_path: 'src/img/selectionWheel/casts/healWeak.jpg'
 		};
 	},
-	healPeriodic: function (lvl) {
+	bless: function (lvl) {
 		lvl = Utils.minMaxValid(lvl, 6, 15);
 		return {
 			damage: -5 - lvl * 2,
@@ -89,7 +89,7 @@ export default {
 			icon_path: 'src/img/selectionWheel/casts/bash.jpg'
 		};
 	},
-	ressurect: function (lvl) {
+	rise: function (lvl) {
 		lvl = Utils.minMaxValid(lvl, 9, 15);
 		return {
 			damage: 0 - lvl * 2,
@@ -100,7 +100,7 @@ export default {
 			icon_path: 'src/img/selectionWheel/casts/ressurect.jpg'
 		};
 	},
-	attackSuper: function (lvl) {
+	combo: function (lvl) {
 		lvl = Utils.minMaxValid(lvl, 10, 15);
 		return {
 			damage: 100 + lvl * 3,
@@ -155,7 +155,7 @@ export default {
 			icon_path: 'src/img/selectionWheel/casts/healMass.jpg'
 		};
 	},
-	ressurectMass: function (lvl) {
+	divineHeal: function (lvl) {
 		lvl = Utils.minMaxValid(lvl, 15, 15);
 		return {
 			damage: 0 - lvl * 10,

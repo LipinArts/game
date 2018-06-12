@@ -171,6 +171,8 @@ label, input[type='text'] {
     border-radius: 50%;
     background-size: cover;
     border: 5px solid #000;
+    color:green;
+    font-weight: bold;
 }
 .selection-cast-icon:focus {
     border-color: #f16102;
