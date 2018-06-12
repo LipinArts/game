@@ -1,13 +1,21 @@
 export default class SelectionWheel {
-	constructor(majorObj, bluredElem) {
+	constructor(selectorInputObj, bluredElem, infoOutputScheme) {
 		this.buttons = [];
 		this.indexButton = -1;
 		this.bluredElem = bluredElem;
 		this.buttonQuantity;
 		this.parentOfModule = document.body;
+		this.impactsNameProperties = this.getAllImpactsNames(selectorInputObj);
+		this.buttonQuantity = this.impactsNameProperties.length;
+		this.impactsObj = this.getAllImpactsObj(this.impactsNameProperties, selectorInputObj);
+
+		this.infoScheme = infoOutputScheme;
+		this.modalBg;
+		this.infoList;
+		this.additionalTextToID = '_selectionWheel_id';
 
 		return new Promise((resolve) => {
-			const newModal = this.createModal(majorObj);
+			const newModal = this.createModal(selectorInputObj);
 			const parent = this.parentOfModule;
 			const that = this;
 
@@ -71,11 +79,7 @@ export default class SelectionWheel {
 		});
 	}
 
-	createModal(majorObj) {
-		const impactsNameProperties = this.getAllImpactsNames(majorObj);
-		this.buttonQuantity = impactsNameProperties.length;
-		const impactsStringObj = this.getAllImpactsObj(impactsNameProperties, majorObj);
-
+	createModal() {
 		const buttonsContainer = document.createElement('div');
 		buttonsContainer.className = 'modal-overlay';
 		buttonsContainer.classList.add('buttonsContainer');
@@ -96,15 +100,12 @@ export default class SelectionWheel {
 		castsWrap.className = 'selection-casts-wrap';
 		modalBg.appendChild(castsWrap);
 
-		this.createButtons(castsWrap, impactsStringObj);
+		this.createButtons(castsWrap);
 
-		const infoField = document.createElement('div');
-		infoField.id = 'infofield_id';
-		infoField.className = 'selectionWheel-cast-info';
-		const ul = document.createElement('ul');
-		infoField.appendChild(ul);
+		this.modalBg = modalBg;
 
-		modalBg.appendChild(infoField);
+		this.createInfoField(this.modalBg);
+
 		const backBtn = document.createElement('button');
 		backBtn.className = 'selection-btn selectionWheel-back-btn';
 		backBtn.classList.add('selectionWheel-back-btn');
@@ -117,19 +118,48 @@ export default class SelectionWheel {
 		return buttonsContainer;
 	}
 
-	createButtons(parent, impactsStringObj) {
+	createButtons(parent) {
 		for (let i = 0; i < this.buttonQuantity; i++) {
 			const newButton = document.createElement('button');
 			this.buttons.push(newButton);
-			const impact = impactsStringObj[i];
-			newButton.setAttribute('impact', impact);
+			const impact = this.impactsObj[i];
+			newButton.setAttribute('impact', JSON.stringify(impact));
 			newButton.className = 'skillButt';
 			newButton.classList.add('selection-btn');
 			newButton.classList.add('selection-cast-icon');
-			const icon_path = JSON.parse(impact).icon_path;
+			const icon_path = impact.icon_path;
 			newButton.style.backgroundImage = `url(${icon_path})`;
 			parent.appendChild(newButton);
 		}
+	}
+
+	createInfoField(parent) {
+		const infoField = document.createElement('div');
+		infoField.id = 'infofield_id';
+		infoField.className = 'selectionWheel-cast-info';
+		const ul = document.createElement('ul');
+		this.infoList = ul;
+
+		const schemeProperties = Object.keys(this.infoScheme);
+		schemeProperties.forEach(propertyName => {
+			let newInfoFieldList = document.createElement('li');
+
+			const namePropertyDiv = document.createElement('div');
+			namePropertyDiv.id = propertyName + '_divName' + this.additionalTextToID;
+			namePropertyDiv.classList.add('infoFieldName');
+			newInfoFieldList.appendChild(namePropertyDiv);
+
+			const valuePropertyDiv = document.createElement('div');
+			valuePropertyDiv.id = propertyName + '_divValue' + this.additionalTextToID;
+			valuePropertyDiv.classList.add('infoFieldValue');
+			newInfoFieldList.appendChild(valuePropertyDiv);
+
+			newInfoFieldList.classList.add('newInfoFieldList');
+			ul.appendChild(newInfoFieldList);
+		});
+
+		infoField.appendChild(ul);
+		parent.appendChild(infoField);
 	}
 
 	closeModalWindow(element) {
@@ -146,26 +176,39 @@ export default class SelectionWheel {
 		return target.getAttribute('impact');
 	}
 
-	getAllImpactsNames(majorObj) {
-		return Object.keys(majorObj);
+	getAllImpactsNames(selectorInputObj) {
+		return Object.keys(selectorInputObj);
 	}
 
-	getAllImpactsObj(impactsNameProperties, majorObj) {
+	getAllImpactsObj(impactsNameProperties, selectorInputObj) {
 		let impactsStringObj = [];
 		impactsNameProperties.forEach(nameProperty => {
-			impactsStringObj.push(JSON.stringify(majorObj[nameProperty]));
+			impactsStringObj.push(selectorInputObj[nameProperty]);
 		});
 		return impactsStringObj;
 	}
 
 	showImpactInfo(target) {
-		const infofield = document.getElementById('infofield_id');
-		infofield.textContent = target.getAttribute('impact');
+		if (!target.className.includes('selectionWheel-back-btn')) {
+			const targetObj = JSON.parse(target.getAttribute('impact'));
+			const schemeProperties = Object.keys(this.infoScheme);
+			schemeProperties.forEach(propertyName => {
+				const liName = document.getElementById(propertyName + '_divName' + this.additionalTextToID);
+				liName.textContent = this.infoScheme[propertyName];
+				const liValue = document.getElementById(propertyName + '_divValue' + this.additionalTextToID);
+				liValue.textContent = targetObj[propertyName];
+			});
+		}
 	}
 
 	clearImpactInfo() {
-		const infofield = document.getElementById('infofield_id');
-		infofield.textContent = '';
+		const schemeProperties = Object.keys(this.infoScheme);
+		schemeProperties.forEach(propertyName => {
+			const liName = document.getElementById(propertyName + '_divName' + this.additionalTextToID);
+			liName.textContent = '';
+			const liValue = document.getElementById(propertyName + '_divValue' + this.additionalTextToID);
+			liValue.textContent = '';
+		});
 	}
 
 	nextTarget() {

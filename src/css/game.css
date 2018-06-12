@@ -190,6 +190,16 @@ input[type='text'] {
   background-image: url('../img/selectionWheel/backBtnHover.png');
 }
 
+.newInfoFieldList{
+  text-align: center;
+}
+.infoFieldName{
+  color:blue;
+  font-weight: bold;
+}
+.infoFieldValue{
+  color:black;
+}
 .selectionWheel-cast-info {
   position: absolute;
   left: 50%;
