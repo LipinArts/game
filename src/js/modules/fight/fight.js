@@ -1,5 +1,6 @@
 import KeyboardController from '../KeyboardController/KeyboardController';
-
+import fightConfig from '../../fightConfig';
+import _ from 'lodash';
 export default class Fight {
 	constructor(attacker, defender, generator) {
 		this.attacker = attacker;
@@ -12,7 +13,6 @@ export default class Fight {
 		this.activeUnitIndex = 0;
 		this.unitsAttackerCoordinates = [{ x: 200, y: 50 }, { x: 0, y: 360 }, { x: 400, y: 360 }];
 		this.unitsDefenderCoordinates = [{ x: 900, y: 50 }, { x: 700, y: 360 }, { x: 1100, y: 360 }];
-		this.backgroundSRC = 'src/img/fight/background.jpg';
 		this.generatorlvl = generator;
 		this.canvas = document.getElementById('canvas');
 		this.ctx = this.canvas.getContext('2d');
@@ -29,6 +29,7 @@ export default class Fight {
 	fightModulCycle() {
 		this.showLoadingScreen();
 		this.startGameLoop();
+		this.drawBackground();
 	}
 
 	showLoadingScreen() {
@@ -107,7 +108,6 @@ export default class Fight {
 
 	render() {
 		this.clearCanvas();
-		this.drawBackground();
 		this.drawSelectedUnitFlag();
 		this.drawActiveUnitFlag();
 		this.drawAttackerUnits();
@@ -119,10 +119,15 @@ export default class Fight {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 
+	generateBackground(){
+		const background = fightConfig.background_images[_.random(0, fightConfig.background_images.length-1)];
+		return background;
+	}
 	drawBackground() {
-		const img = new Image();
-		img.src = this.backgroundSRC;
-		this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
+		const gameBgContainer = document.querySelector('.game-bg-image');
+		const bg = this.generateBackground();
+		gameBgContainer.style.backgroundImage = `url("${bg}")`;
+		// this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
 	}
 
 	drawUnit(unit, posX, posY) {
