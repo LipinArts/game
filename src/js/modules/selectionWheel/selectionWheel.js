@@ -1,37 +1,41 @@
-import _ from 'lodash';
 export default class SelectionWheel {
-	constructor(obj) {
+	constructor(majorObj, bluredElem) {
 		this.buttons = [];
 		this.indexButton = -1;
+		this.bluredElem = bluredElem;
+		this.buttonQuantity;
+		this.parentOfModule = document.body;
 
 		return new Promise((resolve) => {
-			const newModal = this.createModal(obj);
-			const gameField = document.getElementById('game-container');
+			const newModal = this.createModal(majorObj);
+			const parent = this.parentOfModule;
 			const that = this;
 
 			function clickHandler(event) {
 				let target = event.target;
-				if (event.target.className === 'skillButt') {
-					gameField.removeEventListener('click', clickHandler, false);
-					gameField.removeEventListener('mouseover', mouseoverHandler, false);
-					gameField.removeEventListener('mouseout', mouseoutHandler, false);
-					gameField.removeEventListener('focus', onfocusHandler, true);
+				if (target.className.includes('skillButt') || target.className.includes('selectionWheel-back-btn')) {
+					parent.removeEventListener('click', clickHandler, false);
+					parent.removeEventListener('mouseover', mouseoverHandler, false);
+					parent.removeEventListener('mouseout', mouseoutHandler, false);
+					parent.removeEventListener('focus', onfocusHandler, true);
 					window.removeEventListener('keyup', keyup, false);
-					that.deleteModal(newModal);
+					that.closeModalWindow(newModal);
 					resolve(that.getAbility(target));
 				}
 			}
 
 			function mouseoverHandler(event) {
 				let target = event.target;
-				if (event.target.className === 'skillButt') {
+				if (target.className.includes('skillButt') || target.className.includes('selectionWheel-back-btn')) {
+					that.focus_that(target);
 					that.showImpactInfo(target);
 				}
 			}
 
 			function mouseoutHandler(event) {
-				if (event.target.className === 'skillButt') {
+				if (event.target.className.includes('skillButt') || event.target.className.includes('selectionWheel-back-btn')) {
 					that.clearImpactInfo();
+					that.unfocus_that(event.target);
 				}
 			}
 
@@ -44,47 +48,37 @@ export default class SelectionWheel {
 			function keyup(event) {
 				switch (keyMap[event.keyCode]) {
 				case 'right':
-					that.focus_next(document.getElementById('button_next_tip'));
+					that.focus_next();
 					break;
 				case 'left':
-					that.focus_prev(document.getElementById('button_prev_tip'));
+					that.focus_prev();
 					break;
 				case 'esc':
-					that.close_component();
+					that.closeModalWindow(newModal);
 					break;
 				}
 			}
 
 			function onfocusHandler(event) {
-				let target = event.target;
-				that.showImpactInfo(target);
+				that.showImpactInfo(event.target);
 			}
 
-			const modalCloseBtn = document.getElementById('selection-back-btn');
-			modalCloseBtn.addEventListener('click', () => {
-				gameField.classList.remove('blur');
-				that.deleteModal(newModal);
-			});
-
-			gameField.addEventListener('click', clickHandler, false);
-			gameField.addEventListener('mouseover', mouseoverHandler, false);
-			gameField.addEventListener('mouseout', mouseoutHandler, false);
-			gameField.addEventListener('focus', onfocusHandler, true);
+			parent.addEventListener('click', clickHandler, false);
+			parent.addEventListener('mouseover', mouseoverHandler, false);
+			parent.addEventListener('mouseout', mouseoutHandler, false);
+			parent.addEventListener('focus', onfocusHandler, true);
 			window.addEventListener('keyup', keyup, false);
 		});
 	}
 
-	createModal(obj) {
-		const impactsNameProperties = this.getAllImpactsCollection(obj);
-		const impacts = [];
-		impactsNameProperties.forEach(nameProperty => {
-			impacts.push(obj[nameProperty]);
-		});
+	createModal(majorObj) {
+		const impactsNameProperties = this.getAllImpactsNames(majorObj);
+		this.buttonQuantity = impactsNameProperties.length;
+		const impactsStringObj = this.getAllImpactsObj(impactsNameProperties, majorObj);
 
 		const buttonsContainer = document.createElement('div');
 		buttonsContainer.className = 'modal-overlay';
 		buttonsContainer.classList.add('buttonsContainer');
-		buttonsContainer.id = 'buttonsContainer_id';
 		const modalWrap = document.createElement('div');
 		modalWrap.className = 'selectionWheel-modal-wrap';
 		buttonsContainer.appendChild(modalWrap);
@@ -97,29 +91,12 @@ export default class SelectionWheel {
 		const img = document.createElement('img');
 		img.setAttribute('src', 'src/img/selectionWheel/wheel.png');
 		modalBg.appendChild(img);
-		const img1 = document.createElement('img');
-		img1.setAttribute('src', 'src/img/selectionWheel/rocket.png');
-		img1.className = 'selection-img';
-		modalBg.appendChild(img1);
+
 		const castsWrap = document.createElement('div');
 		castsWrap.className = 'selection-casts-wrap';
 		modalBg.appendChild(castsWrap);
 
-		const length = impactsNameProperties.length;
-		this.buttonQuantity = length;
-
-		for (let i = 0; i < length; i++) {
-			const newButton = document.createElement('button');
-			this.buttons.push(newButton);
-			const impact = JSON.stringify(impacts[i]);
-			newButton.setAttribute('impact', impact);
-			newButton.className = 'skillButt';
-			newButton.classList.add('selection-btn');
-			newButton.classList.add('selection-cast-icon');
-			const icon_path = JSON.parse(impact).icon_path;
-			newButton.style.backgroundImage = `url(${icon_path})`;
-			castsWrap.appendChild(newButton);
-		}
+		this.createButtons(castsWrap, impactsStringObj);
 
 		const infoField = document.createElement('div');
 		infoField.id = 'infofield_id';
@@ -127,19 +104,39 @@ export default class SelectionWheel {
 		const ul = document.createElement('ul');
 		infoField.appendChild(ul);
 
-
 		modalBg.appendChild(infoField);
-		const btn = document.createElement('button');
-		btn.className = 'selection-btn selectionWheel-back-btn';
-		btn.setAttribute('id', 'selection-back-btn');
-		btn.classList.add('selectionWheel-back-btn');
-		modalBg.appendChild(btn);
-
+		const backBtn = document.createElement('button');
+		backBtn.className = 'selection-btn selectionWheel-back-btn';
+		backBtn.classList.add('selectionWheel-back-btn');
+		this.buttons.push(backBtn);
+		this.buttonQuantity++;
+		modalBg.appendChild(backBtn);
 
 		document.body.appendChild(buttonsContainer);
-		document.getElementById('game-container').classList.add('blur');
+		this.bluredElem.classList.add('blur');
 		return buttonsContainer;
 	}
+
+	createButtons(parent, impactsStringObj) {
+		for (let i = 0; i < this.buttonQuantity; i++) {
+			const newButton = document.createElement('button');
+			this.buttons.push(newButton);
+			const impact = impactsStringObj[i];
+			newButton.setAttribute('impact', impact);
+			newButton.className = 'skillButt';
+			newButton.classList.add('selection-btn');
+			newButton.classList.add('selection-cast-icon');
+			const icon_path = JSON.parse(impact).icon_path;
+			newButton.style.backgroundImage = `url(${icon_path})`;
+			parent.appendChild(newButton);
+		}
+	}
+
+	closeModalWindow(element) {
+		this.bluredElem.classList.remove('blur');
+		this.deleteModal(element);
+	}
+
 
 	deleteModal(elem) {
 		elem.remove();
@@ -149,8 +146,16 @@ export default class SelectionWheel {
 		return target.getAttribute('impact');
 	}
 
-	getAllImpactsCollection(obj) {
-		return Object.keys(obj);
+	getAllImpactsNames(majorObj) {
+		return Object.keys(majorObj);
+	}
+
+	getAllImpactsObj(impactsNameProperties, majorObj) {
+		let impactsStringObj = [];
+		impactsNameProperties.forEach(nameProperty => {
+			impactsStringObj.push(JSON.stringify(majorObj[nameProperty]));
+		});
+		return impactsStringObj;
 	}
 
 	showImpactInfo(target) {
@@ -199,6 +204,11 @@ export default class SelectionWheel {
 
 	focus_that(element_id) {
 		element_id.focus();
+	}
+
+	unfocus_that(element_id) {
+		element_id.dispatchEvent(new Event('blur'));
+		element_id.blur();
 	}
 
 }

@@ -178,7 +178,7 @@ input[type='text'] {
   left: 50%;
   bottom: 8.3%;
   transform: translateX(-50%);
-  background-image: url('../img/selectionWheel/backBtnHover.png');
+  background-image: url('../img/selectionWheel/backBtn.png');
   width: 40.4%;
   height: 13.8%;
   background-size: cover;
@@ -186,8 +186,8 @@ input[type='text'] {
   transition: background-image 0.2s;
 }
 
-.selectionWheel-back-btn:hover {
-  background-image: url('../img/selectionWheel/backBtn.png');
+.selectionWheel-back-btn:focus {
+  background-image: url('../img/selectionWheel/backBtnHover.png');
 }
 
 .selectionWheel-cast-info {
@@ -232,7 +232,7 @@ input[type='text'] {
   border: 5px solid #000;
 }
 
-.selection-cast-icon:hover {
+.selection-cast-icon:focus {
   border-color: #f16102;
 }
 
