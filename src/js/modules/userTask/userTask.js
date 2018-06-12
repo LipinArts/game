@@ -18,6 +18,7 @@ export default class UserTask {
 			function clickHandler(e) {
 				if (e.target === submit) {
 					const answer = that.checkAnswer(that.taskObject);
+
 					if (answer !== undefined) {
 						resolve(answer);
 						document.querySelector('.modal-overlay').remove();
@@ -56,16 +57,16 @@ export default class UserTask {
 
 	generateTask() {
 		switch (this.type) {
-			case 'code':
-				return taskConfig.code[_.random(0, taskConfig.code.length - 1)];
-			case 'translate':
-				return taskConfig.translate[_.random(0, taskConfig.translate.length - 1)];
-			case 'sequence':
-				return taskConfig.sequence[_.random(0, taskConfig.sequence.length - 1)];
-			case 'audition':
-				return taskConfig.audition[_.random(0, taskConfig.audition.length - 1)];
-			default:
-				return taskConfig.code[_.random(0, taskConfig.code.length - 1)];
+		case 'code':
+			return taskConfig.code[_.random(0, taskConfig.code.length - 1)];
+		case 'translate':
+			return taskConfig.translate[_.random(0, taskConfig.translate.length - 1)];
+		case 'sequence':
+			return taskConfig.sequence[_.random(0, taskConfig.sequence.length - 1)];
+		case 'audition':
+			return taskConfig.audition[_.random(0, taskConfig.audition.length - 1)];
+		default:
+			return taskConfig.code[_.random(0, taskConfig.code.length - 1)];
 		}
 	}
 
@@ -283,70 +284,70 @@ export default class UserTask {
 
 	renderTask(task) {
 		switch (this.type) {
-			case 'code':
-				this.generateCodeTask(task);
-				break;
-			case 'translate':
-				this.generateTranslateTask(task);
-				break;
-			case 'sequence':
-				this.generateSequenceTask(task);
-				break;
-			case 'audition':
-				this.generateAuditionTask(task);
-				break;
+		case 'code':
+			this.generateCodeTask(task);
+			break;
+		case 'translate':
+			this.generateTranslateTask(task);
+			break;
+		case 'sequence':
+			this.generateSequenceTask(task);
+			break;
+		case 'audition':
+			this.generateAuditionTask(task);
+			break;
 		}
 	}
 
 	checkAnswer(task) {
 		let userAnswer;
 		switch (this.type) {
-			case 'code':
-				userAnswer = document.querySelector('input[name=answer]:checked');
-				if (userAnswer !== null) {
-					if (userAnswer.value === task[2]) {
-						return true;
-					} else {
-						return false;
-					}
-				}
-				break;
-			case 'translate':
-				userAnswer = document.querySelector('input[name=answer]');
-				if (userAnswer !== null) {
-					for (let i = 0; i < task[1].length - 1; i++) {
-						if (userAnswer.value.trim() === task[1][i]) {
-							return true;
-						}
-						return false;
-					}
-				}
-				break;
-			case 'sequence':
-				userAnswer = document.querySelectorAll('.task-modal-anwer-variants')[0];
-				let results = [];
-				let taskAnswer = [];
-				for (let i = 0; i < userAnswer.children.length; i++) {
-					results.push(userAnswer.children[i].innerText.trim());
-					taskAnswer.push(task[i].trim());
-				}
-				taskAnswer = taskAnswer.join('');
-				results = results.join('');
-				if (results === taskAnswer) {
+		case 'code':
+			userAnswer = document.querySelector('input[name=answer]:checked');
+			if (userAnswer !== null) {
+				if (userAnswer.value === task[2]) {
 					return true;
 				} else {
 					return false;
 				}
-			case 'audition':
-				userAnswer = document.querySelector('input[name=answer]');
-				if (userAnswer !== null) {
-					if (userAnswer.value.trim() === task[0]) {
+			}
+			break;
+		case 'translate':
+			userAnswer = document.querySelector('input[name=answer]');
+			if (userAnswer.value !== '') {
+				for (let i = 0; i < task[1].length - 1; i++) {
+					if (userAnswer.value.trim() === task[1][i]) {
 						return true;
-					} else {
-						return false;
 					}
+					return false;
 				}
-				break;
+			}
+			break;
+		case 'sequence':
+			userAnswer = document.querySelectorAll('.task-modal-anwer-variants')[0];
+			let results = [];
+			let taskAnswer = [];
+			for (let i = 0; i < userAnswer.children.length; i++) {
+				results.push(userAnswer.children[i].innerText.trim());
+				taskAnswer.push(task[i].trim());
+			}
+			taskAnswer = taskAnswer.join('');
+			results = results.join('');
+			if (results === taskAnswer) {
+				return true;
+			} else {
+				return false;
+			}
+		case 'audition':
+			userAnswer = document.querySelector('input[name=answer]');
+			if (userAnswer.value !== '') {
+				if (userAnswer.value.trim() === task[0]) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+			break;
 		}
 
 	}
