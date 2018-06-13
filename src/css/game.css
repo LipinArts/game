@@ -2,10 +2,61 @@
 @import url('bootstrap-reboot.css');
 @import url('bootstrap-grid.css');
 /* main styles */
-body {
-    font-size: 1em;
-    font-family: 'Bender', 'Geometria', sans-serif;
+
+@font-face {
+  font-family: 'Futurama';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../fonts/Futurama/font_fr-ambient.WOFF') format('woff'), url('../fonts/Futurama/font_fr-ambient.ttf') format('truetype');
 }
+
+@font-face {
+  font-family: 'Futurama-bold';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../fonts/Futurama/font_fr-bold.WOFF') format('woff'), url('../fonts/Futurama/font_fr-bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Butterbelly';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../fonts/Futurama/font_butterbelly.WOFF') format('woff'), url('../fonts/Futurama/font_butterbelly.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Bender';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../fonts/Bender/Bender.eot?#iefix') format('embedded-opentype'), url('../fonts/Bender/Bender.woff') format('woff'), url('../fonts/Bender/Bender.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Bender-bold';
+  font-style: normal;
+  font-weight: bold;
+  src: url('../fonts/Bender/Bender-bold.eot?#iefix') format('embedded-opentype'), url('../fonts/Bender/Bender-bold.woff') format('woff'), url('../fonts/Bender/Bender-bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Geometria';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../fonts/Geometria/Geometria-Medium.eot?#iefix') format('embedded-opentype'), url('../fonts/Geometria/Geometria-Medium.woff') format('woff'), url('../fonts/Geometria/Geometria-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Geometria-bold';
+  font-style: normal;
+  font-weight: bold;
+  src: url('../fonts/Geometria/Geometria-Bold.eot?#iefix') format('embedded-opentype'), url('../fonts/Geometria/Geometria-Bold.woff') format('woff'), url('../fonts/Geometria/Geometria-Bold.ttf') format('truetype');
+}
+
+body {
+  font-size: 1em;
+  font-family: 'Bender', 'Geometria', sans-serif;
+}
+
 h1 {
     color: red;
     text-align: center;
@@ -22,9 +73,44 @@ label, input[type='text'] {
 .blur {
     filter: blur(5px);
 }
+
+label,
+input[type='text'] {
+  min-width: 100%;
+}
+
+input {
+  border: 1px solid lightgrey;
+}
+
 .hide {
     display: none;
 }
+
+.blur {
+  -webkit-filter: blur(2px);
+  filter: blur(2px);
+}
+
+.game-container {
+  min-width: 100vw;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.btn {
+  display: block;
+  cursor: pointer;
+  height: 35px;
+  margin: 20px auto;
+}
+
+.modal-overlay {
+  position: fixed;
+  display: grid;
+  justify-content: center;
+  align-content: center;
 .h100 {
     height: 100%;
 }
@@ -42,6 +128,337 @@ label, input[type='text'] {
   bottom: 0;
   width: 100%;
   height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 998;
+}
+
+.task-modal {
+  display: grid;
+  min-width: 600px;
+  width: 100%;
+  min-height: 400px;
+  height: 100%;
+  -webkit-border-radius: 16px;
+  border-radius: 16px;
+  background-color: #fff;
+  -webkit-box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.13);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.13);
+  padding: 35px 45px 35px;
+  text-align: center;
+  color: #000;
+  z-index: 999;
+  position: relative;
+}
+
+.task-modal-title {
+  font-family: 'Bender-bold';
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.task-modal-question {
+  margin-top: 15px;
+  text-align-last: left;
+  background-color: #f5f2f0;
+  padding: 5px 10px;
+  user-select: none;
+}
+
+.task-modal-question pre {
+  font-family: 'Bender-bold';
+}
+
+.task-modal-answer {
+  margin-top: 15px;
+}
+
+.task-modal-answer-sequence {
+  background-color: #f5f2f0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.task-modal-answer-title {
+  font-family: 'Bender-bold';
+  font-size: 1.2rem;
+  letter-spacing: 0.5px;
+}
+
+.task-modal-anwer-variants {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0;
+  text-align: left;
+}
+
+.task-modal-anwer-variants li {
+  width: 100%;
+}
+
+.task-modal-anwer-variants input {
+  margin-right: 10px;
+}
+
+.task-modal-btn {
+  position: relative;
+  margin-top: 15px;
+  font-family: 'Futurama-bold';
+  justify-self: center;
+  letter-spacing: 1px;
+  background-color: #005485;
+  color: #5ae8ae;
+  text-transform: uppercase;
+  border: 3px solid #5ae8ae;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 150px;
+  height: 45px;
+  transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+.task-modal-btn:focus {
+  outline: none;
+}
+
+.task-modal-btn:hover {
+  color: #ff8839;
+  border-color: #ff8839;
+}
+
+.task-modal-btn:active {
+  top: 2px;
+  box-shadow: 0px 3px 10px #000;
+}
+
+/* popper.js styles */
+
+.link-anchor {
+  position: relative;
+  width: 0;
+  font-size: 0.8em;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.anchor-wrapper {
+  border: none;
+}
+
+.anchor-wrapper:hover .link-anchor {
+  opacity: 1;
+}
+
+section h1[id]:focus,
+section h2[id]:focus,
+section h3[id]:focus,
+section h4[id]:focus,
+section h5[id]:focus {
+  outline: 0;
+}
+
+p.thin {
+  font-weight: 100;
+  margin: 0;
+  line-height: 1.2em;
+}
+
+p.bold {
+  font-weight: 900;
+  margin: 0;
+  margin-top: -5px;
+}
+
+.rel {
+  width: 30%;
+  margin: 0 auto;
+  position: relative;
+  text-align: center;
+  padding: 20px;
+  border-style: dotted;
+  border-color: white;
+  border-width: medium;
+}
+
+.popper,
+.tooltip {
+  position: absolute;
+  background: #ffc107;
+  color: black;
+  width: 150px;
+  border-radius: 3px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  text-align: center;
+}
+
+.style5 .tooltip {
+  background: #1e252b;
+  color: #ffffff;
+  max-width: 200px;
+  width: auto;
+  font-size: 0.8rem;
+  padding: 0.5em 1em;
+}
+
+.popper .popper__arrow,
+.tooltip .tooltip-arrow {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  position: absolute;
+  margin: 5px;
+}
+
+.tooltip .tooltip-arrow,
+.popper .popper__arrow {
+  border-color: #ffc107;
+}
+
+.style5 .tooltip .tooltip-arrow {
+  border-color: #1e252b;
+}
+
+.popper[x-placement^='top'],
+.tooltip[x-placement^='top'] {
+  margin-bottom: 5px;
+}
+
+.popper[x-placement^='top'] .popper__arrow,
+.tooltip[x-placement^='top'] .tooltip-arrow {
+  border-width: 5px 5px 0 5px;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  bottom: -5px;
+  left: calc(50% - 5px);
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.popper[x-placement^='bottom'],
+.tooltip[x-placement^='bottom'] {
+  margin-top: 5px;
+}
+
+.tooltip[x-placement^='bottom'] .tooltip-arrow,
+.popper[x-placement^='bottom'] .popper__arrow {
+  border-width: 0 5px 5px 5px;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-top-color: transparent;
+  top: -5px;
+  left: calc(50% - 5px);
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.tooltip[x-placement^='right'],
+.popper[x-placement^='right'] {
+  margin-left: 5px;
+}
+
+.popper[x-placement^='right'] .popper__arrow,
+.tooltip[x-placement^='right'] .tooltip-arrow {
+  border-width: 5px 5px 5px 0;
+  border-left-color: transparent;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  left: -5px;
+  top: calc(50% - 5px);
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.popper[x-placement^='left'],
+.tooltip[x-placement^='left'] {
+  margin-right: 5px;
+}
+
+.popper[x-placement^='left'] .popper__arrow,
+.tooltip[x-placement^='left'] .tooltip-arrow {
+  border-width: 5px 0 5px 5px;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  right: -5px;
+  top: calc(50% - 5px);
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/*==========  Always at the end  ===============*/
+
+/*==========  Responsive breakpoints  ==========*/
+
+/*==========  Desktop First  ===================*/
+
+/* Large Devices, Wide Screens */
+
+@media only screen and (max-width: 1200px) {}
+
+/**/
+
+/* Medium Devices, Desktops */
+
+@media only screen and (max-width: 992px) {}
+
+/**/
+
+/* Small Devices, Tablets */
+
+@media only screen and (max-width: 768px) {
+  .task-modal {
+    min-width: 100%;
+    min-height: 100%;
+  }
+}
+
+/**/
+
+/* Extra Small Devices, Phones */
+
+@media only screen and (max-width: 480px) {}
+
+/**/
+
+/* Custom, iPhone Retina */
+
+@media only screen and (max-width: 320px) {}
+
+/**/
+
+/*==========  Mobile First  ==========*/
+
+/* Custom, iPhone Retina */
+
+@media only screen and (min-width: 320px) {}
+
+/**/
+
+/* Extra Small Devices, Phones */
+
+@media only screen and (min-width: 480px) {}
+
+/**/
+
+/* Small Devices, Tablets */
+
+@media only screen and (min-width: 768px) {}
+
+/**/
+
+/* Medium Devices, Desktops */
+
+@media only screen and (min-width: 992px) {}
+
+/**/
+
+/* Large Devices, Wide Screens */
+
+@media only screen and (min-width: 1200px) {}
+
+/**/
   background-repeat: no-repeat;
   background-position: 50% 50%;
   background-size: cover;
