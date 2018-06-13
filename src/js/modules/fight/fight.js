@@ -1,8 +1,10 @@
 import KeyboardController from '../KeyboardController/KeyboardController';
+import SelectionWheel from '../SelectionWheel/SelectionWheel';
 import fightConfig from '../../fightConfig';
 import _ from 'lodash';
+
 export default class Fight {
-	constructor(attacker, defender, generator) {
+	constructor(attacker, defender) {
 		this.attacker = attacker;
 		this.defender = defender;
 		this.round = 0;
@@ -13,27 +15,35 @@ export default class Fight {
 		this.activeUnitIndex = 0;
 		this.unitsAttackerCoordinates = [{ x: 200, y: 50 }, { x: 0, y: 360 }, { x: 400, y: 360 }];
 		this.unitsDefenderCoordinates = [{ x: 900, y: 50 }, { x: 700, y: 360 }, { x: 1100, y: 360 }];
-		this.generatorlvl = generator;
 		this.canvas = document.getElementById('canvas');
 		this.ctx = this.canvas.getContext('2d');
-		this.gameLoopRunning = false;
+		this.frameLoopRunning = false;
+		this.resolvePromiseFunc;
 
-		this.fightModulCycle();
-
-		return {
-			'attacker': this.attacker,
-			'defender': this.defender
-		};
+		return new Promise(resolve => {
+			this.resolvePromiseFunc = resolve;
+			this.fightModulCycle();
+		});
 	}
 
 	fightModulCycle() {
 		this.showLoadingScreen();
+		this.showCanvasAfterLoading();
+		this.hideLoadingScreen();
 		this.startGameLoop();
-		this.drawBackground();
+		this.setBackground();
+	}
+
+	showCanvasAfterLoading() {
+		this.canvas.classList.remove('hide');
 	}
 
 	showLoadingScreen() {
-		//console.log('loading screen');
+		//console.log('show loading screen');
+	}
+
+	hideLoadingScreen() {
+		//console.log('hide loading screen');
 	}
 
 	startGameLoop() {
@@ -48,7 +58,7 @@ export default class Fight {
 		}
 
 		function frame() {
-			if (that.gameLoopRunning) {
+			if (that.frameLoopRunning) {
 				now = timestamp();
 
 				dt = dt + Math.min(1, (now - last) / 1000);
@@ -62,20 +72,24 @@ export default class Fight {
 			}
 		}
 
-		this.gameLoopRunning = true;
+		this.frameLoopRunning = true;
 		requestAnimationFrame(frame);
 	}
 
 	update() {
-		if (this.isFightNotOver()) {
-			this.updateSelecting();
-			this.updateImpact();
-		}
-		else {
-			this.gameLoopRunning = false;
-			// if (this.isGroupAlive(this.attacker)) {
-			this.generatorlvl.next();
-			// }
+		if (this.frameLoopRunning) {
+			if (this.isFightNotOver()) {
+				this.updateSelecting();
+				this.updateImpact();
+			}
+			else {
+				this.frameLoopRunning = false;
+				const that = this;
+				this.resolvePromiseFunc({
+					'attacker': that.attacker,
+					'defender': that.defender
+				});
+			}
 		}
 	}
 
@@ -93,10 +107,16 @@ export default class Fight {
 
 	}
 
-	updateImpact() {
+	async updateImpact() {
 		if (KeyboardController.pressedKeys.impact) {
-			this.impact(this.activeUnit, this.selectedUnit);
-			KeyboardController.pressedKeys.impact = false;
+			this.pauseGame();
+			const infoOutputScheme = { damage: 'Damage/heal', status: 'Add status', target: 'Target', duration: 'Duration', lvl: 'Difficulty' };
+			const backgroundImageWheel = 'src/img/selectionWheel/wheel.png';
+			let selectedImpactString = await new SelectionWheel(this.activeUnit.abilities, this.canvas, infoOutputScheme, document.body, backgroundImageWheel, 'impactsSW');
+			const selectedImpact = JSON.parse(selectedImpactString);
+			this.unpauseGame();
+			this.resetKeyboardControl();
+			this.impact(this.selectedUnit, selectedImpact);
 			this.activeUnit = this.nextActiveUnit();
 			let counter = 0;
 			while (!this.isUnitAlive(this.activeUnit) && counter < this.attacker.length + this.defender.length) {
@@ -104,6 +124,23 @@ export default class Fight {
 				this.activeUnit = this.nextActiveUnit();
 			}
 		}
+	}
+
+	resetKeyboardControl() {
+		KeyboardController.pressedKeys.impact = false;
+		KeyboardController.pressedKeys.nextTarget = false;
+		KeyboardController.pressedKeys.prevTarget = false;
+	}
+
+	pauseGame() {
+		console.log('paused');
+		this.frameLoopRunning = false;
+	}
+
+	unpauseGame() {
+		console.log('unpaused');
+		this.frameLoopRunning = true;
+		this.startGameLoop();
 	}
 
 	render() {
@@ -119,15 +156,15 @@ export default class Fight {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 	}
 
-	generateBackground(){
-		const background = fightConfig.background_images[_.random(0, fightConfig.background_images.length-1)];
+	generateBackground() {
+		const background = fightConfig.background_images[_.random(0, fightConfig.background_images.length - 1)];
 		return background;
 	}
-	drawBackground() {
+
+	setBackground() {
 		const gameBgContainer = document.querySelector('.game-bg-image');
 		const bg = this.generateBackground();
 		gameBgContainer.style.backgroundImage = `url("${bg}")`;
-		// this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
 	}
 
 	drawUnit(unit, posX, posY) {
@@ -197,10 +234,9 @@ export default class Fight {
 		const ySelected = coordSelected.y;
 
 		this.ctx.save();
-
-
 		const widthBar = 200;
 		const heightBar = 50;
+
 		// this.ctx.fillStyle = 'white';
 		// this.ctx.fillRect(xActive, yActive - heightBar, widthBar, heightBar);
 		// if (activeUnit !== selectedUnit) {
@@ -234,8 +270,9 @@ export default class Fight {
 		return unit.hp > 0;
 	}
 
-	impact(atackerUnit, target) {
-		target.hp = target.hp - 60;
+	impact(target, impact) {
+		console.log(impact);
+		target.hp = target.hp - impact.damage;
 	}
 
 	nextTarget() {
