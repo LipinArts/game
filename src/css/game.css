@@ -54,6 +54,7 @@
 }
 
 body {
+  position: relative;
   font-size: 1em;
   font-family: 'Bender', 'Geometria', sans-serif;
 }
@@ -124,13 +125,6 @@ input {
   margin: 20px auto;
 }
 
-.modal-overlay {
-  position: fixed;
-  display: grid;
-  justify-content: center;
-  align-content: center;
-}
-
 .h100 {
   height: 100%;
 }
@@ -150,6 +144,21 @@ input {
   filter: blur(3px);
 }
 
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  z-index: 998;
+}
+
 .task-modal {
   display: grid;
   min-width: 600px;
@@ -164,7 +173,6 @@ input {
   padding: 35px 45px 35px;
   text-align: center;
   color: #000;
-  z-index: 999;
   position: relative;
 }
 
@@ -433,8 +441,8 @@ input {
   bottom: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.2);
-  z-index: 998;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
 }
 
 .gameMenuSW .selectionWheel-modal-wrap {

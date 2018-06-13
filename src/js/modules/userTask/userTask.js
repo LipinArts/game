@@ -119,7 +119,7 @@ export default class UserTask {
 		button.setAttribute('type', 'submit');
 		button.textContent = 'sumbit';
 		taskModal.appendChild(button);
-		document.body.appendChild(modalOverlay);
+		document.getElementById('game-container').appendChild(modalOverlay);
 	}
 
 	generateTranslateTask(task) {
@@ -165,7 +165,7 @@ export default class UserTask {
 		button.setAttribute('type', 'submit');
 		button.textContent = 'sumbit';
 		taskModal.appendChild(button);
-		document.body.appendChild(modalOverlay);
+		document.getElementById('game-container').appendChild(modalOverlay);
 	}
 
 	generateSequenceTask(task) {
@@ -213,7 +213,7 @@ export default class UserTask {
 		button.setAttribute('type', 'submit');
 		button.textContent = 'sumbit';
 		taskModal.appendChild(button);
-		document.body.appendChild(modalOverlay);
+		document.getElementById('game-container').appendChild(modalOverlay);
 		$('.task-modal-anwer-variants').sortable();
 	}
 
@@ -279,7 +279,7 @@ export default class UserTask {
 		button.setAttribute('type', 'submit');
 		button.textContent = 'sumbit';
 		taskModal.appendChild(button);
-		document.body.appendChild(modalOverlay);
+		document.getElementById('game-container').appendChild(modalOverlay);
 	}
 
 	renderTask(task) {
@@ -316,7 +316,7 @@ export default class UserTask {
 			userAnswer = document.querySelector('input[name=answer]');
 			if (userAnswer.value !== '') {
 				for (let i = 0; i < task[1].length - 1; i++) {
-					if (userAnswer.value.trim() === task[1][i]) {
+					if (userAnswer.value.trim().toLowerCase() === task[1][i]) {
 						return true;
 					}
 					return false;
@@ -341,7 +341,7 @@ export default class UserTask {
 		case 'audition':
 			userAnswer = document.querySelector('input[name=answer]');
 			if (userAnswer.value !== '') {
-				if (userAnswer.value.trim() === task[0]) {
+				if (userAnswer.value.trim().toLowerCase() === task[0]) {
 					return true;
 				} else {
 					return false;
