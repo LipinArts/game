@@ -27,11 +27,10 @@ export default class Utils {
 		localStorage.setItem(localStorageName, JSON.stringify(userDataObj));
 	}
 
-	static setLastUserDataFromStorageToInput(inputId, localStorageName, propertyName) {
+	static getLastUserDataFromStorage(localStorageName, propertyName) {
 		if (localStorage.getItem(localStorageName)) {
 			const lastUserData = JSON.parse(localStorage.getItem(localStorageName));
-			const input = document.getElementById(inputId);
-			input.value = lastUserData[propertyName];
+			return lastUserData[propertyName];
 		}
 	}
 

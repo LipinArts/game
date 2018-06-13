@@ -80,13 +80,15 @@ export default class Fight {
 	}
 
 	update() {
-		if (this.isFightNotOver() || this.frameLoopRunning) {
-			this.updateSelecting();
-			this.updateImpact();
-		}
-		else {
-			this.frameLoopRunning = false;
-			this.generatorlvl.next();
+		if (this.frameLoopRunning) {
+			if (this.isFightNotOver()) {
+				this.updateSelecting();
+				this.updateImpact();
+			}
+			else {
+				this.frameLoopRunning = false;
+				this.generatorlvl.next();
+			}
 		}
 	}
 
