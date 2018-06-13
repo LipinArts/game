@@ -1,4 +1,6 @@
 import GameManager from '../gameManager/gameManager';
+import KeyboardController from '../KeyboardController/KeyboardController';
+import Utils from '../utils/utils';
 
 export default class GameInterface {
 	constructor() {
@@ -6,8 +8,10 @@ export default class GameInterface {
 	}
 
 	pressStartNewGameButton() {
+		const userData = Utils.getUserDataFromInput('input_nickname_id', 'nickname');
+		Utils.saveDataObjToStorage(userData, 'lastLoginUserData');
 		this.hideGameMenu();
-		this.gameManager = new GameManager();
+		this.gameManager = new GameManager(userData);
 		this.gameManager.startGameCycle();
 	}
 
@@ -21,15 +25,7 @@ export default class GameInterface {
 
 	initKeyboardControlInput() {
 		const that = this;
-		let keyMap = {
-			39: 'nextTarget',    // ->
-			37: 'prevTarget',    // <-
-			32: 'impact',        // space
-			56: 'decreaseVol',   // 8
-			57: 'increaseVol',   // 9
-			48: 'music_Off_On',  // 0
-			27: 'showGameMenu'   // esc
-		};
+		let keyMap = KeyboardController.keyMap;
 
 		function keydownHandler(event) {
 			switch (keyMap[event.keyCode]) {
@@ -38,11 +34,6 @@ export default class GameInterface {
 				break;
 			case 'increaseVol':
 				// Sound_Module.increaseMusicVol(that.musicPlaylist, 0.05);
-				break;
-			default:
-				if (that.gameManager && keyMap[event.keyCode]) {
-					that.gameManager.keydown(keyMap[event.keyCode]);
-				}
 				break;
 			}
 		}
@@ -55,10 +46,14 @@ export default class GameInterface {
 			case 'showGameMenu':
 				that.showGameMenu();
 				break;
-			default:
-				if (that.gameManager && keyMap[event.keyCode]) {
-					that.gameManager.keyup(keyMap[event.keyCode]);
-				}
+			case 'nextTarget':
+				KeyboardController.pressedKeys.nextTarget = true;
+				break;
+			case 'prevTarget':
+				KeyboardController.pressedKeys.prevTarget = true;
+				break;
+			case 'impact':
+				KeyboardController.pressedKeys.impact = true;
 				break;
 			}
 		}

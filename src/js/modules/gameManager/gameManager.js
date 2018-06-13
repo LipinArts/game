@@ -1,36 +1,46 @@
 import Fight from '../fight/fight';
 import FightUnit from '../fightUnit/fightUnit';
+import Scoreboard from '../scoreboard/scoreboard';
 
 export default class GameManager {
-	constructor() {
+	constructor(userData) {
 		this.monsterGroupsCounter = 0;
+		this.fight;
+		this.userData = userData;
 	}
 
 	startGameCycle() {
-		let diffucult = 1;
-		let player = this.generateGroupOfUnits('player', diffucult);
-		while (this.isGroupAlive(player)) {
-			let monster = this.generateGroupOfUnits('monster' + this.monsterGroupsCounter, diffucult);
-			diffucult = diffucult * 1.5;
-			this.monsterGroupsCounter++;
-			let survivingUnits = new Fight(player, monster);
-			player = survivingUnits.attacker;
+		this.lvlGenerator();
+	}
 
-			if (this.monsterGroupsCounter > 10000) {
-				throw new Error('emergency exit from GameManager lvlCycle');
+	lvlGenerator() {
+		const that = this;
+		let generator = gen();
+		function* gen() {
+			let diffucult = 1;
+			let player = that.generateGroupOfUnits('player', diffucult);
+			function createLvll() {
+				that.fight = null;
+				let monster = that.generateGroupOfUnits('monster' + that.monsterGroupsCounter, diffucult);
+				diffucult = diffucult * 1.5;
+				that.monsterGroupsCounter++;
+				that.fight = new Fight(player, monster, generator);
+				player = that.fight.attacker;
+
+				if (that.monsterGroupsCounter > 1000) {
+					throw new Error('emergency exit from GameManager lvlCycle');
+				}
+
 			}
+			while (that.isGroupAlive(player)) {
+				yield createLvll();
+			}
+			const currentScore = that.calcScore();
+			that.showScore(currentScore);
 		}
-		const score = this.calcScore();
-		this.showScore(score);
+		generator.next();
 	}
 
-	keydown(action) {
-		console.log('GameManager: player keydown key ' + action);
-	}
-
-	keyup(action) {
-		console.log('GameManager: player keyup key ' + action);
-	}
 
 	generateGroupOfUnits(typeGroup, diffucult) {
 		const unitGroup = [];
@@ -49,8 +59,9 @@ export default class GameManager {
 		return this.monsterGroupsCounter * 10;
 	}
 
-	showScore() {
-		console.log('open modal score window');
+	showScore(score) {
+		Scoreboard.chkAndUpdateTop10LocalStorageRecords('top10score', score * 1, this.userData);
+		Scoreboard.createTableOfRecordsFromLocalStore('top10score');
 	}
 
 }

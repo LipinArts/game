@@ -100,6 +100,17 @@ input {
   display: grid;
   justify-content: center;
   align-content: center;
+.h100 {
+  height: 100%;
+}
+.game-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99;
+}
+.game-bg-image{
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -437,3 +448,28 @@ p.bold {
 @media only screen and (min-width: 1200px) {}
 
 /**/
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: cover;
+  filter: blur(3px);
+  z-index: -1;
+}
+.wrapper {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+.canvas-wrap {
+  align-self: center;
+  justify-self: center;
+  width: 1280px;
+  height: auto;
+  margin: 0 auto;
+}
+.canvas {
+  width: 100%;
+  height: auto;
+}
