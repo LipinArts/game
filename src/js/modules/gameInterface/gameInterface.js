@@ -8,11 +8,17 @@ export default class GameInterface {
 		this.userData = 'undef';
 		this.keyboardEnabled = true;
 		this.initialization();
+		this.gameStarted = false;
 	}
 
 	pressStartNewGameButton() {
-		Utils.saveDataObjToStorage(this.userData, 'lastLoginUserData');
-		new GameManager(this.userData);
+		if (this.gameStarted) {
+			document.location.href = '/game.html';
+		} else {
+			this.gameStarted = true;
+			Utils.saveDataObjToStorage(this.userData, 'lastLoginUserData');
+			new GameManager(this.userData);
+		}
 	}
 
 	async loginUser() {
