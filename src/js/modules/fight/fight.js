@@ -1,5 +1,7 @@
 import KeyboardController from '../KeyboardController/KeyboardController';
 import SelectionWheel from '../SelectionWheel/SelectionWheel';
+import fightConfig from '../../fightConfig';
+import _ from 'lodash';
 
 export default class Fight {
 	constructor(attacker, defender, generatorlvl) {
@@ -13,7 +15,6 @@ export default class Fight {
 		this.activeUnitIndex = 0;
 		this.unitsAttackerCoordinates = [{ x: 200, y: 50 }, { x: 0, y: 360 }, { x: 400, y: 360 }];
 		this.unitsDefenderCoordinates = [{ x: 900, y: 50 }, { x: 700, y: 360 }, { x: 1100, y: 360 }];
-		this.backgroundSRC = 'src/img/fight/background.jpg';
 		this.generatorlvl = generatorlvl;
 		this.canvas = document.getElementById('canvas');
 		this.ctx = this.canvas.getContext('2d');
@@ -28,10 +29,12 @@ export default class Fight {
 	}
 
 	fightModulCycle() {
+		console.log('fightModulCycle');
 		this.showLoadingScreen();
 		this.showCanvasAfterLoading();
 		this.hideLoadingScreen();
 		this.startGameLoop();
+		this.setBackground();
 	}
 
 	showCanvasAfterLoading() {
@@ -77,7 +80,7 @@ export default class Fight {
 	}
 
 	update() {
-		if (this.isFightNotOver() && this.frameLoopRunning) {
+		if (this.isFightNotOver() || this.frameLoopRunning) {
 			this.updateSelecting();
 			this.updateImpact();
 		}
@@ -104,7 +107,7 @@ export default class Fight {
 	async updateImpact() {
 		if (KeyboardController.pressedKeys.impact) {
 			this.pauseGame();
-			const infoOutputScheme = { damage: 'Damage/Heal', status: 'Status', target: 'Targeting', duration: 'Duration', lvl: 'Difficult' };
+			const infoOutputScheme = { damage: 'Damage/heal', status: 'Add status', target: 'Target', duration: 'Duration', lvl: 'Difficulty' };
 			let selectedImpactString = await new SelectionWheel(this.activeUnit.abilities, this.canvas, infoOutputScheme, );
 			const selectedImpact = JSON.parse(selectedImpactString);
 			this.unpauseGame();
@@ -147,6 +150,16 @@ export default class Fight {
 
 	clearCanvas() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	}
+
+	generateBackground() {
+		const background = fightConfig.background_images[_.random(0, fightConfig.background_images.length - 1)];
+		return background;
+	}
+	setBackground() {
+		const gameBgContainer = document.querySelector('.game-bg-image');
+		const bg = this.generateBackground();
+		gameBgContainer.style.backgroundImage = `url("${bg}")`;
 	}
 
 	drawUnit(unit, posX, posY) {
