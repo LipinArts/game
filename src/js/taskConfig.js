@@ -22,5 +22,17 @@ export default {
 		['feature'],
 		['insertion'],
 		['issue']
+	],
+	speech: [
+		['rehersal'],
+		['announcement'],
+		['advertising'],
+		['inheritance'],
+		['immediately'],
+		['assignment'],
+		['established'],
+		['penetrate'],
+		['regadless'],
+		['throughout']
 	]
 };
