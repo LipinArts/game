@@ -6,6 +6,7 @@ import SelectionWheel from '../SelectionWheel/SelectionWheel';
 export default class GameInterface {
 	constructor() {
 		this.userData = 'undef';
+		this.keyboardEnabled = true;
 		this.initialization();
 	}
 
@@ -68,8 +69,8 @@ export default class GameInterface {
 		};
 		const backgroundImageWheel = 'src/img/selectionWheel/gameMenu.png';
 		const resultSelect = await new SelectionWheel(menuObj, document.getElementById('game-container'), infoOutputScheme, document.body, backgroundImageWheel, 'gameMenuSW');
-		if (resultSelect == undefined) {
-			location.href = '/index.html';
+		if (!resultSelect) {
+			this.keyboardEnabled = true;
 		} else {
 			switch (JSON.parse(resultSelect).nameButton) {
 			case 'startNewGame':
@@ -94,6 +95,7 @@ export default class GameInterface {
 
 	initKeyboardControlInput() {
 		let keyMap = KeyboardController.keyMap;
+		const that = this;
 
 		function keydownHandler(event) {
 			switch (keyMap[event.keyCode]) {
@@ -112,16 +114,28 @@ export default class GameInterface {
 				// Sound_Module.musicPause_Unpause(that.musicPlaylist);
 				break;
 			case 'showGameMenu':
-				//that.showGameMenu();
+				if (!document.getElementById('gameMenuSW')) {
+					that.createMenu();
+					that.keyboardEnabled = false;
+				} else {
+					that.keyboardEnabled = true;
+				}
 				break;
 			case 'nextTarget':
-				KeyboardController.pressedKeys.nextTarget = true;
+				if (that.keyboardEnabled) {
+					KeyboardController.pressedKeys.nextTarget = true;
+				}
+
 				break;
 			case 'prevTarget':
-				KeyboardController.pressedKeys.prevTarget = true;
+				if (that.keyboardEnabled) {
+					KeyboardController.pressedKeys.prevTarget = true;
+				}
 				break;
 			case 'impact':
-				KeyboardController.pressedKeys.impact = true;
+				if (that.keyboardEnabled) {
+					KeyboardController.pressedKeys.impact = true;
+				}
 				break;
 			}
 		}

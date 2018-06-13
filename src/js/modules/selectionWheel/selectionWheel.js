@@ -163,7 +163,13 @@ export default class SelectionWheel {
 				that.focus_prev();
 				break;
 			case 'esc':
+				parent.removeEventListener('click', clickHandler, false);
+				parent.removeEventListener('mouseover', mouseoverHandler, false);
+				parent.removeEventListener('mouseout', mouseoutHandler, false);
+				parent.removeEventListener('focus', onfocusHandler, true);
+				window.removeEventListener('keyup', keyup, false);
 				that.closeModalWindow(newModal);
+				resolvePromiseFunc();
 				break;
 			}
 		}

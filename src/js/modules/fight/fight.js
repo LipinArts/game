@@ -113,16 +113,20 @@ export default class Fight {
 			const infoOutputScheme = { damage: 'Damage/heal', status: 'Add status', target: 'Target', duration: 'Duration', lvl: 'Difficulty' };
 			const backgroundImageWheel = 'src/img/selectionWheel/wheel.png';
 			let selectedImpactString = await new SelectionWheel(this.activeUnit.abilities, this.canvas, infoOutputScheme, document.body, backgroundImageWheel, 'impactsSW');
-			const selectedImpact = JSON.parse(selectedImpactString);
+			let selectedImpact;
+			if (selectedImpactString) {
+				selectedImpact = JSON.parse(selectedImpactString);
+				this.impact(this.selectedUnit, selectedImpact);
+				this.activeUnit = this.nextActiveUnit();
+				let counter = 0;
+				while (!this.isUnitAlive(this.activeUnit) && counter < this.attacker.length + this.defender.length) {
+					counter++;
+					this.activeUnit = this.nextActiveUnit();
+				}
+
+			}
 			this.unpauseGame();
 			this.resetKeyboardControl();
-			this.impact(this.selectedUnit, selectedImpact);
-			this.activeUnit = this.nextActiveUnit();
-			let counter = 0;
-			while (!this.isUnitAlive(this.activeUnit) && counter < this.attacker.length + this.defender.length) {
-				counter++;
-				this.activeUnit = this.nextActiveUnit();
-			}
 		}
 	}
 
@@ -133,12 +137,10 @@ export default class Fight {
 	}
 
 	pauseGame() {
-		console.log('paused');
 		this.frameLoopRunning = false;
 	}
 
 	unpauseGame() {
-		console.log('unpaused');
 		this.frameLoopRunning = true;
 		this.startGameLoop();
 	}
@@ -234,7 +236,7 @@ export default class Fight {
 		const ySelected = coordSelected.y;
 
 		this.ctx.save();
-		const widthBar = 200;
+		//const widthBar = 200;
 		const heightBar = 50;
 
 		// this.ctx.fillStyle = 'white';
@@ -271,7 +273,6 @@ export default class Fight {
 	}
 
 	impact(target, impact) {
-		console.log(impact);
 		target.hp = target.hp - impact.damage;
 	}
 
