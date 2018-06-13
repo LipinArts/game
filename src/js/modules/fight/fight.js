@@ -1,5 +1,6 @@
 import KeyboardController from '../KeyboardController/KeyboardController';
 import SelectionWheel from '../SelectionWheel/SelectionWheel';
+import UserTask from '../userTask/userTask';
 import fightConfig from '../../fightConfig';
 import _ from 'lodash';
 
@@ -116,14 +117,21 @@ export default class Fight {
 			let selectedImpact;
 			if (selectedImpactString) {
 				selectedImpact = JSON.parse(selectedImpactString);
-				this.impact(this.selectedUnit, selectedImpact);
+				let resultUserTask = await new UserTask(selectedImpact.lvl);
+				if (resultUserTask) {
+					console.log(selectedImpact);
+					this.impact(this.selectedUnit, selectedImpact);
+				}
+				else {
+					console.log('fail');
+					//play fail sound and animation
+				}
 				this.activeUnit = this.nextActiveUnit();
 				let counter = 0;
 				while (!this.isUnitAlive(this.activeUnit) && counter < this.attacker.length + this.defender.length) {
 					counter++;
 					this.activeUnit = this.nextActiveUnit();
 				}
-
 			}
 			this.unpauseGame();
 			this.resetKeyboardControl();

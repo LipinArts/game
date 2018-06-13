@@ -6,8 +6,8 @@ import taskConfig from '../../taskConfig';
 /*eslint no-case-declarations: 0*/
 
 export default class UserTask {
-	constructor(type) {
-		this.type = this.checkTaskType(type);
+	constructor(lvl) {
+		this.type = this.checkTaskType(lvl);
 		this.generate();
 		this.taskObject;
 		return new Promise((resolve, reject) => {
@@ -41,11 +41,19 @@ export default class UserTask {
 			modal.addEventListener('keyup', keyupHandler);
 		});
 	}
-	checkTaskType(type) {
-		if (typeof type === 'string' && type === 'code' || type === 'translate' || type === 'sequence' || type === 'audition') {
-			return type;
-		} else {
+
+	checkTaskType(lvl) {
+		switch (true) {
+		case (lvl >= 0 && lvl < 4):
 			return 'code';
+		case (lvl >= 4 && lvl < 10):
+			return 'translate';
+		case (lvl >= 10 && lvl < 13):
+			return 'sequence';
+		case (lvl >= 13 && lvl < 16):
+			return 'audition';
+		default:
+			return 'random';
 		}
 	}
 
