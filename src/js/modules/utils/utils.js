@@ -6,6 +6,16 @@ export default class Utils {
 		return img;
 	}
 
+	static minMaxValid(value, min, max) {
+		if (value > max) {
+			value = max;
+		}
+		if (value < min) {
+			value = min;
+		}
+		return value;
+	}
+
 	static getUserDataFromInput(inputId, propertyName) {
 		const input = document.getElementById(inputId);
 		let userDataObj = {};
@@ -17,11 +27,10 @@ export default class Utils {
 		localStorage.setItem(localStorageName, JSON.stringify(userDataObj));
 	}
 
-	static setLastUserDataFromStorageToInput(inputId, localStorageName, propertyName) {
+	static getLastUserDataFromStorage(localStorageName, propertyName) {
 		if (localStorage.getItem(localStorageName)) {
 			const lastUserData = JSON.parse(localStorage.getItem(localStorageName));
-			const input = document.getElementById(inputId);
-			input.value = lastUserData[propertyName];
+			return lastUserData[propertyName];
 		}
 	}
 

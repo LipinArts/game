@@ -5,40 +5,27 @@ import Scoreboard from '../scoreboard/scoreboard';
 export default class GameManager {
 	constructor(userData) {
 		this.monsterGroupsCounter = 0;
-		this.fight;
 		this.userData = userData;
-	}
-
-	startGameCycle() {
 		this.lvlGenerator();
 	}
 
-	lvlGenerator() {
-		const that = this;
-		let generator = gen();
-		function* gen() {
-			let diffucult = 1;
-			let player = that.generateGroupOfUnits('player', diffucult);
-			function createLvll() {
-				that.fight = null;
-				let monster = that.generateGroupOfUnits('monster' + that.monsterGroupsCounter, diffucult);
-				diffucult = diffucult * 1.5;
-				that.monsterGroupsCounter++;
-				that.fight = new Fight(player, monster, generator);
-				player = that.fight.attacker;
+	async lvlGenerator() {
+		let diffucult = 1;
+		let player = this.generateGroupOfUnits('player', diffucult);
 
-				if (that.monsterGroupsCounter > 1000) {
-					throw new Error('emergency exit from GameManager lvlCycle');
-				}
-
+		while (this.isGroupAlive(player)) {
+			let monster = this.generateGroupOfUnits('monster' + this.monsterGroupsCounter, diffucult);
+			diffucult = diffucult * 1.5;
+			this.monsterGroupsCounter++;
+			let fight = await new Fight(player, monster);
+			player = fight.attacker;
+			if (this.monsterGroupsCounter > 1000) {
+				throw new Error('emergency exit from GameManager lvlCycle');
 			}
-			while (that.isGroupAlive(player)) {
-				yield createLvll();
-			}
-			const currentScore = that.calcScore();
-			that.showScore(currentScore);
 		}
-		generator.next();
+
+		const currentScore = this.calcScore();
+		this.showScore(currentScore);
 	}
 
 

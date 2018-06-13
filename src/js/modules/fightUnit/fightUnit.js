@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import unitConfig from '../../unitConfig';
+import ImpactConfig from '../../impactConfig';
 import Utils from '../utils/utils';
 
 export default class FightUnit {
@@ -14,6 +15,7 @@ export default class FightUnit {
 	}
 
 	generate() {
+		this.generateUnitAbilities();
 		switch (this.type) {
 		case 'player':
 			this.generateUnit(unitConfig.players.adjectives, unitConfig.players.names_1, unitConfig.players.names_2, unitConfig.players.hp);
@@ -55,6 +57,15 @@ export default class FightUnit {
 		const secondName = second[_.random(0, second.length - 1)];
 		const thirdName = third[_.random(0, third.length - 1)];
 		this.name = `${firstName} ${secondName} ${thirdName}`;
+	}
+
+	generateUnitAbilities() {
+		const allCastsNames = Object.keys(ImpactConfig);
+		for (let numberUnitCast = 0; numberUnitCast < 6; numberUnitCast++) {
+			const nameProperty = allCastsNames[_.random(0, allCastsNames.length - 1)];
+			const lvlCast = _.random(1, this.difficulty);
+			this.abilities[nameProperty] = _.clone(ImpactConfig[nameProperty](lvlCast));
+		}
 	}
 
 }
