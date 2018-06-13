@@ -108,7 +108,8 @@ export default class Fight {
 		if (KeyboardController.pressedKeys.impact) {
 			this.pauseGame();
 			const infoOutputScheme = { damage: 'Damage/heal', status: 'Add status', target: 'Target', duration: 'Duration', lvl: 'Difficulty' };
-			let selectedImpactString = await new SelectionWheel(this.activeUnit.abilities, this.canvas, infoOutputScheme, );
+			const backgroundImageWheel = 'src/img/selectionWheel/wheel.png';
+			let selectedImpactString = await new SelectionWheel(this.activeUnit.abilities, this.canvas, infoOutputScheme, document.body, backgroundImageWheel, 'impactsSW');
 			const selectedImpact = JSON.parse(selectedImpactString);
 			this.unpauseGame();
 			this.resetKeyboardControl();
@@ -156,6 +157,7 @@ export default class Fight {
 		const background = fightConfig.background_images[_.random(0, fightConfig.background_images.length - 1)];
 		return background;
 	}
+
 	setBackground() {
 		const gameBgContainer = document.querySelector('.game-bg-image');
 		const bg = this.generateBackground();

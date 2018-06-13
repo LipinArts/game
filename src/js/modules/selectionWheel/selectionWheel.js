@@ -1,9 +1,9 @@
 export default class SelectionWheel {
-	constructor(inputObj, bluredElem, infoOutputScheme, srcBackgroundImage = 'src/img/selectionWheel/wheel.png') {
+	constructor(inputObj, bluredElem, infoOutputScheme = {}, parentElem = document.body, srcBackgroundImage = 'src/img/selectionWheel/wheel.png', idModule = 'dsgs35dngjy5') {
 		this.bluredElem = bluredElem;
 		this.infoOutputScheme = infoOutputScheme;
 		this.srcBackgroundImage = srcBackgroundImage;
-		this.parentOfModule = document.body;
+		this.parentOfModule = parentElem;
 		this.additionalTextToID = '_selectionWheel_id';
 		this.buttons = [];
 		this.indexButton = -1;
@@ -11,6 +11,8 @@ export default class SelectionWheel {
 		this.buttonsQuantity = this.impactsNames.length;
 		this.impactsObj = this.getAllImpactsObj(this.impactsNames, inputObj);
 		this.resolvePromiseFunc;
+
+		this.idModule = idModule;
 
 		return new Promise(resolvePromiseFunc => {
 			this.bluredElem.classList.add('blur');
@@ -31,6 +33,8 @@ export default class SelectionWheel {
 		const buttonsContainer = document.createElement('div');
 		buttonsContainer.className = 'modal-overlay';
 		buttonsContainer.classList.add('buttonsContainer');
+		buttonsContainer.id = this.idModule;
+		buttonsContainer.classList.add(this.idModule);
 		const modalWrap = document.createElement('div');
 		modalWrap.className = 'selectionWheel-modal-wrap';
 		buttonsContainer.appendChild(modalWrap);
