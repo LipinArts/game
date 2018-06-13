@@ -4,7 +4,7 @@ import fightConfig from '../../fightConfig';
 import _ from 'lodash';
 
 export default class Fight {
-	constructor(attacker, defender, generatorlvl) {
+	constructor(attacker, defender) {
 		this.attacker = attacker;
 		this.defender = defender;
 		this.round = 0;
@@ -15,21 +15,18 @@ export default class Fight {
 		this.activeUnitIndex = 0;
 		this.unitsAttackerCoordinates = [{ x: 200, y: 50 }, { x: 0, y: 360 }, { x: 400, y: 360 }];
 		this.unitsDefenderCoordinates = [{ x: 900, y: 50 }, { x: 700, y: 360 }, { x: 1100, y: 360 }];
-		this.generatorlvl = generatorlvl;
 		this.canvas = document.getElementById('canvas');
 		this.ctx = this.canvas.getContext('2d');
 		this.frameLoopRunning = false;
+		this.resolvePromiseFunc;
 
-		this.fightModulCycle();
-
-		return {
-			'attacker': this.attacker,
-			'defender': this.defender
-		};
+		return new Promise(resolve => {
+			this.resolvePromiseFunc = resolve;
+			this.fightModulCycle();
+		});
 	}
 
 	fightModulCycle() {
-		console.log('fightModulCycle');
 		this.showLoadingScreen();
 		this.showCanvasAfterLoading();
 		this.hideLoadingScreen();
@@ -87,7 +84,11 @@ export default class Fight {
 			}
 			else {
 				this.frameLoopRunning = false;
-				this.generatorlvl.next();
+				const that = this;
+				this.resolvePromiseFunc({
+					'attacker': that.attacker,
+					'defender': that.defender
+				});
 			}
 		}
 	}
@@ -115,7 +116,7 @@ export default class Fight {
 			const selectedImpact = JSON.parse(selectedImpactString);
 			this.unpauseGame();
 			this.resetKeyboardControl();
-			this.impact(this.activeUnit, this.selectedUnit, selectedImpact);
+			this.impact(this.selectedUnit, selectedImpact);
 			this.activeUnit = this.nextActiveUnit();
 			let counter = 0;
 			while (!this.isUnitAlive(this.activeUnit) && counter < this.attacker.length + this.defender.length) {
@@ -269,7 +270,7 @@ export default class Fight {
 		return unit.hp > 0;
 	}
 
-	impact(atackerUnit, target, impact) {
+	impact(target, impact) {
 		console.log(impact);
 		target.hp = target.hp - impact.damage;
 	}

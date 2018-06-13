@@ -11,8 +11,7 @@ export default class GameInterface {
 
 	pressStartNewGameButton() {
 		Utils.saveDataObjToStorage(this.userData, 'lastLoginUserData');
-		this.gameManager = new GameManager(this.userData);
-		this.gameManager.startGameCycle();
+		new GameManager(this.userData);
 	}
 
 	async loginUser() {
