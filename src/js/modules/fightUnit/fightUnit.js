@@ -12,6 +12,43 @@ export default class FightUnit {
 		this.abilities = {};
 		this.sprites = {};
 		this.generate();
+		this.animation = {
+			standBy: function standBy(unit) {
+				const fps = 80;
+				const startPos = 0;
+				const endPos = 7;
+				let currentPos = _.random(startPos, endPos - 1);
+				let bubble = true;
+
+				function moveDown() {
+					unit.sprites.head.dY += .5;
+					unit.sprites.body.dY += .7;
+					unit.sprites.hands.dY += .5;
+					currentPos += 1;
+				}
+
+				function moveUp() {
+					unit.sprites.head.dY -= .5;
+					unit.sprites.body.dY -= .7;
+					unit.sprites.hands.dY -= .5;
+					currentPos -= 1;
+				}
+				setTimeout(function go() {
+					if (bubble) {
+						if (currentPos > endPos) {
+							bubble = false;
+						}
+						moveDown();
+					} else {
+						if (currentPos < startPos) {
+							bubble = true;
+						}
+						moveUp();
+					}
+					setTimeout(go, fps);
+				}, fps);
+			}(this),
+		};
 	}
 
 	generate() {
