@@ -14,7 +14,7 @@ export default class GameManager {
 		let player = this.generateGroupOfUnits('player', diffucult);
 
 		while (this.isGroupAlive(player)) {
-			let monster = this.generateGroupOfUnits('monster' + this.monsterGroupsCounter, diffucult);
+			let monster = this.generateGroupOfUnits('monster', diffucult);
 			diffucult = diffucult * 1.5;
 			this.monsterGroupsCounter++;
 			let fight = await new Fight(player, monster);
