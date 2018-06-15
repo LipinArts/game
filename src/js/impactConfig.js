@@ -9,7 +9,8 @@ export default {
 			target: 'target',
 			duration: 0,
 			lvl: lvl,
-			icon_path: 'src/img/selectionWheel/casts/attack.jpg'
+			icon_path: 'src/img/selectionWheel/casts/attack.jpg',
+			animationTime: 2000
 		};
 	},
 	fireball: function (lvl) {
@@ -20,7 +21,8 @@ export default {
 			target: 'target',
 			duration: 3,
 			lvl: lvl,
-			icon_path: 'src/img/selectionWheel/casts/fireball.jpg'
+			icon_path: 'src/img/selectionWheel/casts/fireball.jpg',
+			animationTime: 2000
 		};
 	},
 	burn: function (lvl) {
@@ -31,7 +33,8 @@ export default {
 			target: 'target',
 			duration: 3 + lvl,
 			lvl: lvl,
-			icon_path: 'src/img/selectionWheel/casts/burn.jpg'
+			icon_path: 'src/img/selectionWheel/casts/burn.jpg',
+			animationTime: 2000
 		};
 	},
 	freeze: function (lvl) {
@@ -42,7 +45,8 @@ export default {
 			target: 'target',
 			duration: 3 + Math.floor(lvl / 4),
 			lvl: lvl,
-			icon_path: 'src/img/selectionWheel/casts/freeze.jpg'
+			icon_path: 'src/img/selectionWheel/casts/freeze.jpg',
+			animationTime: 2000
 		};
 	},
 	healWeak: function (lvl) {
@@ -53,7 +57,8 @@ export default {
 			target: 'target',
 			duration: 0,
 			lvl: lvl,
-			icon_path: 'src/img/selectionWheel/casts/healWeak.jpg'
+			icon_path: 'src/img/selectionWheel/casts/healWeak.jpg',
+			animationTime: 2000
 		};
 	},
 	bless: function (lvl) {
@@ -64,7 +69,8 @@ export default {
 			target: 'target',
 			duration: 5,
 			lvl: lvl,
-			icon_path: 'src/img/selectionWheel/casts/healPeriodic.jpg'
+			icon_path: 'src/img/selectionWheel/casts/healPeriodic.jpg',
+			animationTime: 2000
 		};
 	},
 	poison: function (lvl) {
@@ -75,7 +81,8 @@ export default {
 			target: 'target',
 			duration: 5 + Math.floor(lvl / 2),
 			lvl: lvl,
-			icon_path: 'src/img/selectionWheel/casts/poison.jpg'
+			icon_path: 'src/img/selectionWheel/casts/poison.jpg',
+			animationTime: 2000
 		};
 	},
 	bash: function (lvl) {
@@ -86,7 +93,8 @@ export default {
 			target: 'target',
 			duration: 3 + Math.floor(lvl / 4),
 			lvl: lvl,
-			icon_path: 'src/img/selectionWheel/casts/bash.jpg'
+			icon_path: 'src/img/selectionWheel/casts/bash.jpg',
+			animationTime: 2000
 		};
 	},
 	rise: function (lvl) {
@@ -97,7 +105,8 @@ export default {
 			target: 'target',
 			duration: 0,
 			lvl: lvl,
-			icon_path: 'src/img/selectionWheel/casts/ressurect.jpg'
+			icon_path: 'src/img/selectionWheel/casts/ressurect.jpg',
+			animationTime: 2000
 		};
 	},
 	combo: function (lvl) {
@@ -108,7 +117,8 @@ export default {
 			target: 'target',
 			duration: 0,
 			lvl: lvl,
-			icon_path: 'src/img/selectionWheel/casts/attackSuper.jpg'
+			icon_path: 'src/img/selectionWheel/casts/attackSuper.jpg',
+			animationTime: 2000
 		};
 	},
 	fireStorm: function (lvl) {
@@ -119,7 +129,8 @@ export default {
 			target: 'enemies',
 			duration: 0,
 			lvl: lvl,
-			icon_path: 'src/img/selectionWheel/casts/fireStorm.jpg'
+			icon_path: 'src/img/selectionWheel/casts/fireStorm.jpg',
+			animationTime: 2000
 		};
 	},
 	iceStorm: function (lvl) {
@@ -130,7 +141,8 @@ export default {
 			target: 'enemies',
 			duration: 5 + Math.floor(lvl / 2),
 			lvl: lvl,
-			icon_path: 'src/img/selectionWheel/casts/iceStorm.jpg'
+			icon_path: 'src/img/selectionWheel/casts/iceStorm.jpg',
+			animationTime: 2000
 		};
 	},
 	meteor: function (lvl) {
@@ -141,7 +153,8 @@ export default {
 			target: 'enemies',
 			duration: 3 + Math.floor(lvl / 4),
 			lvl: lvl,
-			icon_path: 'src/img/selectionWheel/casts/meteor.jpg'
+			icon_path: 'src/img/selectionWheel/casts/meteor.jpg',
+			animationTime: 2000
 		};
 	},
 	healMass: function (lvl) {
@@ -152,7 +165,8 @@ export default {
 			target: 'allies',
 			duration: 0,
 			lvl: lvl,
-			icon_path: 'src/img/selectionWheel/casts/healMass.jpg'
+			icon_path: 'src/img/selectionWheel/casts/healMass.jpg',
+			animationTime: 2000
 		};
 	},
 	divineHeal: function (lvl) {
@@ -163,7 +177,8 @@ export default {
 			target: 'allies',
 			duration: 0,
 			lvl: lvl,
-			icon_path: 'src/img/selectionWheel/casts/ressurectMass.jpg'
+			icon_path: 'src/img/selectionWheel/casts/ressurectMass.jpg',
+			animationTime: 2000
 		};
 	},
 

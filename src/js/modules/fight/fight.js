@@ -21,6 +21,9 @@ export default class Fight {
 		this.frameLoopRunning = false;
 		this.resolvePromiseFunc;
 
+		this.lastTurnEndtTime = new Date().getTime();
+		this.timeForAnimation = 0;
+
 		return new Promise(resolve => {
 			this.resolvePromiseFunc = resolve;
 			this.fightModulCycle();
@@ -81,7 +84,7 @@ export default class Fight {
 		if (this.frameLoopRunning) {
 			if (this.isFightNotOver()) {
 				this.updateSelecting();
-				this.updateImpact();
+				this.updateTurn();
 			}
 			else {
 				this.frameLoopRunning = false;
@@ -108,39 +111,64 @@ export default class Fight {
 
 	}
 
-	async updateImpact() {
-		if (this.activeUnit.type === 'monster') {
-			this.pauseGame();
-			let botTurn = await this.activeUnit.generateAITurn(this.attacker, this.defender);
-			console.log('monster targeting ans selecting =', botTurn);
-			this.impact(botTurn.selectedUnit, botTurn.selectedImpact);
-			this.nextActiveUnitSafe();
-			this.unpauseGame();
-			this.resetKeyboardControl();
-		} else {
-			if (KeyboardController.pressedKeys.impact) {
+	async updateTurn() {
+		const currentTime = new Date().getTime();
+		if (currentTime - this.lastTurnEndtTime >= this.timeForAnimation) {
+			if (this.activeUnit.type === 'monster') {
 				this.pauseGame();
-				const infoOutputScheme = { damage: 'Damage/heal', status: 'Add status', target: 'Target', duration: 'Duration', lvl: 'Difficulty' };
-				const backgroundImageWheel = 'src/img/selectionWheel/wheel.png';
-				let selectedImpactString = await new SelectionWheel(this.activeUnit.abilities, this.canvas, infoOutputScheme, document.body, backgroundImageWheel, 'impactsSW');
-				let selectedImpact;
-				if (selectedImpactString) {
-					selectedImpact = JSON.parse(selectedImpactString);
-					let resultUserTask = await new UserTask(selectedImpact.lvl);
-					if (resultUserTask) {
-						console.log(selectedImpact);
-						this.impact(this.selectedUnit, selectedImpact);
-					}
-					else {
-						console.log('fail');
-						//play fail sound and animation
-					}
-					this.nextActiveUnitSafe();
+				let botTurn = await this.activeUnit.generateAITurn(this.attacker, this.defender);
+				this.activeUnit.sounds.attack.play();
+				this.impact(botTurn.selectedUnit, botTurn.selectedImpact);
+				if (botTurn.selectedUnit.hp <= 0) {
+					botTurn.selectedUnit.sounds.death.play();
+				} else {
+					botTurn.selectedUnit.sounds.pain.play();
 				}
+				this.timeForAnimation = botTurn.selectedImpact.animationTime;
+				this.lastTurnEndtTime = new Date().getTime();
+
+				this.nextActiveUnitSafe();
 				this.unpauseGame();
 				this.resetKeyboardControl();
+			} else {
+				if (KeyboardController.pressedKeys.impact) {
+					this.pauseGame();
+					const infoOutputScheme = { damage: 'Damage/heal', status: 'Add status', target: 'Target', duration: 'Duration', lvl: 'Difficulty' };
+					const backgroundImageWheel = 'src/img/selectionWheel/wheel.png';
+					let selectedImpactString = await new SelectionWheel(this.activeUnit.abilities, this.canvas, infoOutputScheme, document.body, backgroundImageWheel, 'impactsSW');
+					let selectedImpact;
+					if (selectedImpactString) {
+						selectedImpact = JSON.parse(selectedImpactString);
+						let resultUserTask = await new UserTask(selectedImpact.lvl);
+						if (resultUserTask) {
+							this.activeUnit.sounds.attack.play();
+							this.impact(this.selectedUnit, selectedImpact);
+							if (this.selectedUnit.hp <= 0) {
+								this.selectedUnit.sounds.death.play();
+							} else {
+								this.selectedUnit.sounds.pain.play();
+							}
+						}
+						else {
+							this.activeUnit.sounds.failure.play();
+						}
+						this.nextActiveUnitSafe();
+					}
+					this.timeForAnimation = selectedImpact.animationTime;
+					this.lastTurnEndtTime = new Date().getTime();
+					this.unpauseGame();
+					this.resetKeyboardControl();
+				}
 			}
 		}
+		else {
+			if (KeyboardController.pressedKeys.impact) {
+				this.activeUnit.sounds.notYet.play();
+				this.resetKeyboardControl();
+			}
+
+		}
+
 
 	}
 
