@@ -129,29 +129,6 @@ export default class Fight {
 
 	}
 
-<<<<<<< HEAD
-	async updateImpact() {
-		if (KeyboardController.pressedKeys.impact) {
-			this.pauseGame();
-			const infoOutputScheme = {
-				damage: 'Damage/heal',
-				status: 'Add status',
-				target: 'Target',
-				duration: 'Duration',
-				lvl: 'Difficulty'
-			};
-			const backgroundImageWheel = 'src/img/selectionWheel/wheel.png';
-			let selectedImpactString = await new SelectionWheel(this.activeUnit.abilities, this.canvas, infoOutputScheme, document.body, backgroundImageWheel, 'impactsSW');
-			let selectedImpact;
-			if (selectedImpactString) {
-				selectedImpact = JSON.parse(selectedImpactString);
-				this.impact(this.selectedUnit, selectedImpact);
-				this.activeUnit = this.nextActiveUnit();
-				let counter = 0;
-				while (!this.isUnitAlive(this.activeUnit) && counter < this.attacker.length + this.defender.length) {
-					counter++;
-					this.activeUnit = this.nextActiveUnit();
-=======
 	async updateTurn() {
 		const currentTime = new Date().getTime();
 		if (currentTime - this.lastTurnEndtTime >= this.timeForAnimation) {
@@ -164,7 +141,6 @@ export default class Fight {
 					botTurn.selectedUnit.sounds.death.play();
 				} else {
 					botTurn.selectedUnit.sounds.pain.play();
->>>>>>> 933512123a614c1bb340d8dfb7e9c7dbc42df36d
 				}
 				this.timeForAnimation = botTurn.selectedImpact.animationTime;
 				this.lastTurnEndtTime = new Date().getTime();
