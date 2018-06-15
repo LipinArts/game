@@ -25,6 +25,8 @@ export default class FightUnit {
 					unit.sprites.body.dY += .7;
 					unit.sprites.hands.dY += .5;
 					currentPos += 1;
+					// for test!
+					unit.sprites.head.rotation = unit.sprites.head.rotation + 5;
 				}
 
 				function moveUp() {
@@ -32,6 +34,8 @@ export default class FightUnit {
 					unit.sprites.body.dY -= .7;
 					unit.sprites.hands.dY -= .5;
 					currentPos -= 1;
+					// for test!
+					unit.sprites.head.rotation = unit.sprites.head.rotation - 5;
 				}
 				setTimeout(function go() {
 					if (bubble) {
@@ -56,15 +60,15 @@ export default class FightUnit {
 		switch (this.type) {
 		case 'player':
 			this.generateUnit(unitConfig.players.adjectives, unitConfig.players.names_1, unitConfig.players.names_2, unitConfig.players.hp);
-			this.generateSprites(unitConfig.players.sprites.head, unitConfig.players.sprites.body, unitConfig.players.sprites.hands, unitConfig.players.sprites.legs);
+			this.generateSprites(unitConfig.players.sprites.head, unitConfig.players.sprites.body, unitConfig.players.sprites.hands, unitConfig.players.sprites.legs, unitConfig.players.unitSize);
 			break;
 		case 'monster':
 			this.generateUnit(unitConfig.monsters.adjectives, unitConfig.monsters.names_1, unitConfig.monsters.names_2, unitConfig.monsters.hp);
-			this.generateSprites(unitConfig.monsters.sprites.head, unitConfig.monsters.sprites.body, unitConfig.monsters.sprites.hands, unitConfig.monsters.sprites.legs);
+			this.generateSprites(unitConfig.monsters.sprites.head, unitConfig.monsters.sprites.body, unitConfig.monsters.sprites.hands, unitConfig.monsters.sprites.legs, unitConfig.monsters.unitSize);
 			break;
 		default:
 			this.generateUnit(unitConfig.monsters.adjectives, unitConfig.monsters.names_1, unitConfig.monsters.names_2, unitConfig.monsters.hp);
-			this.generateSprites(unitConfig.monsters.sprites.head, unitConfig.monsters.sprites.body, unitConfig.monsters.sprites.hands, unitConfig.monsters.sprites.legs);
+			this.generateSprites(unitConfig.monsters.sprites.head, unitConfig.monsters.sprites.body, unitConfig.monsters.sprites.hands, unitConfig.monsters.sprites.legs, unitConfig.monsters.unitSize);
 			break;
 		}
 	}
@@ -74,7 +78,7 @@ export default class FightUnit {
 		this.hp = unitConfigHP * this.difficulty;
 	}
 
-	generateSprites(head, body, hands, legs) {
+	generateSprites(head, body, hands, legs, unitSize) {
 		this.sprites.head = _.clone(head);
 		this.sprites.head.image = Utils.setSprite(head.path);
 		this.sprites.head.sX = head.sX[_.random(0, head.sX.length - 1)];
@@ -87,6 +91,8 @@ export default class FightUnit {
 		this.sprites.legs = _.clone(legs);
 		this.sprites.legs.image = Utils.setSprite(legs.path);
 		this.sprites.legs.sX = legs.sX[_.random(0, legs.sX.length - 1)];
+
+		this.unitSize = _.clone(unitSize);
 	}
 
 	generateUnitName(first, second, third) {

@@ -2,6 +2,7 @@ import KeyboardController from '../KeyboardController/KeyboardController';
 import SelectionWheel from '../SelectionWheel/SelectionWheel';
 import fightConfig from '../../fightConfig';
 import _ from 'lodash';
+import Utils from '../utils/utils';
 
 export default class Fight {
 	constructor(attacker, defender) {
@@ -13,8 +14,12 @@ export default class Fight {
 		this.activeUnit = this.attacker[0];
 		this.selectedUnitIndex = 0;
 		this.activeUnitIndex = 0;
-		this.unitsAttackerCoordinates = [{ x: 200, y: 50 }, { x: 0, y: 360 }, { x: 400, y: 360 }];
-		this.unitsDefenderCoordinates = [{ x: 900, y: 50 }, { x: 700, y: 360 }, { x: 1100, y: 360 }];
+		this.unitWidth = this.attacker[0].unitSize.width;
+		this.unitHeight = this.attacker[0].unitSize.height;
+		this.unitsAttackerCoordinates = [{ x: 200 + this.unitWidth / 2, y: 50 + this.unitHeight / 2 }, { x: 0 + this.unitWidth / 2, y: 360 + this.unitHeight / 2 }, { x: 400 + this.unitWidth / 2, y: 360 + this.unitHeight / 2 }];
+		this.unitsDefenderCoordinates = [{ x: 900 + this.unitWidth / 2, y: 50 + this.unitHeight / 2 }, { x: 700 + this.unitWidth / 2, y: 360 + this.unitHeight / 2 }, { x: 1100 + this.unitWidth / 2, y: 360 + this.unitHeight / 2 }];
+		this.unitsAttackerCoordinates = [{ x: 200 + this.unitWidth / 2, y: 50 + this.unitHeight / 2 }, { x: 0 + this.unitWidth / 2, y: 360 + this.unitHeight / 2 }, { x: 400 + this.unitWidth / 2, y: 360 + this.unitHeight / 2 }];
+		this.unitsDefenderCoordinates = [{ x: 900 + this.unitWidth / 2, y: 50 + this.unitHeight / 2 }, { x: 700 + this.unitWidth / 2, y: 360 + this.unitHeight / 2 }, { x: 1100 + this.unitWidth / 2, y: 360 + this.unitHeight / 2 }];
 		this.canvas = document.getElementById('canvas');
 		this.ctx = this.canvas.getContext('2d');
 		this.frameLoopRunning = false;
@@ -170,16 +175,29 @@ export default class Fight {
 	}
 
 	drawUnit(unit, posX, posY) {
-		this.ctx.drawImage(unit.sprites.legs.image, unit.sprites.legs.sX, unit.sprites.legs.sY, unit.sprites.legs.width, unit.sprites.legs.height, unit.sprites.legs.dX + posX, unit.sprites.legs.dY + posY, unit.sprites.legs.width, unit.sprites.legs.height);
-		this.ctx.drawImage(unit.sprites.body.image, unit.sprites.body.sX, unit.sprites.body.sY, unit.sprites.body.width, unit.sprites.body.height, unit.sprites.body.dX + posX, unit.sprites.body.dY + posY, unit.sprites.body.width, unit.sprites.body.height);
-		this.ctx.drawImage(unit.sprites.head.image, unit.sprites.head.sX, unit.sprites.head.sY, unit.sprites.head.width, unit.sprites.head.height, unit.sprites.head.dX + posX, unit.sprites.head.dY + posY, unit.sprites.head.width, unit.sprites.head.height);
-		this.ctx.drawImage(unit.sprites.hands.image, unit.sprites.hands.sX, unit.sprites.hands.sY, unit.sprites.hands.width, unit.sprites.hands.height, unit.sprites.hands.dX + posX, unit.sprites.hands.dY + posY, unit.sprites.hands.width, unit.sprites.hands.height);
+		this.drawUnitPart(unit.sprites.legs, posX, posY);
+		this.drawUnitPart(unit.sprites.body, posX, posY);
+		this.drawUnitPart(unit.sprites.head, posX, posY);
+		this.drawUnitPart(unit.sprites.hands, posX, posY);
+	}
+
+	drawUnitPart(part, posX, posY) {
+		this.ctx.save();
+		this.ctx.translate(posX, posY);
+		this.ctx.rotate((Math.PI / 180) * part.rotation);
+
+		let normalizeCoord = Utils.rotate(0, 0, part.dX, part.dY, part.rotation);
+		let x_norm = normalizeCoord[0];
+		let y_norm = normalizeCoord[1];
+
+		this.ctx.drawImage(part.image, part.sX, part.sY, part.width, part.height, x_norm - part.width / 2, y_norm - part.height / 2, part.width, part.height);
+		this.ctx.restore();
 	}
 
 	drawSelectedUnitFlag() {
 		let coord = this.getUnitObjCoordinates(this.selectedUnit);
-		let x = coord.x;
-		let y = coord.y;
+		let x = coord.x - this.unitWidth / 2;
+		let y = coord.y - this.unitHeight / 2;
 
 		this.ctx.save();
 		this.ctx.fillStyle = 'green';
@@ -189,8 +207,8 @@ export default class Fight {
 
 	drawActiveUnitFlag() {
 		const coord = this.getUnitObjCoordinates(this.activeUnit);
-		const x = coord.x;
-		const y = coord.y;
+		let x = coord.x - this.unitWidth / 2;
+		let y = coord.y - this.unitHeight / 2;
 
 		this.ctx.save();
 		this.ctx.fillStyle = 'yellow';
@@ -228,12 +246,12 @@ export default class Fight {
 
 	drawSelectAndActiveUnitsInfoBars(activeUnit, selectedUnit) {
 		const coordActive = this.getUnitObjCoordinates(activeUnit);
-		const xActive = coordActive.x;
-		const yActive = coordActive.y;
+		const xActive = coordActive.x - this.unitWidth / 2;
+		const yActive = coordActive.y - this.unitHeight / 2;
 
 		const coordSelected = this.getUnitObjCoordinates(selectedUnit);
-		const xSelected = coordSelected.x;
-		const ySelected = coordSelected.y;
+		const xSelected = coordSelected.x - this.unitWidth / 2;
+		const ySelected = coordSelected.y - this.unitHeight / 2;
 
 		this.ctx.save();
 		//const widthBar = 200;
