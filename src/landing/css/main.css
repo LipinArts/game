@@ -384,6 +384,9 @@ section h3,
   height: 40px;
   background-color: #FF9900;
 }
+.name_text .btn:hover {
+  background-color: limegreen;
+}
 .name_text .btn a{
   color: #fff;
   line-height: normal;
