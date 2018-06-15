@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import unitConfig from '../../unitConfig';
 import ImpactConfig from '../../impactConfig';
+import AIMonsterUnit from '../AIMonsterUnit/AIMonsterUnit';
 import Utils from '../utils/utils';
 
 export default class FightUnit {
@@ -35,6 +36,7 @@ export default class FightUnit {
 	generateUnit(adj, names_1, names_2, unitConfigHP) {
 		this.generateUnitName(adj, names_1, names_2);
 		this.hp = unitConfigHP * this.difficulty;
+		this.maxHP = this.hp;
 	}
 
 	generateSprites(head, body, hands, legs) {
@@ -66,6 +68,10 @@ export default class FightUnit {
 			const lvlCast = _.random(1, this.difficulty);
 			this.abilities[nameProperty] = _.clone(ImpactConfig[nameProperty](lvlCast));
 		}
+	}
+
+	generateAITurn(playerUnits, monsterUnits) {
+		return AIMonsterUnit.generateAITurn(playerUnits, monsterUnits, this.abilities);
 	}
 
 }

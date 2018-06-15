@@ -109,32 +109,47 @@ export default class Fight {
 	}
 
 	async updateImpact() {
-		if (KeyboardController.pressedKeys.impact) {
+		if (this.activeUnit.type === 'monster') {
 			this.pauseGame();
-			const infoOutputScheme = { damage: 'Damage/heal', status: 'Add status', target: 'Target', duration: 'Duration', lvl: 'Difficulty' };
-			const backgroundImageWheel = 'src/img/selectionWheel/wheel.png';
-			let selectedImpactString = await new SelectionWheel(this.activeUnit.abilities, this.canvas, infoOutputScheme, document.body, backgroundImageWheel, 'impactsSW');
-			let selectedImpact;
-			if (selectedImpactString) {
-				selectedImpact = JSON.parse(selectedImpactString);
-				let resultUserTask = await new UserTask(selectedImpact.lvl);
-				if (resultUserTask) {
-					console.log(selectedImpact);
-					this.impact(this.selectedUnit, selectedImpact);
-				}
-				else {
-					console.log('fail');
-					//play fail sound and animation
-				}
-				this.activeUnit = this.nextActiveUnit();
-				let counter = 0;
-				while (!this.isUnitAlive(this.activeUnit) && counter < this.attacker.length + this.defender.length) {
-					counter++;
-					this.activeUnit = this.nextActiveUnit();
-				}
-			}
+			let botTurn = await this.activeUnit.generateAITurn(this.attacker, this.defender);
+			console.log('monster targeting ans selecting =', botTurn);
+			this.impact(botTurn.selectedUnit, botTurn.selectedImpact);
+			this.nextActiveUnitSafe();
 			this.unpauseGame();
 			this.resetKeyboardControl();
+		} else {
+			if (KeyboardController.pressedKeys.impact) {
+				this.pauseGame();
+				const infoOutputScheme = { damage: 'Damage/heal', status: 'Add status', target: 'Target', duration: 'Duration', lvl: 'Difficulty' };
+				const backgroundImageWheel = 'src/img/selectionWheel/wheel.png';
+				let selectedImpactString = await new SelectionWheel(this.activeUnit.abilities, this.canvas, infoOutputScheme, document.body, backgroundImageWheel, 'impactsSW');
+				let selectedImpact;
+				if (selectedImpactString) {
+					selectedImpact = JSON.parse(selectedImpactString);
+					let resultUserTask = await new UserTask(selectedImpact.lvl);
+					if (resultUserTask) {
+						console.log(selectedImpact);
+						this.impact(this.selectedUnit, selectedImpact);
+					}
+					else {
+						console.log('fail');
+						//play fail sound and animation
+					}
+					this.nextActiveUnitSafe();
+				}
+				this.unpauseGame();
+				this.resetKeyboardControl();
+			}
+		}
+
+	}
+
+	nextActiveUnitSafe() {
+		this.activeUnit = this.nextActiveUnit();
+		let counter = 0;
+		while (!this.isUnitAlive(this.activeUnit) && counter < this.attacker.length + this.defender.length) {
+			counter++;
+			this.activeUnit = this.nextActiveUnit();
 		}
 	}
 
@@ -281,7 +296,18 @@ export default class Fight {
 	}
 
 	impact(target, impact) {
-		target.hp = target.hp - impact.damage;
+		if (target.hp > 0) {
+			target.hp = target.hp - impact.damage;
+			if (target.hp > target.maxHP) {
+				target.hp = target.maxHP;
+			}
+		} else {
+			// disable ressurect dead unit by healing player can heal dead only to 0 HP
+			target.hp = target.hp - impact.damage;
+			if (target.hp > 0) {
+				target.hp = 0;
+			}
+		}
 	}
 
 	nextTarget() {

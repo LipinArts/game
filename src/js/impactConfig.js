@@ -2,9 +2,9 @@ import Utils from './modules/utils/utils';
 
 export default {
 	attack: function (lvl) {
-		lvl = Utils.minMaxValid(lvl, 1, 15);
+		lvl = Utils.minMaxValid(lvl, 1, 3);
 		return {
-			damage: 10 * lvl,
+			damage: 5 * lvl,
 			status: 'normal',
 			target: 'target',
 			duration: 0,
@@ -15,18 +15,18 @@ export default {
 	fireball: function (lvl) {
 		lvl = Utils.minMaxValid(lvl, 2, 15);
 		return {
-			damage: 1 + lvl,
+			damage: 5 + lvl,
 			status: 'burn',
 			target: 'target',
-			duration: 0,
+			duration: 3,
 			lvl: lvl,
 			icon_path: 'src/img/selectionWheel/casts/fireball.jpg'
 		};
 	},
 	burn: function (lvl) {
-		lvl = Utils.minMaxValid(lvl, 3, 15);
+		lvl = Utils.minMaxValid(lvl, 3, 6);
 		return {
-			damage: 5 * lvl,
+			damage: 15 + lvl,
 			status: 'burn',
 			target: 'target',
 			duration: 3 + lvl,
@@ -37,7 +37,7 @@ export default {
 	freeze: function (lvl) {
 		lvl = Utils.minMaxValid(lvl, 4, 15);
 		return {
-			damage: 1 + lvl,
+			damage: 5,
 			status: 'freeze',
 			target: 'target',
 			duration: 3 + Math.floor(lvl / 4),
@@ -46,9 +46,9 @@ export default {
 		};
 	},
 	healWeak: function (lvl) {
-		lvl = Utils.minMaxValid(lvl, 5, 15);
+		lvl = Utils.minMaxValid(lvl, 5, 10);
 		return {
-			damage: -10 - lvl,
+			damage: - lvl,
 			status: 'normal',
 			target: 'target',
 			duration: 0,
@@ -62,7 +62,7 @@ export default {
 			damage: -5 - lvl * 2,
 			status: 'heal',
 			target: 'target',
-			duration: 5 + Math.floor(lvl / 3),
+			duration: 5,
 			lvl: lvl,
 			icon_path: 'src/img/selectionWheel/casts/healPeriodic.jpg'
 		};
@@ -81,7 +81,7 @@ export default {
 	bash: function (lvl) {
 		lvl = Utils.minMaxValid(lvl, 8, 15);
 		return {
-			damage: 40 + lvl,
+			damage: 40,
 			status: 'stun',
 			target: 'target',
 			duration: 3 + Math.floor(lvl / 4),
@@ -90,9 +90,9 @@ export default {
 		};
 	},
 	rise: function (lvl) {
-		lvl = Utils.minMaxValid(lvl, 9, 15);
+		lvl = Utils.minMaxValid(lvl, 9, 9);
 		return {
-			damage: 0 - lvl * 2,
+			damage: 0,
 			status: 'ressurect',
 			target: 'target',
 			duration: 0,
@@ -103,7 +103,7 @@ export default {
 	combo: function (lvl) {
 		lvl = Utils.minMaxValid(lvl, 10, 15);
 		return {
-			damage: 100 + lvl * 3,
+			damage: 30 + lvl,
 			status: 'normal',
 			target: 'target',
 			duration: 0,
@@ -114,10 +114,10 @@ export default {
 	fireStorm: function (lvl) {
 		lvl = Utils.minMaxValid(lvl, 11, 15);
 		return {
-			damage: 50 + lvl * 2,
-			status: 'burn',
+			damage: 15 + lvl,
+			status: 'normal',
 			target: 'enemies',
-			duration: 5 + Math.floor(lvl / 2),
+			duration: 0,
 			lvl: lvl,
 			icon_path: 'src/img/selectionWheel/casts/fireStorm.jpg'
 		};
@@ -125,7 +125,7 @@ export default {
 	iceStorm: function (lvl) {
 		lvl = Utils.minMaxValid(lvl, 12, 15);
 		return {
-			damage: 0 + lvl * 3,
+			damage: 0,
 			status: 'freeze',
 			target: 'enemies',
 			duration: 5 + Math.floor(lvl / 2),
@@ -136,7 +136,7 @@ export default {
 	meteor: function (lvl) {
 		lvl = Utils.minMaxValid(lvl, 13, 15);
 		return {
-			damage: 100,
+			damage: 50,
 			status: 'stun',
 			target: 'enemies',
 			duration: 3 + Math.floor(lvl / 4),
@@ -147,7 +147,7 @@ export default {
 	healMass: function (lvl) {
 		lvl = Utils.minMaxValid(lvl, 14, 15);
 		return {
-			damage: -100 - lvl * lvl,
+			damage: -70,
 			status: 'heal',
 			target: 'allies',
 			duration: 0,
@@ -158,7 +158,7 @@ export default {
 	divineHeal: function (lvl) {
 		lvl = Utils.minMaxValid(lvl, 15, 15);
 		return {
-			damage: 0 - lvl * 10,
+			damage: -100,
 			status: 'ressurect',
 			target: 'allies',
 			duration: 0,

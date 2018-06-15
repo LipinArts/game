@@ -323,12 +323,12 @@ export default class UserTask {
 		case 'translate':
 			userAnswer = document.querySelector('input[name=answer]');
 			if (userAnswer.value !== '') {
-				for (let i = 0; i < task[1].length - 1; i++) {
+				for (let i = 0; i < task[1].length; i++) {
 					if (userAnswer.value.trim().toLowerCase() === task[1][i]) {
 						return true;
 					}
-					return false;
 				}
+				return false;
 			}
 			break;
 		case 'sequence':
