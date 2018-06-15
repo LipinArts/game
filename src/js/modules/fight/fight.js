@@ -1,5 +1,6 @@
 import KeyboardController from '../KeyboardController/KeyboardController';
 import SelectionWheel from '../SelectionWheel/SelectionWheel';
+import UserTask from '../userTask/userTask';
 import fightConfig from '../../fightConfig';
 import _ from 'lodash';
 
@@ -38,6 +39,9 @@ export default class Fight {
 		this.frameLoopRunning = false;
 		this.resolvePromiseFunc;
 		this.once = true;
+
+		this.lastTurnEndtTime = new Date().getTime();
+		this.timeForAnimation = 0;
 
 		return new Promise(resolve => {
 			this.resolvePromiseFunc = resolve;
@@ -99,8 +103,9 @@ export default class Fight {
 		if (this.frameLoopRunning) {
 			if (this.isFightNotOver()) {
 				this.updateSelecting();
-				this.updateImpact();
-			} else {
+				this.updateTurn();
+			}
+			else {
 				this.frameLoopRunning = false;
 				const that = this;
 				this.resolvePromiseFunc({
@@ -124,6 +129,7 @@ export default class Fight {
 
 	}
 
+<<<<<<< HEAD
 	async updateImpact() {
 		if (KeyboardController.pressedKeys.impact) {
 			this.pauseGame();
@@ -145,11 +151,75 @@ export default class Fight {
 				while (!this.isUnitAlive(this.activeUnit) && counter < this.attacker.length + this.defender.length) {
 					counter++;
 					this.activeUnit = this.nextActiveUnit();
+=======
+	async updateTurn() {
+		const currentTime = new Date().getTime();
+		if (currentTime - this.lastTurnEndtTime >= this.timeForAnimation) {
+			if (this.activeUnit.type === 'monster') {
+				this.pauseGame();
+				let botTurn = await this.activeUnit.generateAITurn(this.attacker, this.defender);
+				this.activeUnit.sounds.attack.play();
+				this.impact(botTurn.selectedUnit, botTurn.selectedImpact);
+				if (botTurn.selectedUnit.hp <= 0) {
+					botTurn.selectedUnit.sounds.death.play();
+				} else {
+					botTurn.selectedUnit.sounds.pain.play();
+>>>>>>> 933512123a614c1bb340d8dfb7e9c7dbc42df36d
 				}
+				this.timeForAnimation = botTurn.selectedImpact.animationTime;
+				this.lastTurnEndtTime = new Date().getTime();
 
+				this.nextActiveUnitSafe();
+				this.unpauseGame();
+				this.resetKeyboardControl();
+			} else {
+				if (KeyboardController.pressedKeys.impact) {
+					this.pauseGame();
+					const infoOutputScheme = { damage: 'Damage/heal', status: 'Add status', target: 'Target', duration: 'Duration', lvl: 'Difficulty' };
+					const backgroundImageWheel = 'src/img/selectionWheel/wheel.png';
+					let selectedImpactString = await new SelectionWheel(this.activeUnit.abilities, this.canvas, infoOutputScheme, document.body, backgroundImageWheel, 'impactsSW');
+					let selectedImpact;
+					if (selectedImpactString) {
+						selectedImpact = JSON.parse(selectedImpactString);
+						let resultUserTask = await new UserTask(selectedImpact.lvl);
+						if (resultUserTask) {
+							this.activeUnit.sounds.attack.play();
+							this.impact(this.selectedUnit, selectedImpact);
+							if (this.selectedUnit.hp <= 0) {
+								this.selectedUnit.sounds.death.play();
+							} else {
+								this.selectedUnit.sounds.pain.play();
+							}
+						}
+						else {
+							this.activeUnit.sounds.failure.play();
+						}
+						this.nextActiveUnitSafe();
+					}
+					this.timeForAnimation = selectedImpact.animationTime;
+					this.lastTurnEndtTime = new Date().getTime();
+					this.unpauseGame();
+					this.resetKeyboardControl();
+				}
 			}
-			this.unpauseGame();
-			this.resetKeyboardControl();
+		}
+		else {
+			if (KeyboardController.pressedKeys.impact) {
+				this.activeUnit.sounds.notYet.play();
+				this.resetKeyboardControl();
+			}
+
+		}
+
+
+	}
+
+	nextActiveUnitSafe() {
+		this.activeUnit = this.nextActiveUnit();
+		let counter = 0;
+		while (!this.isUnitAlive(this.activeUnit) && counter < this.attacker.length + this.defender.length) {
+			counter++;
+			this.activeUnit = this.nextActiveUnit();
 		}
 	}
 
@@ -305,7 +375,18 @@ export default class Fight {
 	}
 
 	impact(target, impact) {
-		target.hp = target.hp - impact.damage;
+		if (target.hp > 0) {
+			target.hp = target.hp - impact.damage;
+			if (target.hp > target.maxHP) {
+				target.hp = target.maxHP;
+			}
+		} else {
+			// disable ressurect dead unit by healing player can heal dead only to 0 HP
+			target.hp = target.hp - impact.damage;
+			if (target.hp > 0) {
+				target.hp = 0;
+			}
+		}
 	}
 
 	nextTarget() {

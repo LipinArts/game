@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import unitConfig from '../../unitConfig';
 import ImpactConfig from '../../impactConfig';
+import AIMonsterUnit from '../AIMonsterUnit/AIMonsterUnit';
+import SoundManager from '../soundManager/soundManager';
 import Utils from '../utils/utils';
 
 export default class FightUnit {
@@ -11,6 +13,7 @@ export default class FightUnit {
 		this.difficulty = difficulty;
 		this.abilities = {};
 		this.sprites = {};
+		this.sounds = {};
 		this.generate();
 		this.timer = 0;
 
@@ -189,14 +192,17 @@ export default class FightUnit {
 		case 'player':
 			this.generateUnit(unitConfig.players.adjectives, unitConfig.players.names_1, unitConfig.players.names_2, unitConfig.players.hp);
 			this.generateSprites(unitConfig.players.sprites.head, unitConfig.players.sprites.body, unitConfig.players.sprites.hands, unitConfig.players.sprites.legs);
+			this.generateSounds(unitConfig.players);
 			break;
 		case 'monster':
 			this.generateUnit(unitConfig.monsters.adjectives, unitConfig.monsters.names_1, unitConfig.monsters.names_2, unitConfig.monsters.hp);
 			this.generateSprites(unitConfig.monsters.sprites.head, unitConfig.monsters.sprites.body, unitConfig.monsters.sprites.hands, unitConfig.monsters.sprites.legs);
+			this.generateSounds(unitConfig.monsters);
 			break;
 		default:
 			this.generateUnit(unitConfig.monsters.adjectives, unitConfig.monsters.names_1, unitConfig.monsters.names_2, unitConfig.monsters.hp);
 			this.generateSprites(unitConfig.monsters.sprites.head, unitConfig.monsters.sprites.body, unitConfig.monsters.sprites.hands, unitConfig.monsters.sprites.legs);
+			this.generateSounds(unitConfig.monsters);
 			break;
 		}
 	}
@@ -204,6 +210,7 @@ export default class FightUnit {
 	generateUnit(adj, names_1, names_2, unitConfigHP) {
 		this.generateUnitName(adj, names_1, names_2);
 		this.hp = unitConfigHP * this.difficulty;
+		this.maxHP = this.hp;
 	}
 
 	generateSprites(head, body, hands, legs) {
@@ -235,6 +242,19 @@ export default class FightUnit {
 			const lvlCast = _.random(1, this.difficulty);
 			this.abilities[nameProperty] = _.clone(ImpactConfig[nameProperty](lvlCast));
 		}
+	}
+
+	generateAITurn(playerUnits, monsterUnits) {
+		return AIMonsterUnit.generateAITurn(playerUnits, monsterUnits, this.abilities);
+	}
+
+	generateSounds(unitConfig) {
+		const randomSoundsSetUp = unitConfig.sounds.setUp[_.random(0, unitConfig.sounds.setUp.length - 1)];
+		this.sounds.notYet = SoundManager.setAudioTrack(randomSoundsSetUp.notYet);
+		this.sounds.attack = SoundManager.setAudioTrack(randomSoundsSetUp.attack);
+		this.sounds.pain = SoundManager.setAudioTrack(randomSoundsSetUp.pain);
+		this.sounds.death = SoundManager.setAudioTrack(randomSoundsSetUp.death);
+		this.sounds.failure = SoundManager.setAudioTrack(randomSoundsSetUp.failure);
 	}
 
 }

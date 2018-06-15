@@ -4,6 +4,14 @@ export default {
 		names_2: ['Александра', 'Всеволод', 'Никита', 'Фома', 'Ирина', 'Михаил', 'Елена', 'Агап', 'Лукьян', 'Алексей ', 'Лилия', 'Кондрат', 'Артем', 'Наталья', 'Данила', 'Дарья', 'Андрей', 'Ева', 'Егор', 'Клара', 'Юнона', 'Виктор', 'Татьяна', 'Елизар', 'Дина', 'Вадим', 'Кирилл', 'Артур', 'Константин', 'Анна', 'Светлана', 'Максимильян', 'Максим', 'Марина', 'Яна', 'Владилен', 'Сергей', 'Наталия', 'Стела', 'Ангелина', 'Самуил', 'Диана', 'Степан', 'Евгения', 'Илья', 'Кондратий', 'Мирослав', 'Иван', 'Герман', 'Юрий', 'Евгений', 'Дмитрий', 'Мария', 'Агафья', 'Алиса', 'Игорь', 'Роза', 'Потап', 'Полина', 'Доминика', 'Григорий', 'Оксана', 'Валентина', 'Павел', 'Ксения', 'Анисья', 'Надежда', 'Антип', 'Ярослав', 'Руслан', 'Юлия', 'Варвара', 'Владимир', 'Нина', 'Алина', 'Анастасия'],
 		adjectives: ['Умный', 'Красивый', 'Бесстрашный', 'Привлекательный', 'Непобедимый', 'Непоколебимый', 'Милый', 'Воинственный', 'Железный', 'Непробиваемый', 'Стойкий', 'Неуязвимый', 'Пушистый', 'Талантливый', 'Ловкий', 'Сообразительный', 'Смелый', 'Титановый', 'Пуленепробиваемый', 'Суперский', 'Мастерский', 'Лапушный', 'Мимимишный', 'Зайчиковый', 'Обалденный', 'Богоподобный', 'Искренний', 'Кайфовый'],
 		hp: 100,
+		sounds: {
+			setUp: [
+				{ notYet: 'src/audio/sounds/player/invoker/notyet.mp3', attack: 'src/audio/sounds/player/invoker/attack.mp3', pain: 'src/audio/sounds/player/invoker/pain.mp3', death: 'src/audio/sounds/player/invoker/death.mp3', failure: 'src/audio/sounds/player/invoker/failure.mp3' },
+				{ notYet: 'src/audio/sounds/player/legion/notyet.mp3', attack: 'src/audio/sounds/player/legion/attack.mp3', pain: 'src/audio/sounds/player/legion/pain.mp3', death: 'src/audio/sounds/player/legion/death.mp3', failure: 'src/audio/sounds/player/legion/failure.mp3' },
+				{ notYet: 'src/audio/sounds/player/cm/notyet.mp3', attack: 'src/audio/sounds/player/cm/attack.mp3', pain: 'src/audio/sounds/player/cm/pain.mp3', death: 'src/audio/sounds/player/cm/death.mp3', failure: 'src/audio/sounds/player/cm/failure.mp3' },
+				{ notYet: 'src/audio/sounds/player/bara/notyet.mp3', attack: 'src/audio/sounds/player/bara/attack.mp3', pain: 'src/audio/sounds/player/bara/pain.mp3', death: 'src/audio/sounds/player/bara/death.mp3', failure: 'src/audio/sounds/player/bara/failure.mp3' }
+			]
+		},
 		sprites: {
 			head: {
 				path: 'src/img/player/heads/heads.png',
@@ -48,6 +56,14 @@ export default {
 		names_2: ['Движухаотик', 'Светохаос', 'Килотрон', 'Коксотрон', 'Вспыходрыг', 'Яркотрой', 'Неотрой', 'Криотрой', 'Гиперслон', 'Гексоглюк', 'Неотрон', 'Гипертаракан', 'Битотрон', 'Килотаракан', 'Психомуха', 'Трансвирус', 'Коксоноль', 'Цифрозомби', 'Роботаракан', 'Гамманоль', 'Бетасталкер', 'Гаммахаотик', 'Мегавирус', 'Робосталкер', 'Темноглюк', 'Яркотаракан', 'Технокрыл', 'Коксобаг', 'Робозомби', 'Килохаос', 'Трансмуха', 'Килокрыл', 'Диждикрыл', 'Роботрой', 'Рободрыг', 'Киломуха', 'Гексохаотик', 'Гаммаснег', 'Битокрыл', 'Терраслон', 'Коксослон', 'Террахаотик', 'Робослон', 'Психолёт', 'Цифроплыв', 'Альфазомби', 'Бетатаракан', 'Движудрыг', 'Гексоноль', 'Трансглюк', 'Терратрой', 'Гексослон', 'Роботаракан', 'Диждиглюк', 'Битовирус', 'Психотрой', 'Темнозомби', 'Рободрыг', 'Светохаос', 'Вспыхотрон', 'Светохаотик', 'Битотрой', 'Бетабаг', 'Ярконоль', 'Вспыхотрой', 'Рободрыг', 'Гамматрон', 'Светокрыл', 'Бетадрыг', 'Психоновик', 'Психовирус', 'Трансзомби', 'Движуснег', 'Трансвирус', 'Битодрыг', 'Темнохаотик', 'Дельтасталкер', 'Робобаг', 'Движуслон', 'Темнохаотик', 'Гаммадрыг', 'Криобаг', 'Движуновик', 'Бетановик', 'Психоснег', 'Неоплыв', 'Темноновик', 'Бетатрой', 'Гаммалёт', 'Вспыхомуха'],
 		adjectives: ['Гыгышный', 'Аццкый', 'Пафассный', 'Гламурный', 'Нимецкая', 'Газенвагенскый', 'Пафассный', 'Миталлюгскый', 'Ржачный', 'Падонкаффский', 'Йадовитый', 'Пятибальный', 'Лольный', 'Имошный', 'Анимэшный', 'Албанский', 'Онглискый', 'Ипаццкый', 'Сапожный', 'Онглиский', 'Злобный', 'Сопливый', 'Ужасный', 'Мерзкий', 'Зеленый', 'Плановый', 'Фиолетовый', 'Укуренный', 'Косяковый', 'Оранжевый', 'Косячный', 'Aгрессивный', 'Aзартный', 'Aморальный', 'Безумный', 'Жадный', 'Железный', 'Злой', 'Занудный', 'Коварный', 'Ловкий', 'Наглый', 'Медлительный', 'Осторожный', 'Подозрительный', 'Сумашедший', 'Твердолобы', 'Тупой', 'Тресливый', 'Угрюмый', 'Холодный', 'Цельнометаллический', 'Юродивый', 'Мутный', 'Ловкий', 'Одноглазый', 'Быстрый', 'Пьяный', 'Смертоносный', 'Ловкий', 'Танцующий', 'Черный', 'Дерзкий', 'Бесшумный', 'Ирладский', 'Бешеный ', 'Меткий'],
 		hp: 100,
+		sounds: {
+			setUp: [
+				{ notYet: 'src/audio/sounds/monster/clock/notyet.mp3', attack: 'src/audio/sounds/monster/clock/attack.mp3', pain: 'src/audio/sounds/monster/clock/pain.mp3', death: 'src/audio/sounds/monster/clock/death.mp3', failure: 'src/audio/sounds/monster/clock/failure.mp3' },
+				{ notYet: 'src/audio/sounds/monster/gyro/notyet.mp3', attack: 'src/audio/sounds/monster/gyro/attack.mp3', pain: 'src/audio/sounds/monster/gyro/pain.mp3', death: 'src/audio/sounds/monster/gyro/death.mp3', failure: 'src/audio/sounds/monster/gyro/failure.mp3' },
+				{ notYet: 'src/audio/sounds/monster/tech/notyet.mp3', attack: 'src/audio/sounds/monster/tech/attack.mp3', pain: 'src/audio/sounds/monster/tech/pain.mp3', death: 'src/audio/sounds/monster/tech/death.mp3', failure: 'src/audio/sounds/monster/tech/failure.mp3' },
+				{ notYet: 'src/audio/sounds/monster/timber/notyet.mp3', attack: 'src/audio/sounds/monster/timber/attack.mp3', pain: 'src/audio/sounds/monster/timber/pain.mp3', death: 'src/audio/sounds/monster/timber/death.mp3', failure: 'src/audio/sounds/monster/timber/failure.mp3' }
+			]
+		},
 		sprites: {
 			head: {
 				path: 'src/img/monster/heads/heads.png',
