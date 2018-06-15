@@ -91,11 +91,70 @@ input {
 
 .game-container {
   min-width: 100vw;
+  width: 100%;
   min-height: 100vh;
+  height: 100%;
   position: relative;
+  background-image: url('../img/bg/start-bg-1.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 50%;
   z-index: 1;
 }
-
+.login-container{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  text-align: center;
+}
+.login-container input {
+  background: -webkit-gradient(linear, left top, left bottom, from(#1f2124), to(#27292c));
+  background: -webkit-linear-gradient(#1f2124, #27292c);
+  background: -o-linear-gradient(#1f2124, #27292c);
+  background: linear-gradient(#1f2124, #27292c);
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
+  color: #FF9900;
+  font-size: 0.875rem;
+  padding: 5px 5px;
+  font-style: italic;
+  width: 150px;
+  height: 45px;
+  letter-spacing: 1.5px;
+  border: 3px solid #FF9900;
+}
+.login-container input:focus {
+  outline-color: #FF9900
+}
+.login-container button {
+  width: 150px;
+  height: 40px;
+  background-color: #FF9900;
+  cursor: pointer;
+  border: none;
+  font-family:"Bender-bold", sans-serif;
+  text-transform: uppercase;
+  border-radius: 8px;
+  margin-top: 15px;
+}
+.login-container button:focus {
+  outline: none;
+  background-color: limegreen;
+}
+.login-container button:hover {
+  background-color: limegreen;
+}
+@keyframes neon {
+  0% {
+    text-shadow: 0 0 10px #000, 0 0 20px #000, 0 0 30px #000, 0 0 40px #FF9900, 0 0 70px #FF9900, 0 0 80px #FF9900, 0 0 100px #FF9900, 0 0 150px #FF9900;
+  }
+  100% {
+    text-shadow: 0 0 5px #000, 0 0 10px #000, 0 0 15px #000, 0 0 20px #FF9900, 0 0 35px #FF9900, 0 0 40px #FF9900, 0 0 50px #FF9900, 0 0 75px #FF9900;
+  }
+}
 .wrapper {
   position: absolute;
   width: 100vw;
@@ -472,8 +531,27 @@ input {
   max-width: 516px;
   height: auto;
   z-index: 11;
+  -webkit-border-radius: 16px;
+  border-radius: 16px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  border: solid 1px transparent;
+  text-align: center;
+  background-image: url(../img/honeycomb.png);
+  background-color: #222;
+  -webkit-box-shadow: 0 0 20px #000;
+  box-shadow: 0 0 20px #000;
+  -webkit-transition: all .5s ease-in-out;
+  -o-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
 }
-
+.gameMenuSW .selectionWheel-bg>img{
+ visibility: hidden;
+}
 .gameMenuSW .selection-btn {
   display: inline-block;
   height: 100%;
@@ -487,6 +565,7 @@ input {
 }
 
 .gameMenuSW .selection-btn:focus {
+  background-color: limegreen;
   outline: none;
 }
 
@@ -495,16 +574,20 @@ input {
   left: 50%;
   bottom: 8.3%;
   transform: translateX(-50%);
-  background-image: url('../img/selectionWheel/backBtn.png');
-  width: 40.4%;
-  height: 13.8%;
-  background-size: cover;
+  width: 45%;
+  height: 9%;
+  border-radius: 8px;
+  background-color: #FF9900;
+  color: #000;
+  font-weight: bold;
   z-index: 13;
-  transition: background-image 0.2s;
 }
-
-.gameMenuSW .selectionWheel-back-btn:focus {
-  background-image: url('../img/selectionWheel/backBtnHover.png');
+.gameMenuSW .selectionWheel-back-btn::before{
+  content: "Back";
+  font-family: "Bender-bold",sans-serif;
+  text-transform: uppercase;
+  top: 0;
+  position: relative;
 }
 
 .gameMenuSW .newInfoFieldList {
@@ -524,10 +607,10 @@ input {
 .gameMenuSW .selectionWheel-cast-info {
   position: absolute;
   left: 50%;
-  top: 50%;
-  width: 50%;
-  height: 50%;
-  transform: translate(-50%, -50%);
+  top: 14%;
+  width: 100%;
+  height: 10%;
+  transform: translateX( -50%);
   z-index: 14;
 }
 
@@ -556,17 +639,32 @@ input {
   top: 0;
   left: 0;
   z-index: 13;
+  box-sizing: content-box;
+  padding-top: 70px;
+}
+.gameMenuSW .selection-casts-wrap::before{
+  content: "Menu";
+  font-family: "Bender-bold",sans-serif;
+  color: #FF9900;
+  text-transform: uppercase;
+  font-size: 2rem;
+  bottom: 40px;
+  position: relative;
 }
 
 .gameMenuSW .selection-cast-icon {
-  position: absolute;
-  width: 16%;
-  height: 16%;
-  border-radius: 50%;
-  background-size: cover;
-  border: 5px solid #000;
-  color: green;
+  display: block;
+  margin: 20px auto;
+  width: 45%;
+  height: 9%;
+  border-radius: 8px;
+  background-color: #FF9900;
+  color: #000;
   font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  font-family: "Bender-bold",sans-serif;
+
 }
 
 .gameMenuSW .selection-cast-icon:focus {
@@ -636,8 +734,22 @@ input {
 
 /* Extra Small Devices, Phones */
 
-@media only screen and (max-width: 480px) {}
+@media only screen and (max-width: 480px) {
+.gameMenuSW .selection-cast-icon {
+  font-size: 0.85rem;
+  margin: 5% auto;
+}
 
+.gameMenuSW .selection-casts-wrap{
+  padding-top: 0;
+}
+.gameMenuSW .selectionWheel-cast-info{
+  display: none;
+}
+.gameMenuSW .selection-casts-wrap::before{
+  bottom: 0;
+}
+}
 /**/
 
 /* Custom, iPhone Retina */
