@@ -34,4 +34,12 @@ export default class Utils {
 		}
 	}
 
+	static rotatePointByAngle(x, y, pointX, pointY, angle) {
+		let result = {
+			x: pointX + (x - pointX) * Math.cos(angle * Math.PI / 180) + (pointY - y) * Math.sin(angle * Math.PI / 180),
+			y: pointY + (x - pointX) * Math.sin(angle * Math.PI / 180) + (y - pointY) * Math.cos(angle * Math.PI / 180)
+		};
+		return result;
+	}
+
 }
