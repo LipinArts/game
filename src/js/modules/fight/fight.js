@@ -244,8 +244,10 @@ export default class Fight {
 		this.drawActiveUnitFlag();
 		this.drawAttackerUnits();
 		this.drawDefenderUnits();
-		this.drawSelectedUnitInfo(this.selectedUnit);
-		this.drawActiveUnitInfo(this.activeUnit);
+		this.drawUnitInfo(this.selectedUnit);
+		if (this.selectedUnit !== this.activeUnit) {
+			this.drawUnitInfo(this.activeUnit);
+		}
 	}
 
 	clearCanvas() {
@@ -324,29 +326,16 @@ export default class Fight {
 		});
 	}
 
-	drawSelectedUnitInfo(selectedUnit) {
-		const coordSelected = this.getUnitObjCoordinates(selectedUnit);
+	drawUnitInfo(unit) {
+		const coordSelected = this.getUnitObjCoordinates(unit);
 		const xSelected = coordSelected.x - this.unitWidth / 2;
 		const ySelected = coordSelected.y - this.unitHeight / 2;
 		this.ctx.save();
 		this.ctx.fillStyle = 'white';
 		this.ctx.font = '15px Arial';
-		this.ctx.fillText(selectedUnit.name, xSelected, ySelected - 10);
+		this.ctx.fillText(unit.name, xSelected, ySelected - 10);
 		this.ctx.font = '25px Arial';
-		this.ctx.fillText('HP ' + selectedUnit.hp, xSelected, ySelected - 30);
-		this.ctx.restore();
-	}
-
-	drawActiveUnitInfo(activeUnit) {
-		const coordActive = this.getUnitObjCoordinates(activeUnit);
-		const xActive = coordActive.x - this.unitWidth / 2;
-		const yActive = coordActive.y - this.unitHeight / 2;
-		this.ctx.save();
-		this.ctx.fillStyle = 'white';
-		this.ctx.font = '15px Arial';
-		this.ctx.fillText(activeUnit.name, xActive, yActive - 10);
-		this.ctx.font = '25px Arial';
-		this.ctx.fillText('HP ' + activeUnit.hp, xActive, yActive - 30);
+		this.ctx.fillText('HP ' + unit.hp, xSelected, ySelected - 30);
 		this.ctx.restore();
 	}
 
