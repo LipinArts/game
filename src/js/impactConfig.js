@@ -45,7 +45,7 @@ export default {
 		damage: function (lvl) { return -lvl; },
 		status: 'normal',
 		target: 'target',
-		duration: function () { 0; },
+		duration: function () { return 0; },
 		icon_path: 'src/img/impact/healWeak/icon/healWeak.jpg',
 		animationTime: 2000
 	},
