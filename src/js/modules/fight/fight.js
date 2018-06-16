@@ -174,7 +174,11 @@ export default class Fight {
 						}
 						this.nextActiveUnitSafe();
 					}
-					this.timeForAnimation = selectedImpact.animationTime;
+					if (selectedImpact) {
+						this.timeForAnimation = selectedImpact.animationTime;
+					} else {
+						this.timeForAnimation = 0;
+					}
 					this.lastTurnEndtTime = new Date().getTime();
 					this.unpauseGame();
 					this.resetKeyboardControl();
