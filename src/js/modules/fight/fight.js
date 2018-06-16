@@ -136,12 +136,14 @@ export default class Fight {
 				this.pauseGame();
 				let botTurn = await this.activeUnit.generateAITurn(this.attacker, this.defender);
 				this.activeUnit.sounds.attack.play();
+				this.activeUnit.animation.attack.start();
 				this.impact(botTurn.selectedUnit, botTurn.selectedImpact);
 				console.log(botTurn.selectedImpact);
-				if (botTurn.selectedUnit.hp <= 0) {
-					botTurn.selectedUnit.sounds.death.play();
+				if (!this.isUnitAlive(botTurn.selectedUnit)) {
+					this.killUnit(botTurn.selectedUnit);
 				} else {
 					botTurn.selectedUnit.sounds.pain.play();
+					botTurn.selectedUnit.animation.pain.start();
 				}
 				this.timeForAnimation = botTurn.selectedImpact.animationTime;
 				this.lastTurnEndtTime = new Date().getTime();
@@ -161,11 +163,13 @@ export default class Fight {
 						let resultUserTask = await new UserTask(selectedImpact.lvl);
 						if (resultUserTask) {
 							this.activeUnit.sounds.attack.play();
+							this.activeUnit.animation.attack.start();
 							console.log(selectedImpact);
 							this.impact(this.selectedUnit, selectedImpact);
-							if (this.selectedUnit.hp <= 0) {
-								this.selectedUnit.sounds.death.play();
+							if (!this.isUnitAlive(this.selectedUnit)) {
+								this.killUnit(this.selectedUnit);
 							} else {
+								this.selectedUnit.animation.pain.start();
 								this.selectedUnit.sounds.pain.play();
 							}
 						}
@@ -356,8 +360,13 @@ export default class Fight {
 		return unit.hp > 0;
 	}
 
+	killUnit(unit) {
+		unit.sounds.death.play();
+		unit.animation.death.start();
+	}
+
 	impact(target, impact) {
-		if (target.hp > 0) {
+		if (this.isUnitAlive(target)) {
 			target.hp = target.hp - impact.damage;
 			if (target.hp > target.maxHP) {
 				target.hp = target.maxHP;

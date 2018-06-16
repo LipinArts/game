@@ -1,6 +1,6 @@
 import impactConfig from '../../impactConfig';
 import Utils from '../utils/utils';
-import AttackAnimation from './impactAnimations/AttackAnimation';
+import AnimationManager from '../animationManager/animationManager';
 
 export default class ImpactUnit {
 	constructor(name, lvl) {
@@ -12,11 +12,6 @@ export default class ImpactUnit {
 		this.duration = impactConfig[name].duration(this.lvl);
 		this.icon_path = impactConfig[name].icon_path;
 		this.animationTime = impactConfig[name].animationTime;
-		//this.animation = new AttackAnimation();
+		//this.animation = AnimationManager.getAnimation(name);
 	}
-
-
-
-
-
 }

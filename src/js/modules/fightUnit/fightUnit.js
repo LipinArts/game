@@ -4,6 +4,7 @@ import ImpactConfig from '../../impactConfig';
 import AIMonsterUnit from '../AIMonsterUnit/AIMonsterUnit';
 import ImpactUnit from '../ImpactUnit/ImpactUnit';
 import SoundManager from '../soundManager/soundManager';
+import AnimationManager from '../animationManager/animationManager';
 import Utils from '../utils/utils';
 
 export default class FightUnit {
@@ -17,173 +18,11 @@ export default class FightUnit {
 		this.sounds = {};
 		this.generate();
 		this.timer = 0;
-
 		this.animation = {
-			standBy: function standBy(unit) {
-				const fps = 80;
-				const startPos = 0;
-				const endPos = 7;
-				let currentPos = _.random(startPos, endPos - 1);
-				let bubble = true;
-
-				function moveDown() {
-					unit.sprites.head.dY += .5;
-					unit.sprites.body.dY += .7;
-					unit.sprites.hands.dY += .5;
-					currentPos += 1;
-				}
-
-				function moveUp() {
-					unit.sprites.head.dY -= .5;
-					unit.sprites.body.dY -= .7;
-					unit.sprites.hands.dY -= .5;
-					currentPos -= 1;
-				}
-				unit.timer = setTimeout(function go() {
-					if (bubble) {
-						if (currentPos > endPos) {
-							bubble = false;
-						}
-						moveDown();
-					} else {
-						if (currentPos < startPos) {
-							bubble = true;
-						}
-						moveUp();
-					}
-					unit.timer = setTimeout(go, fps);
-				}, fps);
-			}(this),
-
-			death: function (unit) {
-				clearTimeout(unit.timer);
-				const fps = 25;
-				let startPos = 0;
-				const endPos = unit.sprites.legs.dY;
-
-				function moveDown() {
-					unit.sprites.head.dY += 10;
-					unit.sprites.body.dY += 5;
-					unit.sprites.hands.dY += 5;
-					startPos += 8;
-				}
-				setTimeout(function go() {
-					if (startPos < endPos) {
-						moveDown();
-					}
-					setTimeout(go, fps);
-				}, fps);
-			},
-
-			attack: function (unit) {
-				clearTimeout(unit.timer);
-				const fps = 20;
-				let startPos = 0;
-				const endPos = 200;
-				let currentPos = 0;
-				let bubble = true;
-				let counter = 0;
-
-				function moveRightPlayer() {
-					unit.sprites.head.dX += 10;
-					unit.sprites.body.dX += 10;
-					unit.sprites.hands.dX += 10;
-					unit.sprites.legs.dX += 10;
-					currentPos += 10;
-				}
-				function moveleftPlayer() {
-					unit.sprites.head.dX -= 10;
-					unit.sprites.body.dX -= 10;
-					unit.sprites.hands.dX -= 10;
-					unit.sprites.legs.dX -= 10;
-					currentPos -= 10;
-				}
-
-				function moveRightMonster() {
-					unit.sprites.head.dX += 10;
-					unit.sprites.body.dX += 10;
-					unit.sprites.hands.dX += 10;
-					unit.sprites.legs.dX += 10;
-					currentPos -= 10;
-				}
-				function moveleftMonster() {
-					unit.sprites.head.dX -= 10;
-					unit.sprites.body.dX -= 10;
-					unit.sprites.hands.dX -= 10;
-					unit.sprites.legs.dX -= 10;
-					currentPos += 10;
-				}
-				unit.timer = setTimeout(function go() {
-					if (bubble) {
-						if (currentPos > endPos) {
-							bubble = false;
-						}
-						if (unit.type === 'player') {
-							moveRightPlayer();
-						} else {
-							moveleftMonster();
-						}
-					} else {
-						if (currentPos < startPos + 30) {
-							bubble = true;
-							counter = 1;
-						}
-						if (unit.type === 'player') {
-							moveleftPlayer();
-						} else {
-							moveRightMonster();
-						}
-					}
-					if (counter === 0) {
-						unit.timer = setTimeout(go, fps);
-					} else {
-						clearTimeout(unit.timer);
-					}
-				}, fps);
-			},
-
-			damage: function (unit) {
-				clearTimeout(unit.timer);
-				const fps = 80;
-				const startPos = 0;
-				const endPos = 10;
-				let currentPos = 0;
-				let counter = 0;
-				let bubble = true;
-
-				function moveDown() {
-					unit.sprites.head.dY += 1;
-					// unit.sprites.body.dY += 2;
-					// unit.sprites.hands.dY += .5;
-					currentPos += 1;
-				}
-
-				function moveUp() {
-					unit.sprites.head.dY -= 1;
-					// unit.sprites.body.dY -= 2;
-					// unit.sprites.hands.dY -= .5;
-					currentPos -= 1;
-				}
-				unit.timer = setTimeout(function go() {
-					if (bubble) {
-						if (currentPos > endPos) {
-							bubble = false;
-						}
-						moveDown();
-					} else {
-						if (currentPos < startPos) {
-							bubble = true;
-							counter = 1;
-						}
-						moveUp();
-					}
-					if (counter === 0) {
-						unit.timer = setTimeout(go, fps);
-					} else {
-						clearTimeout(unit.timer);
-					}
-				}, fps);
-			}
+			standBy: AnimationManager.getAnimation('standBy', this).start(),
+			death: AnimationManager.getAnimation('death', this),
+			attack: AnimationManager.getAnimation('attack', this),
+			pain: AnimationManager.getAnimation('pain', this),
 		};
 	}
 
