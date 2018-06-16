@@ -28,7 +28,6 @@ export default class GameManager {
 		this.showScore(currentScore);
 	}
 
-
 	generateGroupOfUnits(typeGroup, diffucult) {
 		const unitGroup = [];
 		unitGroup.typeGroup = typeGroup;

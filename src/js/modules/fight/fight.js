@@ -93,7 +93,7 @@ export default class Fight {
 	}
 
 	update() {
-		if (this.frameLoopRunning) {
+		if (this.frameLoopRunning && this.round < 100) {
 			if (this.isFightNotOver()) {
 				this.updateSelecting();
 				this.updateTurn();
@@ -103,6 +103,15 @@ export default class Fight {
 				this.finishFight();
 			}
 		}
+	}
+
+	pauseFight() {
+		this.frameLoopRunning = false;
+	}
+
+	unpauseFight() {
+		this.frameLoopRunning = true;
+		this.startGameLoop();
 	}
 
 	finishFight() {
@@ -128,7 +137,7 @@ export default class Fight {
 	async updateTurn() {
 		if (this.isTurnPossibleAfterDelayBetweenTurns()) {
 			if (this.activeUnit.type === 'monster') {
-				this.pauseGame();
+				this.pauseFight();
 				let botTurn = await this.activeUnit.generateAITurn(this.attacker, this.defender);
 
 				if (botTurn.selectedUnit.type === 'monster') {
@@ -140,22 +149,31 @@ export default class Fight {
 				this.delayBetweenTurns = botTurn.selectedImpact.animationTime;
 				this.lastTurnEndtTime = new Date().getTime();
 				this.nextActiveUnitSafe();
-				this.unpauseGame();
+				this.unpauseFight();
 				this.resetKeyboardControl();
 			} else {
 
 				if (KeyboardController.pressedKeys.impact) {
-					this.pauseGame();
+					this.pauseFight();
 					const infoOutputScheme = { damage: 'Damage/heal', status: 'Add status', target: 'Target', duration: 'Duration', lvl: 'Difficulty' };
 					let selectedImpactJSON = await new SelectionWheel(this.activeUnit.abilities, this.canvas, infoOutputScheme, document.body, 'src/img/selectionWheel/wheel.png', 'impactsSW');
 
+					// if player select impact
 					if (selectedImpactJSON) {
 						let selectedImpact = JSON.parse(selectedImpactJSON);
 						let resultUserTask = await new UserTask(selectedImpact.lvl);
 
+						// if player gave the right answer
 						if (resultUserTask) {
 							if (this.selectedUnit.type === 'player') {
-								this.heal(this.activeUnit, this.selectedUnit, selectedImpact);
+								// if player heal ally
+								if (selectedImpact.damage < 0) {
+									this.heal(this.activeUnit, this.selectedUnit, selectedImpact);
+								}
+								// if player do damage ally
+								else {
+									this.attack(this.activeUnit, this.selectedUnit, selectedImpact);
+								}
 							} else {
 								this.attack(this.activeUnit, this.selectedUnit, selectedImpact);
 							}
@@ -167,24 +185,37 @@ export default class Fight {
 
 						this.nextActiveUnitSafe();
 					}
+					// if player press back button
 					else {
 						this.delayBetweenTurns = 0;
 					}
 
 					this.lastTurnEndtTime = new Date().getTime();
-					this.unpauseGame();
+					this.unpauseFight();
 					this.resetKeyboardControl();
 				}
 
 			}
 		}
 		else {
+			// if player try do damane in while delay between turns is not left
 			if (KeyboardController.pressedKeys.impact) {
 				this.activeUnit.sounds.notYet.play();
 				this.resetKeyboardControl();
 			}
 
 		}
+	}
+
+	isTurnPossibleAfterDelayBetweenTurns() {
+		const currentTime = new Date().getTime();
+		return currentTime - this.lastTurnEndtTime >= this.delayBetweenTurns;
+	}
+
+	resetKeyboardControl() {
+		KeyboardController.pressedKeys.impact = false;
+		KeyboardController.pressedKeys.nextTarget = false;
+		KeyboardController.pressedKeys.prevTarget = false;
 	}
 
 	attack(attacker, target, impact) {
@@ -195,7 +226,7 @@ export default class Fight {
 			target.sounds.pain.play();
 			target.animation.pain.start();
 		} else {
-			this.killUnit(target);
+			this.kill(target);
 		}
 	}
 
@@ -209,9 +240,48 @@ export default class Fight {
 		unit.sounds.failure.play();
 	}
 
-	isTurnPossibleAfterDelayBetweenTurns() {
-		const currentTime = new Date().getTime();
-		return currentTime - this.lastTurnEndtTime >= this.delayBetweenTurns;
+	kill(unit) {
+		unit.sounds.death.play();
+		unit.animation.death.start();
+	}
+
+	impact(target, impact) {
+		if (this.isUnitAlive(target)) {
+			target.hp = target.hp - impact.damage;
+			if (target.hp > target.maxHP) {
+				target.hp = target.maxHP;
+			}
+		} else {
+			// disable ressurect dead unit by healing player can heal dead only to 0 HP
+			target.hp = target.hp - impact.damage;
+			if (target.hp > 0) {
+				target.hp = 0;
+			}
+		}
+	}
+
+	nextTarget() {
+		this.selectedUnitIndex++;
+		if (this.selectedUnitIndex > this.attacker.length * 2 - 1) {
+			this.selectedUnitIndex = 0;
+		}
+		if (this.selectedUnitIndex < this.attacker.length) {
+			return this.attacker[this.selectedUnitIndex];
+		} else {
+			return this.defender[this.selectedUnitIndex - 3];
+		}
+	}
+
+	prevTarget() {
+		this.selectedUnitIndex--;
+		if (this.selectedUnitIndex < 0) {
+			this.selectedUnitIndex = this.attacker.length * 2 - 1;
+		}
+		if (this.selectedUnitIndex < this.attacker.length) {
+			return this.attacker[this.selectedUnitIndex];
+		} else {
+			return this.defender[this.selectedUnitIndex - 3];
+		}
 	}
 
 	nextActiveUnitSafe() {
@@ -223,20 +293,50 @@ export default class Fight {
 		}
 	}
 
-	resetKeyboardControl() {
-		KeyboardController.pressedKeys.impact = false;
-		KeyboardController.pressedKeys.nextTarget = false;
-		KeyboardController.pressedKeys.prevTarget = false;
+	nextActiveUnit() {
+		this.activeUnitIndex++;
+		if (this.activeUnitIndex > this.attacker.length * 2 - 1) {
+			this.round++;
+			this.activeUnitIndex = 0;
+		}
+		if (this.activeUnitIndex < this.attacker.length) {
+			return this.attacker[this.activeUnitIndex];
+		} else {
+			return this.defender[this.activeUnitIndex - 3];
+		}
 	}
 
-	pauseGame() {
-		this.frameLoopRunning = false;
+	getUnitObjCoordinates(unitObj) {
+		let x;
+		let y;
+		if (this.attacker.indexOf(unitObj) !== -1) {
+			let index = this.attacker.indexOf(unitObj);
+			x = this.unitsAttackerCoordinates[index].x;
+			y = this.unitsAttackerCoordinates[index].y;
+		} else {
+			let index = this.defender.indexOf(unitObj);
+			x = this.unitsDefenderCoordinates[index].x;
+			y = this.unitsDefenderCoordinates[index].y;
+		}
+		return {
+			x: x,
+			y: y
+		};
 	}
 
-	unpauseGame() {
-		this.frameLoopRunning = true;
-		this.startGameLoop();
+	isFightNotOver() {
+		return this.isGroupAlive(this.attacker) && this.isGroupAlive(this.defender);
 	}
+
+	isGroupAlive(groupOfUnits) {
+		return groupOfUnits.some(unit => unit.hp > 0);
+	}
+
+	isUnitAlive(unit) {
+		return unit.hp > 0;
+	}
+
+	// render methods
 
 	render() {
 		this.clearCanvas();
@@ -252,6 +352,18 @@ export default class Fight {
 
 	clearCanvas() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	}
+
+	drawAttackerUnits() {
+		this.attacker.forEach((unit, index) => {
+			this.drawUnit(this.attacker[index], this.unitsAttackerCoordinates[index].x, this.unitsAttackerCoordinates[index].y);
+		});
+	}
+
+	drawDefenderUnits() {
+		this.defender.forEach((unit, index) => {
+			this.drawUnit(this.defender[index], this.unitsDefenderCoordinates[index].x, this.unitsDefenderCoordinates[index].y);
+		});
 	}
 
 	drawUnit(unit, posX, posY) {
@@ -308,7 +420,7 @@ export default class Fight {
 		this.ctx.translate(x, y);
 		this.ctx.rotate(0);
 		this.ctx.lineWidth = 1;
-		this.ctx.fillStyle = 'orange';
+		this.ctx.fillStyle = 'limegreen';
 		this.ctx.beginPath();
 		this.ctx.moveTo(-20, -20);
 		this.ctx.lineTo(0, -10);
@@ -324,36 +436,6 @@ export default class Fight {
 		this.ctx.restore();
 	}
 
-	getUnitObjCoordinates(unitObj) {
-		let x;
-		let y;
-		if (this.attacker.indexOf(unitObj) !== -1) {
-			let index = this.attacker.indexOf(unitObj);
-			x = this.unitsAttackerCoordinates[index].x;
-			y = this.unitsAttackerCoordinates[index].y;
-		} else {
-			let index = this.defender.indexOf(unitObj);
-			x = this.unitsDefenderCoordinates[index].x;
-			y = this.unitsDefenderCoordinates[index].y;
-		}
-		return {
-			x: x,
-			y: y
-		};
-	}
-
-	drawAttackerUnits() {
-		this.attacker.forEach((unit, index) => {
-			this.drawUnit(this.attacker[index], this.unitsAttackerCoordinates[index].x, this.unitsAttackerCoordinates[index].y);
-		});
-	}
-
-	drawDefenderUnits() {
-		this.defender.forEach((unit, index) => {
-			this.drawUnit(this.defender[index], this.unitsDefenderCoordinates[index].x, this.unitsDefenderCoordinates[index].y);
-		});
-	}
-
 	drawUnitInfo(unit) {
 		const coordSelected = this.getUnitObjCoordinates(unit);
 		const xSelected = coordSelected.x - this.unitWidth / 2;
@@ -365,75 +447,6 @@ export default class Fight {
 		this.ctx.font = '25px Arial';
 		this.ctx.fillText('HP ' + unit.hp, xSelected, ySelected - 30);
 		this.ctx.restore();
-	}
-
-	isFightNotOver() {
-		return this.isGroupAlive(this.attacker) && this.isGroupAlive(this.defender);
-	}
-
-	isGroupAlive(groupOfUnits) {
-		return groupOfUnits.some(unit => unit.hp > 0);
-	}
-
-	isUnitAlive(unit) {
-		return unit.hp > 0;
-	}
-
-	killUnit(unit) {
-		unit.sounds.death.play();
-		unit.animation.death.start();
-	}
-
-	impact(target, impact) {
-		if (this.isUnitAlive(target)) {
-			target.hp = target.hp - impact.damage;
-			if (target.hp > target.maxHP) {
-				target.hp = target.maxHP;
-			}
-		} else {
-			// disable ressurect dead unit by healing player can heal dead only to 0 HP
-			target.hp = target.hp - impact.damage;
-			if (target.hp > 0) {
-				target.hp = 0;
-			}
-		}
-	}
-
-	nextTarget() {
-		this.selectedUnitIndex++;
-		if (this.selectedUnitIndex > this.attacker.length * 2 - 1) {
-			this.selectedUnitIndex = 0;
-		}
-		if (this.selectedUnitIndex < this.attacker.length) {
-			return this.attacker[this.selectedUnitIndex];
-		} else {
-			return this.defender[this.selectedUnitIndex - 3];
-		}
-	}
-
-	prevTarget() {
-		this.selectedUnitIndex--;
-		if (this.selectedUnitIndex < 0) {
-			this.selectedUnitIndex = this.attacker.length * 2 - 1;
-		}
-		if (this.selectedUnitIndex < this.attacker.length) {
-			return this.attacker[this.selectedUnitIndex];
-		} else {
-			return this.defender[this.selectedUnitIndex - 3];
-		}
-	}
-
-	nextActiveUnit() {
-		this.activeUnitIndex++;
-		if (this.activeUnitIndex > this.attacker.length * 2 - 1) {
-			this.round++;
-			this.activeUnitIndex = 0;
-		}
-		if (this.activeUnitIndex < this.attacker.length) {
-			return this.attacker[this.activeUnitIndex];
-		} else {
-			return this.defender[this.activeUnitIndex - 3];
-		}
 	}
 
 }

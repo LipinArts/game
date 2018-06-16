@@ -11,14 +11,10 @@ export default class GameInterface {
 		this.gameStarted = false;
 	}
 
-	pressStartNewGameButton() {
-		if (this.gameStarted) {
-			document.location.href = '/game.html';
-		} else {
-			this.gameStarted = true;
-			Utils.saveDataObjToStorage(this.userData, 'lastLoginUserData');
-			new GameManager(this.userData);
-		}
+	async initialization() {
+		await this.loginUser();
+		await this.createMenu();
+		this.initKeyboardControlInput();
 	}
 
 	async loginUser() {
@@ -58,13 +54,6 @@ export default class GameInterface {
 		});
 	}
 
-
-	async initialization() {
-		await this.loginUser();
-		await this.createMenu();
-		this.initKeyboardControlInput();
-	}
-
 	async createMenu() {
 		const infoOutputScheme = { info: '' };
 		const menuObj = {
@@ -85,15 +74,15 @@ export default class GameInterface {
 				break;
 			case 'musicOn_Off':
 				this.createMenu();
-				console.log('musicOn_Off');
+				//console.log('musicOn_Off');
 				break;
 			case 'increaseVol':
 				this.createMenu();
-				console.log('increaseVol');
+				//console.log('increaseVol');
 				break;
 			case 'decreaseVol':
 				this.createMenu();
-				console.log('decreaseVol');
+				//console.log('decreaseVol');
 				break;
 			}
 		}
@@ -149,6 +138,16 @@ export default class GameInterface {
 
 		window.addEventListener('keydown', keydownHandler, false);
 		window.addEventListener('keyup', keyupHandler, false);
+	}
+
+	pressStartNewGameButton() {
+		if (this.gameStarted) {
+			document.location.href = '/game.html';
+		} else {
+			this.gameStarted = true;
+			Utils.saveDataObjToStorage(this.userData, 'lastLoginUserData');
+			new GameManager(this.userData);
+		}
 	}
 
 }
