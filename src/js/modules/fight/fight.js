@@ -11,25 +11,21 @@ export default class Fight {
 		this.defender = defender;
 		this.round = 0;
 		this.enableSelectingFlag = false;
-		this.selectedUnit = this.attacker[0];
+		this.selectedUnit = this.defender[0];
 		this.activeUnit = this.attacker[0];
-		this.selectedUnitIndex = 0;
+		this.selectedUnitIndex = 3;
 		this.activeUnitIndex = 0;
 		this.unitWidth = this.attacker[0].unitSize.width;
 		this.unitHeight = this.attacker[0].unitSize.height;
-		this.unitsAttackerCoordinates = [{ x: 200 + this.unitWidth / 2, y: 50 + this.unitHeight / 2 }, { x: 0 + this.unitWidth / 2, y: 360 + this.unitHeight / 2 }, { x: 400 + this.unitWidth / 2, y: 360 + this.unitHeight / 2 }];
-		this.unitsDefenderCoordinates = [{ x: 900 + this.unitWidth / 2, y: 50 + this.unitHeight / 2 }, { x: 700 + this.unitWidth / 2, y: 360 + this.unitHeight / 2 }, { x: 1100 + this.unitWidth / 2, y: 360 + this.unitHeight / 2 }];
-		this.unitsAttackerCoordinates = [{ x: 200 + this.unitWidth / 2, y: 50 + this.unitHeight / 2 }, { x: 0 + this.unitWidth / 2, y: 360 + this.unitHeight / 2 }, { x: 400 + this.unitWidth / 2, y: 360 + this.unitHeight / 2 }];
-		this.unitsDefenderCoordinates = [{ x: 900 + this.unitWidth / 2, y: 50 + this.unitHeight / 2 }, { x: 700 + this.unitWidth / 2, y: 360 + this.unitHeight / 2 }, { x: 1100 + this.unitWidth / 2, y: 360 + this.unitHeight / 2 }];
-		this.canvas = document.getElementById('canvas');
+		this.unitsAttackerCoordinates = fightConfig.attacker;
+		this.unitsDefenderCoordinates = fightConfig.defender;
+		this.canvas = fightConfig.canvas;
 		this.ctx = this.canvas.getContext('2d');
 		this.frameLoopRunning = false;
-		this.resolvePromiseFunc;
-		this.once = true;
-
 		this.lastTurnEndtTime = new Date().getTime();
-		this.timeForAnimation = 0;
+		this.delayBetweenTurns = 0;
 
+		this.resolvePromiseFunc;
 		return new Promise(resolve => {
 			this.resolvePromiseFunc = resolve;
 			this.fightModulCycle();
@@ -40,20 +36,31 @@ export default class Fight {
 		this.showLoadingScreen();
 		this.showCanvasAfterLoading();
 		this.hideLoadingScreen();
-		this.startGameLoop();
 		this.setBackground();
-	}
-
-	showCanvasAfterLoading() {
-		this.canvas.classList.remove('hide');
+		this.startGameLoop();
 	}
 
 	showLoadingScreen() {
 		//console.log('show loading screen');
 	}
 
+	showCanvasAfterLoading() {
+		this.canvas.classList.remove('hide');
+	}
+
 	hideLoadingScreen() {
 		//console.log('hide loading screen');
+	}
+
+	setBackground() {
+		const gameBgContainer = document.querySelector('.game-bg-image');
+		const bg = this.generateBackground();
+		gameBgContainer.style.backgroundImage = `url("${bg}")`;
+	}
+
+	generateBackground() {
+		const background = fightConfig.background_images[_.random(0, fightConfig.background_images.length - 1)];
+		return background;
 	}
 
 	startGameLoop() {
@@ -81,7 +88,6 @@ export default class Fight {
 				requestAnimationFrame(frame);
 			}
 		}
-
 		this.frameLoopRunning = true;
 		requestAnimationFrame(frame);
 	}
@@ -94,13 +100,16 @@ export default class Fight {
 			}
 			else {
 				this.frameLoopRunning = false;
-				const that = this;
-				this.resolvePromiseFunc({
-					'attacker': that.attacker,
-					'defender': that.defender
-				});
+				this.finishFight();
 			}
 		}
+	}
+
+	finishFight() {
+		this.resolvePromiseFunc({
+			'attacker': this.attacker,
+			'defender': this.defender
+		});
 	}
 
 	updateSelecting() {
@@ -117,63 +126,56 @@ export default class Fight {
 	}
 
 	async updateTurn() {
-		const currentTime = new Date().getTime();
-		if (currentTime - this.lastTurnEndtTime >= this.timeForAnimation) {
+		if (this.isTurnPossibleAfterDelayBetweenTurns()) {
 			if (this.activeUnit.type === 'monster') {
 				this.pauseGame();
 				let botTurn = await this.activeUnit.generateAITurn(this.attacker, this.defender);
-				this.activeUnit.sounds.attack.play();
-				this.activeUnit.animation.attack.start();
-				this.impact(botTurn.selectedUnit, botTurn.selectedImpact);
-				console.log(botTurn.selectedImpact);
-				if (!this.isUnitAlive(botTurn.selectedUnit)) {
-					this.killUnit(botTurn.selectedUnit);
-				} else {
-					botTurn.selectedUnit.sounds.pain.play();
-					botTurn.selectedUnit.animation.pain.start();
-				}
-				this.timeForAnimation = botTurn.selectedImpact.animationTime;
-				this.lastTurnEndtTime = new Date().getTime();
 
+				if (botTurn.selectedUnit.type === 'monster') {
+					this.heal(this.activeUnit, botTurn.selectedUnit, botTurn.selectedImpact);
+				} else {
+					this.attack(this.activeUnit, botTurn.selectedUnit, botTurn.selectedImpact);
+				}
+
+				this.delayBetweenTurns = botTurn.selectedImpact.animationTime;
+				this.lastTurnEndtTime = new Date().getTime();
 				this.nextActiveUnitSafe();
 				this.unpauseGame();
 				this.resetKeyboardControl();
 			} else {
+
 				if (KeyboardController.pressedKeys.impact) {
 					this.pauseGame();
 					const infoOutputScheme = { damage: 'Damage/heal', status: 'Add status', target: 'Target', duration: 'Duration', lvl: 'Difficulty' };
-					const backgroundImageWheel = 'src/img/selectionWheel/wheel.png';
-					let selectedImpactString = await new SelectionWheel(this.activeUnit.abilities, this.canvas, infoOutputScheme, document.body, backgroundImageWheel, 'impactsSW');
-					let selectedImpact;
-					if (selectedImpactString) {
-						selectedImpact = JSON.parse(selectedImpactString);
+					let selectedImpactJSON = await new SelectionWheel(this.activeUnit.abilities, this.canvas, infoOutputScheme, document.body, 'src/img/selectionWheel/wheel.png', 'impactsSW');
+
+					if (selectedImpactJSON) {
+						let selectedImpact = JSON.parse(selectedImpactJSON);
 						let resultUserTask = await new UserTask(selectedImpact.lvl);
+
 						if (resultUserTask) {
-							this.activeUnit.sounds.attack.play();
-							this.activeUnit.animation.attack.start();
-							console.log(selectedImpact);
-							this.impact(this.selectedUnit, selectedImpact);
-							if (!this.isUnitAlive(this.selectedUnit)) {
-								this.killUnit(this.selectedUnit);
+							if (this.selectedUnit.type === 'player') {
+								this.heal(this.activeUnit, this.selectedUnit, selectedImpact);
 							} else {
-								this.selectedUnit.animation.pain.start();
-								this.selectedUnit.sounds.pain.play();
+								this.attack(this.activeUnit, this.selectedUnit, selectedImpact);
 							}
+							this.delayBetweenTurns = selectedImpact.animationTime;
 						}
 						else {
-							this.activeUnit.sounds.failure.play();
+							this.failure(this.activeUnit);
 						}
+
 						this.nextActiveUnitSafe();
 					}
-					if (selectedImpact) {
-						this.timeForAnimation = selectedImpact.animationTime;
-					} else {
-						this.timeForAnimation = 0;
+					else {
+						this.delayBetweenTurns = 0;
 					}
+
 					this.lastTurnEndtTime = new Date().getTime();
 					this.unpauseGame();
 					this.resetKeyboardControl();
 				}
+
 			}
 		}
 		else {
@@ -183,8 +185,33 @@ export default class Fight {
 			}
 
 		}
+	}
 
+	attack(attacker, target, impact) {
+		attacker.sounds.attack.play();
+		target.animation.attack.start();
+		this.impact(target, impact);
+		if (this.isUnitAlive(target)) {
+			target.sounds.pain.play();
+			target.animation.pain.start();
+		} else {
+			this.killUnit(target);
+		}
+	}
 
+	heal(attacker, target, impact) {
+		//attacker.sounds.help.play();
+		//target.animation.help.start();
+		this.impact(target, impact);
+	}
+
+	failure(unit) {
+		unit.sounds.failure.play();
+	}
+
+	isTurnPossibleAfterDelayBetweenTurns() {
+		const currentTime = new Date().getTime();
+		return currentTime - this.lastTurnEndtTime >= this.delayBetweenTurns;
 	}
 
 	nextActiveUnitSafe() {
@@ -217,22 +244,12 @@ export default class Fight {
 		this.drawActiveUnitFlag();
 		this.drawAttackerUnits();
 		this.drawDefenderUnits();
-		this.drawSelectAndActiveUnitsInfoBars(this.activeUnit, this.selectedUnit);
+		this.drawSelectedUnitInfo(this.selectedUnit);
+		this.drawActiveUnitInfo(this.activeUnit);
 	}
 
 	clearCanvas() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-	}
-
-	generateBackground() {
-		const background = fightConfig.background_images[_.random(0, fightConfig.background_images.length - 1)];
-		return background;
-	}
-
-	setBackground() {
-		const gameBgContainer = document.querySelector('.game-bg-image');
-		const bg = this.generateBackground();
-		gameBgContainer.style.backgroundImage = `url("${bg}")`;
 	}
 
 	drawUnit(unit, posX, posY) {
@@ -307,37 +324,29 @@ export default class Fight {
 		});
 	}
 
-	drawSelectAndActiveUnitsInfoBars(activeUnit, selectedUnit) {
-		const coordActive = this.getUnitObjCoordinates(activeUnit);
-		const xActive = coordActive.x - this.unitWidth / 2;
-		const yActive = coordActive.y - this.unitHeight / 2;
-
+	drawSelectedUnitInfo(selectedUnit) {
 		const coordSelected = this.getUnitObjCoordinates(selectedUnit);
 		const xSelected = coordSelected.x - this.unitWidth / 2;
 		const ySelected = coordSelected.y - this.unitHeight / 2;
-
 		this.ctx.save();
-		//const widthBar = 200;
-		const heightBar = 50;
-
-		// this.ctx.fillStyle = 'white';
-		// this.ctx.fillRect(xActive, yActive - heightBar, widthBar, heightBar);
-		// if (activeUnit !== selectedUnit) {
-		// 	this.ctx.fillRect(xSelected, ySelected - heightBar, widthBar, heightBar);
-		// }
-
 		this.ctx.fillStyle = 'white';
 		this.ctx.font = '15px Arial';
-		this.ctx.fillText(activeUnit.name, xActive, yActive - heightBar + 20);
+		this.ctx.fillText(selectedUnit.name, xSelected, ySelected - 10);
 		this.ctx.font = '25px Arial';
-		this.ctx.fillText('HP ' + activeUnit.hp, xActive, yActive - heightBar + 40);
-		if (activeUnit !== selectedUnit) {
-			this.ctx.font = '15px Arial';
-			this.ctx.fillText(selectedUnit.name, xSelected, ySelected - heightBar + 20);
-			this.ctx.font = '25px Arial';
-			this.ctx.fillText('HP ' + selectedUnit.hp, xSelected, ySelected - heightBar + 40);
-		}
+		this.ctx.fillText('HP ' + selectedUnit.hp, xSelected, ySelected - 30);
+		this.ctx.restore();
+	}
 
+	drawActiveUnitInfo(activeUnit) {
+		const coordActive = this.getUnitObjCoordinates(activeUnit);
+		const xActive = coordActive.x - this.unitWidth / 2;
+		const yActive = coordActive.y - this.unitHeight / 2;
+		this.ctx.save();
+		this.ctx.fillStyle = 'white';
+		this.ctx.font = '15px Arial';
+		this.ctx.fillText(activeUnit.name, xActive, yActive - 10);
+		this.ctx.font = '25px Arial';
+		this.ctx.fillText('HP ' + activeUnit.hp, xActive, yActive - 30);
 		this.ctx.restore();
 	}
 
