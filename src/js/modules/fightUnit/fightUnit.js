@@ -2,6 +2,7 @@ import _ from 'lodash';
 import unitConfig from '../../unitConfig';
 import ImpactConfig from '../../impactConfig';
 import AIMonsterUnit from '../AIMonsterUnit/AIMonsterUnit';
+import ImpactUnit from '../ImpactUnit/ImpactUnit';
 import SoundManager from '../soundManager/soundManager';
 import Utils from '../utils/utils';
 
@@ -125,7 +126,7 @@ export default class FightUnit {
 					} else {
 						if (currentPos < startPos + 30) {
 							bubble = true;
-							counter  = 1;
+							counter = 1;
 						}
 						if (unit.type === 'player') {
 							moveleftPlayer();
@@ -133,15 +134,15 @@ export default class FightUnit {
 							moveRightMonster();
 						}
 					}
-					if(counter === 0){
+					if (counter === 0) {
 						unit.timer = setTimeout(go, fps);
-					}else{
+					} else {
 						clearTimeout(unit.timer);
 					}
 				}, fps);
 			},
 
-			damage: function(unit) {
+			damage: function (unit) {
 				clearTimeout(unit.timer);
 				const fps = 80;
 				const startPos = 0;
@@ -172,13 +173,13 @@ export default class FightUnit {
 					} else {
 						if (currentPos < startPos) {
 							bubble = true;
-							counter  = 1;
+							counter = 1;
 						}
 						moveUp();
 					}
-					if(counter === 0){
+					if (counter === 0) {
 						unit.timer = setTimeout(go, fps);
-					}else{
+					} else {
 						clearTimeout(unit.timer);
 					}
 				}, fps);
@@ -238,9 +239,9 @@ export default class FightUnit {
 	generateUnitAbilities() {
 		const allCastsNames = Object.keys(ImpactConfig);
 		for (let numberUnitCast = 0; numberUnitCast < 6; numberUnitCast++) {
-			const nameProperty = allCastsNames[_.random(0, allCastsNames.length - 1)];
+			const impactName = allCastsNames[_.random(0, allCastsNames.length - 1)];
 			const lvlCast = _.random(1, this.difficulty);
-			this.abilities[nameProperty] = _.clone(ImpactConfig[nameProperty](lvlCast));
+			this.abilities[impactName] = new ImpactUnit(impactName, lvlCast);
 		}
 	}
 

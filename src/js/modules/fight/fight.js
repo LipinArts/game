@@ -137,6 +137,7 @@ export default class Fight {
 				let botTurn = await this.activeUnit.generateAITurn(this.attacker, this.defender);
 				this.activeUnit.sounds.attack.play();
 				this.impact(botTurn.selectedUnit, botTurn.selectedImpact);
+				console.log(botTurn.selectedImpact);
 				if (botTurn.selectedUnit.hp <= 0) {
 					botTurn.selectedUnit.sounds.death.play();
 				} else {
@@ -160,6 +161,7 @@ export default class Fight {
 						let resultUserTask = await new UserTask(selectedImpact.lvl);
 						if (resultUserTask) {
 							this.activeUnit.sounds.attack.play();
+							console.log(selectedImpact);
 							this.impact(this.selectedUnit, selectedImpact);
 							if (this.selectedUnit.hp <= 0) {
 								this.selectedUnit.sounds.death.play();
