@@ -93,7 +93,7 @@ export default class Fight {
 	}
 
 	update() {
-		if (this.frameLoopRunning) {
+		if (this.frameLoopRunning && this.round < 100) {
 			if (this.isFightNotOver()) {
 				this.updateSelecting();
 				this.updateTurn();
@@ -158,13 +158,22 @@ export default class Fight {
 					const infoOutputScheme = { damage: 'Damage/heal', status: 'Add status', target: 'Target', duration: 'Duration', lvl: 'Difficulty' };
 					let selectedImpactJSON = await new SelectionWheel(this.activeUnit.abilities, this.canvas, infoOutputScheme, document.body, 'src/img/selectionWheel/wheel.png', 'impactsSW');
 
+					// if player select impact
 					if (selectedImpactJSON) {
 						let selectedImpact = JSON.parse(selectedImpactJSON);
 						let resultUserTask = await new UserTask(selectedImpact.lvl);
 
+						// if player gave the right answer
 						if (resultUserTask) {
 							if (this.selectedUnit.type === 'player') {
-								this.heal(this.activeUnit, this.selectedUnit, selectedImpact);
+								// if player heal ally
+								if (selectedImpact.damage < 0) {
+									this.heal(this.activeUnit, this.selectedUnit, selectedImpact);
+								}
+								// if player do damage ally
+								else {
+									this.attack(this.activeUnit, this.selectedUnit, selectedImpact);
+								}
 							} else {
 								this.attack(this.activeUnit, this.selectedUnit, selectedImpact);
 							}
@@ -176,6 +185,7 @@ export default class Fight {
 
 						this.nextActiveUnitSafe();
 					}
+					// if player press back button
 					else {
 						this.delayBetweenTurns = 0;
 					}
@@ -188,6 +198,7 @@ export default class Fight {
 			}
 		}
 		else {
+			// if player try do damane in while delay between turns is not left
 			if (KeyboardController.pressedKeys.impact) {
 				this.activeUnit.sounds.notYet.play();
 				this.resetKeyboardControl();
