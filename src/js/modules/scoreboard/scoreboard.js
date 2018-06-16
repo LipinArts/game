@@ -1,8 +1,12 @@
 export default class Scoreboard {
 	static createTableOfRecordsFromLocalStore(name_localStorage) {
-		const records_list = document.createElement('section');
+		const records_list = document.createElement('div');
 		records_list.setAttribute('id', 'records-table');
+		records_list.clasName = 'records-table';
 		const list = document.createElement('ol');
+		const title = document.createElement('h2');
+		list.appendChild(title);
+		title.textContent = 'Scoreboard';
 		const records = JSON.parse(localStorage.getItem(name_localStorage));
 		records.forEach(recordObj => {
 			let listElem = document.createElement('li');
@@ -20,8 +24,13 @@ export default class Scoreboard {
 			}
 			list.appendChild(listElem);
 		});
+		const btn = document.createElement('button');
+		btn.textContent = 'close';
+		const scoreboard = document.getElementById('records-table');
+		btn.onclick = scoreboard.remove();
+		list.appendChild(btn);
 		records_list.appendChild(list);
-		document.body.appendChild(records_list);
+		document.body.insertBefore(records_list);
 	}
 
 	static chkAndUpdateTop10LocalStorageRecords(name_localStorage, current_score, user_data) {

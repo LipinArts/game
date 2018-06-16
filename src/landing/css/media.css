@@ -1,0 +1,102 @@
+/*==========  Desktop First Method  ==========*/
+/* Large Devices, Wide Screens */
+@media only screen and (max-width: 1200px) {
+  /**/
+  .scene .meteor.m-4 {
+    width: 327px; } }
+
+/* Medium Devices, Desktops */
+@media only screen and (max-width: 992px) {
+  /**/
+  #scene {
+    display: none !important; }
+  .toggle_mnu {
+    display: block; }
+  .person_photo {
+    margin-bottom: 40px; }
+  .s_content .item_l {
+    margin-bottom: 20px; }
+  .s_content .item_l, .s_content .item_r {
+    margin-left: 10px;
+    margin-right: 10px; }
+  .about_me, .resume {
+    padding-bottom: 30px; }
+  .toggleDiv .col-md-6 {
+    height: 300px; }
+  .single-project {
+    height: auto; } }
+
+/* Small Devices, Tablets */
+@media only screen and (max-width: 768px) {
+  .descr_wrap .descr {
+    margin-bottom: 60px; }
+  .resume_container .left {
+    border-right: none; }
+  .resume_container .left, .resume_container .right {
+    text-align: center;
+    padding-right: 15px;
+    padding-left: 15px; }
+    .resume_container .left h3, .resume_container .right h3 {
+      text-align: center; }
+  .wrapper_name_text .name_text h1 {
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 10px 10px;
+    font-size: 3em;
+    letter-spacing: 2px; }
+    .wrapper_name_text  .name_text p {
+      font-size: 22px;
+    }
+  #portfolio_grid .portfolio_item .portfolio_item_preview {
+    text-align: center; }
+    #portfolio_grid .portfolio_item .portfolio_item_preview img {
+      width: 300px; }
+  .portfolio_item {
+    margin-bottom: 15px; }
+  /*Disable Animation on Mobile Devices*/
+  .animated {
+    /*CSS transitions*/
+    -webkit-transition-property: none !important;
+    transition-property: none !important;
+    /*CSS transforms*/
+    -ms-transform: none !important;
+    -webkit-transform: none !important;
+    transform: none !important;
+    /*CSS animations*/
+    -webkit-animation: none !important;
+    animation: none !important; } }
+
+/* Extra Small Devices, Phones */
+@media only screen and (max-width: 480px) {
+  /**/
+  footer {
+    height: 180px; }
+    footer .share-wrapper {
+      margin-top: 35px; }
+  .resume_container p {
+    margin-top: 35px; } }
+
+/* Custom, iPhone Retina */
+@media only screen and (max-width: 320px) {
+  /**/ }
+
+/*==========  Mobile First Method  ==========*/
+/* Custom, iPhone Retina */
+@media only screen and (min-width: 320px) {
+  /**/ }
+
+/* Extra Small Devices, Phones */
+@media only screen and (min-width: 480px) {
+  /**/ }
+
+/* Small Devices, Tablets */
+@media only screen and (min-width: 768px) {
+  /**/ }
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width: 992px) {
+  /**/ }
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width: 1200px) {
+  /**/ }

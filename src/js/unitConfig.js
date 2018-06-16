@@ -8,6 +8,14 @@ export default {
 			width: 168,
 			height: 130
 		},
+		sounds: {
+			setUp: [
+				{ notYet: 'src/audio/sounds/player/invoker/notyet.mp3', attack: 'src/audio/sounds/player/invoker/attack.mp3', pain: 'src/audio/sounds/player/invoker/pain.mp3', death: 'src/audio/sounds/player/invoker/death.mp3', failure: 'src/audio/sounds/player/invoker/failure.mp3' },
+				{ notYet: 'src/audio/sounds/player/legion/notyet.mp3', attack: 'src/audio/sounds/player/legion/attack.mp3', pain: 'src/audio/sounds/player/legion/pain.mp3', death: 'src/audio/sounds/player/legion/death.mp3', failure: 'src/audio/sounds/player/legion/failure.mp3' },
+				{ notYet: 'src/audio/sounds/player/cm/notyet.mp3', attack: 'src/audio/sounds/player/cm/attack.mp3', pain: 'src/audio/sounds/player/cm/pain.mp3', death: 'src/audio/sounds/player/cm/death.mp3', failure: 'src/audio/sounds/player/cm/failure.mp3' },
+				{ notYet: 'src/audio/sounds/player/bara/notyet.mp3', attack: 'src/audio/sounds/player/bara/attack.mp3', pain: 'src/audio/sounds/player/bara/pain.mp3', death: 'src/audio/sounds/player/bara/death.mp3', failure: 'src/audio/sounds/player/bara/failure.mp3' }
+			]
+		},
 		sprites: {
 			head: {
 				path: 'src/img/player/heads/heads.png',
@@ -59,6 +67,14 @@ export default {
 		unitSize: {
 			width: 168,
 			height: 130
+		},
+		sounds: {
+			setUp: [
+				{ notYet: 'src/audio/sounds/monster/clock/notyet.mp3', attack: 'src/audio/sounds/monster/clock/attack.mp3', pain: 'src/audio/sounds/monster/clock/pain.mp3', death: 'src/audio/sounds/monster/clock/death.mp3', failure: 'src/audio/sounds/monster/clock/failure.mp3' },
+				{ notYet: 'src/audio/sounds/monster/gyro/notyet.mp3', attack: 'src/audio/sounds/monster/gyro/attack.mp3', pain: 'src/audio/sounds/monster/gyro/pain.mp3', death: 'src/audio/sounds/monster/gyro/death.mp3', failure: 'src/audio/sounds/monster/gyro/failure.mp3' },
+				{ notYet: 'src/audio/sounds/monster/tech/notyet.mp3', attack: 'src/audio/sounds/monster/tech/attack.mp3', pain: 'src/audio/sounds/monster/tech/pain.mp3', death: 'src/audio/sounds/monster/tech/death.mp3', failure: 'src/audio/sounds/monster/tech/failure.mp3' },
+				{ notYet: 'src/audio/sounds/monster/timber/notyet.mp3', attack: 'src/audio/sounds/monster/timber/attack.mp3', pain: 'src/audio/sounds/monster/timber/pain.mp3', death: 'src/audio/sounds/monster/timber/death.mp3', failure: 'src/audio/sounds/monster/timber/failure.mp3' }
+			]
 		},
 		sprites: {
 			head: {

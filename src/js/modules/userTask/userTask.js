@@ -9,8 +9,8 @@ import generateSpeechTask from './tasks/speech';
 /*eslint no-case-declarations: 0*/
 
 export default class UserTask {
-	constructor(type) {
-		this.type = this.checkTaskType(type);
+	constructor(lvl) {
+		this.type = this.checkTaskType(lvl);
 		this.generate();
 		this.taskObject;
 		return new Promise((resolve, reject) => {
@@ -42,11 +42,19 @@ export default class UserTask {
 			modal.addEventListener('keyup', keyupHandler);
 		});
 	}
-	checkTaskType(type) {
-		if (typeof type === 'string' && type === 'code' || type === 'translate' || type === 'sequence' || type === 'audition' || type === 'speech') {
-			return type;
-		} else {
+
+	checkTaskType(lvl) {
+		switch (true) {
+		case (lvl >= 0 && lvl < 4):
 			return 'code';
+		case (lvl >= 4 && lvl < 10):
+			return 'translate';
+		case (lvl >= 10 && lvl < 13):
+			return 'sequence';
+		case (lvl >= 13 && lvl < 16):
+			return 'audition';
+		default:
+			return 'random';
 		}
 	}
 
@@ -109,12 +117,12 @@ export default class UserTask {
 		case 'translate':
 			userAnswer = document.querySelector('input[name=answer]');
 			if (userAnswer.value !== '') {
-				for (let i = 0; i < task[1].length - 1; i++) {
+				for (let i = 0; i < task[1].length; i++) {
 					if (userAnswer.value.trim().toLowerCase() === task[1][i]) {
 						return true;
 					}
-					return false;
 				}
+				return false;
 			}
 			break;
 		case 'sequence':

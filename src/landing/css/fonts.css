@@ -1,0 +1,53 @@
+@font-face {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: normal;
+  src: url("../fonts/RalewayRegular/RalewayRegular.eot?#iefix") format("embedded-opentype"), url("../fonts/RalewayRegular/RalewayRegular.woff") format("woff"), url("../fonts/RalewayRegular/RalewayRegular.ttf") format("truetype"); }
+
+@font-face {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 700;
+  src: url("../fonts/RalewayBold/RalewayBold.eot?#iefix") format("embedded-opentype"), url("../fonts/RalewayBold/RalewayBold.woff") format("woff"), url("../fonts/RalewayBold/RalewayBold.ttf") format("truetype"); }
+
+@font-face {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 300;
+  src: url("../fonts/RalewayLight/RalewayLight.eot?#iefix") format("embedded-opentype"), url("../fonts/RalewayLight/RalewayLight.woff") format("woff"), url("../fonts/RalewayLight/RalewayLight.ttf") format("truetype"); }
+
+@font-face {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 600;
+  src: url("../fonts/RalewaySemiBold/RalewaySemiBold.eot?#iefix") format("embedded-opentype"), url("../fonts/RalewaySemiBold/RalewaySemiBold.woff") format("woff"), url("../fonts/RalewaySemiBold/RalewaySemiBold.ttf") format("truetype"); }
+
+@font-face {
+  font-family: "RockSalt";
+  font-style: normal;
+  font-weight: normal;
+  src: url("../fonts/RockSalt/RockSalt.ttf") format("truetype"); }
+
+@font-face {
+  font-family: "Audiowide";
+  font-style: normal;
+  font-weight: normal;
+  src: url("../fonts/Audiowide/Audiowide-Regular.ttf") format("truetype"); }
+
+@font-face {
+  font-family: "Days";
+  font-style: normal;
+  font-weight: normal;
+  src: url("../fonts/DaysRegular/DaysRegular.eot?#iefix") format("embedded-opentype"), url("../fonts/DaysRegular/DaysRegular.woff") format("woff"), url("../fonts/DaysRegular/DaysRegular.ttf") format("truetype"); }
+
+@font-face {
+  font-family: "Geometria";
+  font-style: normal;
+  font-weight: normal;
+  src: url("../fonts/Geometria/Geometria.otf"); }
+
+@font-face {
+  font-family: "Ethnocentric";
+  font-style: normal;
+  font-weight: normal;
+  src:  url("../fonts/Ethnocentric/ethnocentric.ttf") format("truetype"); }
