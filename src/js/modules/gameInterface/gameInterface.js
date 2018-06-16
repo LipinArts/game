@@ -68,10 +68,11 @@ export default class GameInterface {
 	async createMenu() {
 		const infoOutputScheme = { info: '' };
 		const menuObj = {
-			startNewGame: { nameButton: 'startNewGame', info: 'Press button to start game' },
-			musicOn_Off: { nameButton: 'musicOn_Off', info: 'Press for on or off music' },
-			increaseVol: { nameButton: 'increaseVol', info: 'Press for increase volume' },
-			decreaseVol: { nameButton: 'decreaseVol', info: 'Press for decrease volume' }
+			'start new game': { nameButton: 'startNewGame', info: 'Press button to start game' },
+			'music on/off': { nameButton: 'musicOn_Off', info: 'Press for on or off music' },
+			'volume +': { nameButton: 'increaseVol', info: 'Press for increase volume' },
+			'volume -': { nameButton: 'decreaseVol', info: 'Press for decrease volume' },
+			'scoreboard': { nameButton: 'scoreboard', info: 'Press for display scoreboard' }
 		};
 		const backgroundImageWheel = 'src/img/selectionWheel/gameMenu.png';
 		const resultSelect = await new SelectionWheel(menuObj, document.getElementById('game-container'), infoOutputScheme, document.body, backgroundImageWheel, 'gameMenuSW');
