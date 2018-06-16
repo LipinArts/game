@@ -308,7 +308,7 @@ export default class Fight {
 		this.ctx.translate(x, y);
 		this.ctx.rotate(0);
 		this.ctx.lineWidth = 1;
-		this.ctx.fillStyle = 'orange';
+		this.ctx.fillStyle = 'limegreen';
 		this.ctx.beginPath();
 		this.ctx.moveTo(-20, -20);
 		this.ctx.lineTo(0, -10);
