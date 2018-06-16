@@ -240,10 +240,10 @@ export default class Fight {
 
 	render() {
 		this.clearCanvas();
-		this.drawSelectedUnitFlag();
-		this.drawActiveUnitFlag();
 		this.drawAttackerUnits();
 		this.drawDefenderUnits();
+		this.drawActiveUnitFlag(this.activeUnit);
+		this.drawSelectedUnitFlag(this.selectedUnit);
 		this.drawUnitInfo(this.selectedUnit);
 		if (this.selectedUnit !== this.activeUnit) {
 			this.drawUnitInfo(this.activeUnit);
@@ -274,25 +274,53 @@ export default class Fight {
 		this.ctx.restore();
 	}
 
-	drawSelectedUnitFlag() {
-		let coord = this.getUnitObjCoordinates(this.selectedUnit);
-		let x = coord.x - this.unitWidth / 2;
-		let y = coord.y - this.unitHeight / 2;
+	drawSelectedUnitFlag(unit) {
+		let coord = this.getUnitObjCoordinates(unit);
+		let x = coord.x;
+		let y = coord.y + this.unitHeight - 180;
 
 		this.ctx.save();
-		this.ctx.fillStyle = 'green';
-		this.ctx.fillRect(x, y, 175, 275);
+		this.ctx.translate(x, y);
+		this.ctx.rotate((Math.PI / 180) * 90);
+		this.ctx.lineWidth = 1;
+		this.ctx.fillStyle = 'red';
+		this.ctx.beginPath();
+		this.ctx.moveTo(-20, -20);
+		this.ctx.lineTo(0, -10);
+		this.ctx.lineTo(0, -20);
+		this.ctx.lineTo(20, 0);
+		this.ctx.lineTo(0, 20);
+		this.ctx.lineTo(0, 10);
+		this.ctx.lineTo(-20, 20);
+		this.ctx.lineTo(-20, -10);
+		this.ctx.closePath();
+		this.ctx.fill();
+		this.ctx.stroke();
 		this.ctx.restore();
 	}
 
-	drawActiveUnitFlag() {
-		const coord = this.getUnitObjCoordinates(this.activeUnit);
-		let x = coord.x - this.unitWidth / 2;
-		let y = coord.y - this.unitHeight / 2;
+	drawActiveUnitFlag(unit) {
+		let coord = this.getUnitObjCoordinates(unit);
+		let x = coord.x - 40;
+		let y = coord.y + this.unitHeight - 180;
 
 		this.ctx.save();
-		this.ctx.fillStyle = 'yellow';
-		this.ctx.fillRect(x + 10, y + 5, 155, 265);
+		this.ctx.translate(x, y);
+		this.ctx.rotate(0);
+		this.ctx.lineWidth = 1;
+		this.ctx.fillStyle = 'orange';
+		this.ctx.beginPath();
+		this.ctx.moveTo(-20, -20);
+		this.ctx.lineTo(0, -10);
+		this.ctx.lineTo(0, -20);
+		this.ctx.lineTo(20, 0);
+		this.ctx.lineTo(0, 20);
+		this.ctx.lineTo(0, 10);
+		this.ctx.lineTo(-20, 20);
+		this.ctx.lineTo(-20, -10);
+		this.ctx.closePath();
+		this.ctx.fill();
+		this.ctx.stroke();
 		this.ctx.restore();
 	}
 
