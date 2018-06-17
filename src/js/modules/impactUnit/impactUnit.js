@@ -26,12 +26,12 @@ export default class ImpactUnit {
 		this.rotation = 45;
 
 		// while we don't hall all sprites for every impact
-		if (!impactConfig[name].spritesheet) {
-			this.name = 'fireball';
-		}
+		// if (!impactConfig[name].spritesheet) {
+		// 	this.temp = 'fireball';
+		// }
 
 		this.sprite = {
-			image: Utils.setSprite(impactConfig[this.name].spritesheet),
+			image: Utils.setSprite(impactConfig[name].spritesheet),
 			width: impactConfig[name].sprites.width,
 			height: impactConfig[name].sprites.height,
 			allSprites_sX: impactConfig[name].sprites.sX,

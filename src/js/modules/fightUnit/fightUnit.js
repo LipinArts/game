@@ -87,7 +87,6 @@ export default class FightUnit {
 
 	generateUnitAbilities() {
 		const allCastsNames = Object.keys(ImpactConfig);
-		console.log(allCastsNames);
 
 		for (let numberUnitCast = 0; numberUnitCast < 6; numberUnitCast++) {
 			const impactName = allCastsNames[_.random(0, allCastsNames.length - 1)];
