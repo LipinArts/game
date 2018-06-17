@@ -1,5 +1,6 @@
 import impactConfig from '../../impactConfig';
 import Utils from '../utils/utils';
+import SoundManager from '../soundManager/soundManager';
 import AnimationManager from '../animationManager/animationManager';
 
 export default class ImpactUnit {
@@ -42,5 +43,8 @@ export default class ImpactUnit {
 		},
 
 		this.animation = AnimationManager.getAnimation('fireball', this);
+
+		const src = impactConfig[name].sounds.moving;
+		this.sound = SoundManager.setAudioTrack(src);
 	}
 }

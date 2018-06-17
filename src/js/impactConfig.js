@@ -18,6 +18,9 @@ export default {
 			dY: 0,
 			rotation: 0
 		},
+		sounds: {
+			moving: 'src/audio/sounds/impact/fireball/moving.mp3',
+		},
 	},
 	fireball: {
 		minLvl: 2,
@@ -39,6 +42,9 @@ export default {
 			dY: 0,
 			rotation: 0
 		},
+		sounds: {
+			moving: 'src/audio/sounds/impact/fireball/moving.mp3',
+		},
 	},
 	burn: {
 		minLvl: 3,
@@ -58,6 +64,9 @@ export default {
 			dX: 0,
 			dY: 0,
 			rotation: 0
+		},
+		sounds: {
+			moving: 'src/audio/sounds/impact/fireball/moving.mp3',
 		},
 	},
 	freeze: {
@@ -79,6 +88,9 @@ export default {
 			dY: 0,
 			rotation: 0
 		},
+		sounds: {
+			moving: 'src/audio/sounds/impact/fireball/moving.mp3',
+		},
 	},
 	healWeak: {
 		minLvl: 5,
@@ -98,6 +110,9 @@ export default {
 			dX: 0,
 			dY: 0,
 			rotation: 0
+		},
+		sounds: {
+			moving: 'src/audio/sounds/impact/fireball/moving.mp3',
 		},
 	},
 	bless: {
@@ -119,6 +134,9 @@ export default {
 			dY: 0,
 			rotation: 0
 		},
+		sounds: {
+			moving: 'src/audio/sounds/impact/fireball/moving.mp3',
+		},
 	},
 	poison: {
 		minLvl: 7,
@@ -138,6 +156,9 @@ export default {
 			dX: 0,
 			dY: 0,
 			rotation: 0
+		},
+		sounds: {
+			moving: 'src/audio/sounds/impact/fireball/moving.mp3',
 		},
 	},
 	bash: {
@@ -159,6 +180,9 @@ export default {
 			dY: 0,
 			rotation: 0
 		},
+		sounds: {
+			moving: 'src/audio/sounds/impact/fireball/moving.mp3',
+		},
 	},
 	rise: {
 		minLvl: 9,
@@ -178,6 +202,9 @@ export default {
 			dX: 0,
 			dY: 0,
 			rotation: 0
+		},
+		sounds: {
+			moving: 'src/audio/sounds/impact/fireball/moving.mp3',
 		},
 	},
 	combo: {
@@ -199,6 +226,9 @@ export default {
 			dY: 0,
 			rotation: 0
 		},
+		sounds: {
+			moving: 'src/audio/sounds/impact/fireball/moving.mp3',
+		},
 	},
 	fireStorm: {
 		minLvl: 11,
@@ -218,6 +248,9 @@ export default {
 			dX: 0,
 			dY: 0,
 			rotation: 0
+		},
+		sounds: {
+			moving: 'src/audio/sounds/impact/fireball/moving.mp3',
 		},
 	},
 	iceStorm: {
@@ -239,6 +272,9 @@ export default {
 			dY: 0,
 			rotation: 0
 		},
+		sounds: {
+			moving: 'src/audio/sounds/impact/fireball/moving.mp3',
+		},
 	},
 	meteor: {
 		minLvl: 13,
@@ -258,6 +294,9 @@ export default {
 			dX: 0,
 			dY: 0,
 			rotation: 0
+		},
+		sounds: {
+			moving: 'src/audio/sounds/impact/fireball/moving.mp3',
 		},
 	},
 	healMass: {
@@ -279,6 +318,9 @@ export default {
 			dY: 0,
 			rotation: 0
 		},
+		sounds: {
+			moving: 'src/audio/sounds/impact/fireball/moving.mp3',
+		},
 	},
 	divineHeal: {
 		minLvl: 15,
@@ -298,6 +340,9 @@ export default {
 			dX: 0,
 			dY: 0,
 			rotation: 0
+		},
+		sounds: {
+			moving: 'src/audio/sounds/impact/fireball/moving.mp3',
 		},
 	},
 

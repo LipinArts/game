@@ -256,6 +256,7 @@ export default class Fight {
 		impact.position.x = this.casterUnitCoord.x;
 		impact.position.y = this.casterUnitCoord.y;
 		impact.animation.start(this.targetUnitCoord);
+		impact.sound.play();
 
 		if (this.isUnitAlive(target)) {
 			target.hp = target.hp - impact.damage;

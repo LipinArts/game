@@ -51,13 +51,17 @@ export default class Fireball {
 
 		function delayBeforeDeleting() {
 			unit.sprite = null;
+			unit.sound = null;
 		}
+
+		unit.sound.play();
 
 		unit.setTimeOut_id = setTimeout(function go() {
 			castMoving();
 			changeSprites();
 			if (currenMovingDist >= (distance - speed - 1) && (currenMovingDist <= distance + speed + 1)) {
 				clearTimeout(unit.setTimeOut_id);
+				unit.sound.pause();
 				setTimeout(delayBeforeDeleting, 300);
 			} else {
 				unit.setTimeOut_id = setTimeout(go, timeBetweenFrames);
