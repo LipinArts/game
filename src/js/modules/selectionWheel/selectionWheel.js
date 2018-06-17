@@ -65,7 +65,8 @@ export default class SelectionWheel {
 			const newButton = document.createElement('button');
 			this.buttons.push(newButton);
 			const impact = this.impactsObj[i];
-			newButton.setAttribute('impact', JSON.stringify(impact));
+			//newButton.setAttribute('impact', JSON.stringify(impact));
+			newButton.setAttribute('impact', i);
 			newButton.className = 'skillButt';
 			newButton.classList.add('selection-btn');
 			newButton.classList.add('selection-cast-icon');
@@ -84,6 +85,7 @@ export default class SelectionWheel {
 		const backBtn = document.createElement('button');
 		backBtn.className = 'selection-btn selectionWheel-back-btn';
 		backBtn.classList.add('selectionWheel-back-btn');
+		backBtn.setAttribute('impact', 'backButton');
 		this.buttons.push(backBtn);
 		this.buttonsQuantity++;
 		modalBg.appendChild(backBtn);
@@ -195,12 +197,14 @@ export default class SelectionWheel {
 	}
 
 	getAbility(target) {
-		return target.getAttribute('impact');
+		const index = Number(target.getAttribute('impact'));
+		return this.impactsObj[index];
 	}
 
 	showImpactInfo(target) {
 		if (!target.className.includes('selectionWheel-back-btn')) {
-			const targetObj = JSON.parse(target.getAttribute('impact'));
+			const index = Number(target.getAttribute('impact'));
+			const targetObj = this.impactsObj[index];
 			const schemeProperties = Object.keys(this.infoOutputScheme);
 			schemeProperties.forEach(propertyName => {
 				const liName = document.getElementById(propertyName + '_divName' + this.additionalTextToID);
