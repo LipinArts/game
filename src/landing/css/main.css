@@ -1137,7 +1137,6 @@ section h2 {
 .resume_description {
   font-family: Geometria;
   font-style: italic;
-  height: 40px;
 }
 
 .resume_description strong {
@@ -1294,7 +1293,6 @@ section h2 {
 }
 
 img.mfp-img {
-  width: 800px !important;
   max-height: 100% !important;
 }
 

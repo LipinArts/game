@@ -153,7 +153,7 @@ export default class GameInterface {
 		$('.loader').show();
 		$('.loader_inner').show();
 		if (this.gameStarted) {
-			document.location.href = '/game.html';
+			document.location.href = 'game';
 		} else {
 			this.gameStarted = true;
 			Utils.saveDataObjToStorage(this.userData, 'lastLoginUserData');
