@@ -7,7 +7,17 @@ export default {
 		target: 'target',
 		duration: function () { return 0; },
 		icon_path: 'src/img/impact/attack/icon/attack.jpg',
-		animationTime: 2000
+		animationTime: 2000,
+		sprites: {
+			image: null,
+			width: 256,
+			height: 256,
+			sX: [0, 256, 512, 768, 1024, 1280, 1536, 1792, 2048, 2304, 2560, 2816, 3072, 3328, 3584],
+			sY: 0,
+			dX: 0,
+			dY: 0,
+			rotation: 0
+		},
 	},
 	fireball: {
 		minLvl: 2,
@@ -17,7 +27,18 @@ export default {
 		target: 'target',
 		duration: function () { return 3; },
 		icon_path: 'src/img/impact/fireball/icon/fireball.jpg',
-		animationTime: 2000
+		spritesheet: 'src/img/impact/fireball/sprites/spritesheet.png',
+		animationTime: 2000,
+		sprites: {
+			image: null,
+			width: 256,
+			height: 256,
+			sX: [0, 256, 512, 768, 1024, 1280, 1536, 1792, 2048, 2304, 2560, 2816, 3072, 3328, 3584],
+			sY: 0,
+			dX: 0,
+			dY: 0,
+			rotation: 0
+		},
 	},
 	burn: {
 		minLvl: 3,
@@ -27,7 +48,17 @@ export default {
 		target: 'target',
 		duration: function (lvl) { return 3 + lvl; },
 		icon_path: 'src/img/impact/burn/icon/burn.jpg',
-		animationTime: 2000
+		animationTime: 2000,
+		sprites: {
+			image: null,
+			width: 256,
+			height: 256,
+			sX: [0, 256, 512, 768, 1024, 1280, 1536, 1792, 2048, 2304, 2560, 2816, 3072, 3328, 3584],
+			sY: 0,
+			dX: 0,
+			dY: 0,
+			rotation: 0
+		},
 	},
 	freeze: {
 		minLvl: 4,
@@ -37,7 +68,17 @@ export default {
 		target: 'target',
 		duration: function (lvl) { return 3 + Math.floor(lvl / 4); },
 		icon_path: 'src/img/impact/freeze/icon/freeze.jpg',
-		animationTime: 2000
+		animationTime: 2000,
+		sprites: {
+			image: null,
+			width: 256,
+			height: 256,
+			sX: [0, 256, 512, 768, 1024, 1280, 1536, 1792, 2048, 2304, 2560, 2816, 3072, 3328, 3584],
+			sY: 0,
+			dX: 0,
+			dY: 0,
+			rotation: 0
+		},
 	},
 	healWeak: {
 		minLvl: 5,
@@ -47,7 +88,17 @@ export default {
 		target: 'target',
 		duration: function () { return 0; },
 		icon_path: 'src/img/impact/healWeak/icon/healWeak.jpg',
-		animationTime: 2000
+		animationTime: 2000,
+		sprites: {
+			image: null,
+			width: 256,
+			height: 256,
+			sX: [0, 256, 512, 768, 1024, 1280, 1536, 1792, 2048, 2304, 2560, 2816, 3072, 3328, 3584],
+			sY: 0,
+			dX: 0,
+			dY: 0,
+			rotation: 0
+		},
 	},
 	bless: {
 		minLvl: 6,
@@ -57,7 +108,17 @@ export default {
 		target: 'target',
 		duration: function () { return 5; },
 		icon_path: 'src/img/impact/bless/icon/healPeriodic.jpg',
-		animationTime: 2000
+		animationTime: 2000,
+		sprites: {
+			image: null,
+			width: 256,
+			height: 256,
+			sX: [0, 256, 512, 768, 1024, 1280, 1536, 1792, 2048, 2304, 2560, 2816, 3072, 3328, 3584],
+			sY: 0,
+			dX: 0,
+			dY: 0,
+			rotation: 0
+		},
 	},
 	poison: {
 		minLvl: 7,
@@ -67,7 +128,17 @@ export default {
 		target: 'target',
 		duration: function (lvl) { return 5 + Math.floor(lvl / 2); },
 		icon_path: 'src/img/impact/poison/icon/poison.jpg',
-		animationTime: 2000
+		animationTime: 2000,
+		sprites: {
+			image: null,
+			width: 256,
+			height: 256,
+			sX: [0, 256, 512, 768, 1024, 1280, 1536, 1792, 2048, 2304, 2560, 2816, 3072, 3328, 3584],
+			sY: 0,
+			dX: 0,
+			dY: 0,
+			rotation: 0
+		},
 	},
 	bash: {
 		minLvl: 8,
@@ -77,7 +148,17 @@ export default {
 		target: 'target',
 		duration: function (lvl) { return 3 + Math.floor(lvl / 4); },
 		icon_path: 'src/img/impact/bash/icon/bash.jpg',
-		animationTime: 2000
+		animationTime: 2000,
+		sprites: {
+			image: null,
+			width: 256,
+			height: 256,
+			sX: [0, 256, 512, 768, 1024, 1280, 1536, 1792, 2048, 2304, 2560, 2816, 3072, 3328, 3584],
+			sY: 0,
+			dX: 0,
+			dY: 0,
+			rotation: 0
+		},
 	},
 	rise: {
 		minLvl: 9,
@@ -87,7 +168,17 @@ export default {
 		target: 'target',
 		duration: function () { return 0; },
 		icon_path: 'src/img/impact/rise/icon/ressurect.jpg',
-		animationTime: 2000
+		animationTime: 2000,
+		sprites: {
+			image: null,
+			width: 256,
+			height: 256,
+			sX: [0, 256, 512, 768, 1024, 1280, 1536, 1792, 2048, 2304, 2560, 2816, 3072, 3328, 3584],
+			sY: 0,
+			dX: 0,
+			dY: 0,
+			rotation: 0
+		},
 	},
 	combo: {
 		minLvl: 10,
@@ -97,7 +188,17 @@ export default {
 		target: 'target',
 		duration: function () { return 0; },
 		icon_path: 'src/img/impact/combo/icon/attackSuper.jpg',
-		animationTime: 2000
+		animationTime: 2000,
+		sprites: {
+			image: null,
+			width: 256,
+			height: 256,
+			sX: [0, 256, 512, 768, 1024, 1280, 1536, 1792, 2048, 2304, 2560, 2816, 3072, 3328, 3584],
+			sY: 0,
+			dX: 0,
+			dY: 0,
+			rotation: 0
+		},
 	},
 	fireStorm: {
 		minLvl: 11,
@@ -107,7 +208,17 @@ export default {
 		target: 'enemies',
 		duration: function () { return 0; },
 		icon_path: 'src/img/impact/fireStorm/icon/fireStorm.jpg',
-		animationTime: 2000
+		animationTime: 2000,
+		sprites: {
+			image: null,
+			width: 256,
+			height: 256,
+			sX: [0, 256, 512, 768, 1024, 1280, 1536, 1792, 2048, 2304, 2560, 2816, 3072, 3328, 3584],
+			sY: 0,
+			dX: 0,
+			dY: 0,
+			rotation: 0
+		},
 	},
 	iceStorm: {
 		minLvl: 12,
@@ -117,7 +228,17 @@ export default {
 		target: 'enemies',
 		duration: function (lvl) { return 5 + Math.floor(lvl / 2); },
 		icon_path: 'src/img/impact/iceStorm/icon/iceStorm.jpg',
-		animationTime: 2000
+		animationTime: 2000,
+		sprites: {
+			image: null,
+			width: 256,
+			height: 256,
+			sX: [0, 256, 512, 768, 1024, 1280, 1536, 1792, 2048, 2304, 2560, 2816, 3072, 3328, 3584],
+			sY: 0,
+			dX: 0,
+			dY: 0,
+			rotation: 0
+		},
 	},
 	meteor: {
 		minLvl: 13,
@@ -127,7 +248,17 @@ export default {
 		target: 'enemies',
 		duration: function (lvl) { return 3 + Math.floor(lvl / 4); },
 		icon_path: 'src/img/impact/meteor/icon/meteor.jpg',
-		animationTime: 2000
+		animationTime: 2000,
+		sprites: {
+			image: null,
+			width: 256,
+			height: 256,
+			sX: [0, 256, 512, 768, 1024, 1280, 1536, 1792, 2048, 2304, 2560, 2816, 3072, 3328, 3584],
+			sY: 0,
+			dX: 0,
+			dY: 0,
+			rotation: 0
+		},
 	},
 	healMass: {
 		minLvl: 13,
@@ -137,7 +268,17 @@ export default {
 		target: 'allies',
 		duration: function () { return 0; },
 		icon_path: 'src/img/impact/healMass/icon/healMass.jpg',
-		animationTime: 2000
+		animationTime: 2000,
+		sprites: {
+			image: null,
+			width: 256,
+			height: 256,
+			sX: [0, 256, 512, 768, 1024, 1280, 1536, 1792, 2048, 2304, 2560, 2816, 3072, 3328, 3584],
+			sY: 0,
+			dX: 0,
+			dY: 0,
+			rotation: 0
+		},
 	},
 	divineHeal: {
 		minLvl: 15,
@@ -147,7 +288,17 @@ export default {
 		target: 'allies',
 		duration: function () { return 0; },
 		icon_path: 'src/img/impact/divineHeal/icon/ressurectMass.jpg',
-		animationTime: 2000
+		animationTime: 2000,
+		sprites: {
+			image: null,
+			width: 256,
+			height: 256,
+			sX: [0, 256, 512, 768, 1024, 1280, 1536, 1792, 2048, 2304, 2560, 2816, 3072, 3328, 3584],
+			sY: 0,
+			dX: 0,
+			dY: 0,
+			rotation: 0
+		},
 	},
 
 };

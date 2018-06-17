@@ -22,12 +22,18 @@ export default class ImpactUnit {
 			y: 0
 		},
 		this.setTimeOut_id;
-		this.rotation = 45,
+		this.rotation = 45;
+
+		// while we don't hall all sprites for every impact
+		if (!impactConfig[name].spritesheet) {
+			this.name = 'fireball';
+		}
+
 		this.sprite = {
-			image: Utils.setSprite('src/img/impact/fireball/sprites/10.png'),
-			path: 'src/img/impact/fireball/sprites/10.png',
-			width: 256,
-			height: 256,
+			image: Utils.setSprite(impactConfig[this.name].spritesheet),
+			width: impactConfig[name].sprites.width,
+			height: impactConfig[name].sprites.height,
+			allSprites_sX: impactConfig[name].sprites.sX,
 			sX: 0,
 			sY: 0,
 			dX: 0,
