@@ -42,7 +42,7 @@ export default class ImpactUnit {
 			rotation: 0
 		},
 
-		this.animation = AnimationManager.getAnimation('fireball', this);
+		this.animation = AnimationManager.getAnimation(name, this);
 
 		const src = impactConfig[name].sounds.moving;
 		this.sound = SoundManager.setAudioTrack(src);

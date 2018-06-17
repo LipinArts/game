@@ -225,8 +225,6 @@ export default class Fight {
 		if (target === attacker) {
 			// do nothing
 		} else {
-
-
 			attacker.animation.attack.start();
 		}
 

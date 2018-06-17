@@ -1,5 +1,6 @@
 //import attack from './animations/impacts/attack';
 import Fireball from '../animations/impacts/fireball';
+import HealWeak from '../animations/impacts/healWeak';
 // import burn from './animations/impacts/burn';
 // import freeze from './animations/impacts/freeze';
 // import healWeak from './animations/impacts/healWeak';
@@ -34,6 +35,8 @@ export default class AnimationManager {
 			return new Attack(context);
 		case 'pain':
 			return new Pain(context);
+		case 'healWeak':
+			return new HealWeak(context);
 
 
 			// case 'burn':
