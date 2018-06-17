@@ -17,6 +17,8 @@ export default class Fireball {
 		let force_vector = Utils.get_force_vector(angle);
 		let currenMovingDist = 0;
 
+		unit.animation.finish = false;
+
 		if (x1 === x2 && y1 === y2) {
 			force_vector.x = 0;
 			force_vector.y = 0;
@@ -50,8 +52,7 @@ export default class Fireball {
 		}
 
 		function delayBeforeDeleting() {
-			unit.sprite = null;
-			unit.sound = null;
+			unit.animation.finish = true;
 		}
 
 		unit.sound.play();

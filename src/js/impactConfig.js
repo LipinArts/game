@@ -7,6 +7,7 @@ export default {
 		target: 'target',
 		duration: function () { return 0; },
 		icon_path: 'src/img/impact/attack/icon/attack.jpg',
+		spritesheet: 'src/img/impact/fireball/sprites/spritesheet.png',
 		animationTime: 2000,
 		sprites: {
 			image: null,
@@ -54,6 +55,7 @@ export default {
 		target: 'target',
 		duration: function (lvl) { return 3 + lvl; },
 		icon_path: 'src/img/impact/burn/icon/burn.jpg',
+		spritesheet: 'src/img/impact/fireball/sprites/spritesheet.png',
 		animationTime: 2000,
 		sprites: {
 			image: null,
@@ -77,6 +79,7 @@ export default {
 		target: 'target',
 		duration: function (lvl) { return 3 + Math.floor(lvl / 4); },
 		icon_path: 'src/img/impact/freeze/icon/freeze.jpg',
+		spritesheet: 'src/img/impact/fireball/sprites/spritesheet.png',
 		animationTime: 2000,
 		sprites: {
 			image: null,
@@ -100,12 +103,13 @@ export default {
 		target: 'target',
 		duration: function () { return 0; },
 		icon_path: 'src/img/impact/healWeak/icon/healWeak.jpg',
+		spritesheet: 'src/img/impact/healWeak/sprites/spritesheet.png',
 		animationTime: 2000,
 		sprites: {
 			image: null,
-			width: 256,
-			height: 256,
-			sX: [0, 256, 512, 768, 1024, 1280, 1536, 1792, 2048, 2304, 2560, 2816, 3072, 3328, 3584],
+			width: 192,
+			height: 192,
+			sX: [0, 192, 384, 576, 768, 960, 1152, 1344, 1536, 1728, 1920, 2112, 2304],
 			sY: 0,
 			dX: 0,
 			dY: 0,
@@ -123,6 +127,7 @@ export default {
 		target: 'target',
 		duration: function () { return 5; },
 		icon_path: 'src/img/impact/bless/icon/healPeriodic.jpg',
+		spritesheet: 'src/img/impact/fireball/sprites/spritesheet.png',
 		animationTime: 2000,
 		sprites: {
 			image: null,
@@ -146,6 +151,7 @@ export default {
 		target: 'target',
 		duration: function (lvl) { return 5 + Math.floor(lvl / 2); },
 		icon_path: 'src/img/impact/poison/icon/poison.jpg',
+		spritesheet: 'src/img/impact/fireball/sprites/spritesheet.png',
 		animationTime: 2000,
 		sprites: {
 			image: null,
@@ -169,6 +175,7 @@ export default {
 		target: 'target',
 		duration: function (lvl) { return 3 + Math.floor(lvl / 4); },
 		icon_path: 'src/img/impact/bash/icon/bash.jpg',
+		spritesheet: 'src/img/impact/fireball/sprites/spritesheet.png',
 		animationTime: 2000,
 		sprites: {
 			image: null,
@@ -192,6 +199,7 @@ export default {
 		target: 'target',
 		duration: function () { return 0; },
 		icon_path: 'src/img/impact/rise/icon/ressurect.jpg',
+		spritesheet: 'src/img/impact/fireball/sprites/spritesheet.png',
 		animationTime: 2000,
 		sprites: {
 			image: null,
@@ -215,6 +223,7 @@ export default {
 		target: 'target',
 		duration: function () { return 0; },
 		icon_path: 'src/img/impact/combo/icon/attackSuper.jpg',
+		spritesheet: 'src/img/impact/fireball/sprites/spritesheet.png',
 		animationTime: 2000,
 		sprites: {
 			image: null,
@@ -238,6 +247,7 @@ export default {
 		target: 'enemies',
 		duration: function () { return 0; },
 		icon_path: 'src/img/impact/fireStorm/icon/fireStorm.jpg',
+		spritesheet: 'src/img/impact/fireball/sprites/spritesheet.png',
 		animationTime: 2000,
 		sprites: {
 			image: null,
@@ -261,6 +271,7 @@ export default {
 		target: 'enemies',
 		duration: function (lvl) { return 5 + Math.floor(lvl / 2); },
 		icon_path: 'src/img/impact/iceStorm/icon/iceStorm.jpg',
+		spritesheet: 'src/img/impact/fireball/sprites/spritesheet.png',
 		animationTime: 2000,
 		sprites: {
 			image: null,
@@ -284,6 +295,7 @@ export default {
 		target: 'enemies',
 		duration: function (lvl) { return 3 + Math.floor(lvl / 4); },
 		icon_path: 'src/img/impact/meteor/icon/meteor.jpg',
+		spritesheet: 'src/img/impact/fireball/sprites/spritesheet.png',
 		animationTime: 2000,
 		sprites: {
 			image: null,
@@ -307,6 +319,7 @@ export default {
 		target: 'allies',
 		duration: function () { return 0; },
 		icon_path: 'src/img/impact/healMass/icon/healMass.jpg',
+		spritesheet: 'src/img/impact/fireball/sprites/spritesheet.png',
 		animationTime: 2000,
 		sprites: {
 			image: null,
@@ -330,6 +343,7 @@ export default {
 		target: 'allies',
 		duration: function () { return 0; },
 		icon_path: 'src/img/impact/divineHeal/icon/ressurectMass.jpg',
+		spritesheet: 'src/img/impact/fireball/sprites/spritesheet.png',
 		animationTime: 2000,
 		sprites: {
 			image: null,

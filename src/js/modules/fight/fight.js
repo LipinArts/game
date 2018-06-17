@@ -220,16 +220,11 @@ export default class Fight {
 	}
 
 	attack(attacker, target, impact) {
-		console.log('attacker: ', attacker);
-		console.log('target: ', target);
-		console.log('impact: ', impact);
 		attacker.sounds.attack.play();
 		attacker.animation.standBy.stop();
 		if (target === attacker) {
 			// do nothing
 		} else {
-
-
 			attacker.animation.attack.start();
 		}
 
@@ -377,7 +372,9 @@ export default class Fight {
 			this.drawUnitInfo(this.activeUnit);
 		}
 		if (this.animatedCastUnit && this.animatedCastUnit.sprite) {
-			this.drawCast(this.animatedCastUnit, this.casterUnitCoord, this.targetUnitCoord);
+			if (this.animatedCastUnit.animation.finish === false) {
+				this.drawCast(this.animatedCastUnit, this.casterUnitCoord, this.targetUnitCoord);
+			}
 		}
 	}
 
