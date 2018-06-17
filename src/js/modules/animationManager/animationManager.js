@@ -1,6 +1,7 @@
 //import attack from './animations/impacts/attack';
 import Fireball from '../animations/impacts/fireball';
-import HealWeak from '../animations/impacts/healWeak';
+import HealWeak from '../animations/impacts/healweak';
+import DivineHeal from '../animations/impacts/divineheal';
 // import burn from './animations/impacts/burn';
 // import freeze from './animations/impacts/freeze';
 // import healWeak from './animations/impacts/healWeak';
@@ -13,7 +14,7 @@ import HealWeak from '../animations/impacts/healWeak';
 // import iceStorm from './animations/impacts/iceStorm';
 // import meteor from './animations/impacts/meteor';
 // import healMass from './animations/impacts/healMass';
-// import divineHeal from './animations/impacts/divineHeal';
+
 
 import StandBy from '../animations/units/standBy';
 import Death from '../animations/units/death';
@@ -37,7 +38,8 @@ export default class AnimationManager {
 			return new Pain(context);
 		case 'healWeak':
 			return new HealWeak(context);
-
+		case 'divineHeal':
+			return new DivineHeal(context);
 
 			// case 'burn':
 			// 	return fireball;

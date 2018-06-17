@@ -237,11 +237,11 @@ export default class Fight {
 				target.animation.standBy.stop();
 				target.animation.pain.start();
 				target.animation.standBy.start();
-			}, 800);
+			}, 600);
 		} else {
 			setTimeout(() => {
 				this.kill(target);
-			}, 800);
+			}, 400);
 		}
 	}
 
@@ -250,7 +250,7 @@ export default class Fight {
 		//target.animation.help.start();
 		setTimeout(() => {
 			this.impact(target, impact);
-		}, 800);
+		}, 600);
 	}
 
 	failure(unit) {
