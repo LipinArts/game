@@ -74,18 +74,18 @@ export default class GameInterface {
 					break;
 				case 'musicOn_Off':
 					this.createMenu();
-					console.log('musicOn_Off');
+					//console.log('musicOn_Off');
 					break;
 				case 'increaseVol':
 					this.createMenu();
-					console.log('increaseVol');
+					//console.log('increaseVol');
 					break;
 				case 'decreaseVol':
 					this.createMenu();
-					console.log('decreaseVol');
+					//console.log('decreaseVol');
 					break;
 				default:
-					console.log('default');
+					//console.log('default');
 				}
 			}
 		}
