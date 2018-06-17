@@ -91,7 +91,7 @@ export default class FightUnit {
 
 		for (let numberUnitCast = 0; numberUnitCast < 6; numberUnitCast++) {
 			const impactName = allCastsNames[_.random(0, allCastsNames.length - 1)];
-			const lvlCast = _.random(1, this.difficulty);
+			const lvlCast = _.random(1, 16);
 			this.abilities[impactName] = new ImpactUnit(impactName, lvlCast);
 		}
 	}

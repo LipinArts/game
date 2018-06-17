@@ -25,6 +25,10 @@ export default class Fight {
 		this.lastTurnEndtTime = new Date().getTime();
 		this.delayBetweenTurns = 0;
 
+		this.animatedCastUnit;
+		this.targetUnitCoord;
+		this.casterUnitCoord;
+
 		this.resolvePromiseFunc;
 		return new Promise(resolve => {
 			this.resolvePromiseFunc = resolve;
@@ -154,18 +158,12 @@ export default class Fight {
 
 				if (KeyboardController.pressedKeys.impact) {
 					this.pauseFight();
-					const infoOutputScheme = {
-						damage: 'Damage/heal',
-						status: 'Add status',
-						target: 'Target',
-						duration: 'Duration',
-						lvl: 'Difficulty'
-					};
-					let selectedImpactJSON = await new SelectionWheel(this.activeUnit.abilities, this.canvas, infoOutputScheme, document.body, 'src/img/selectionWheel/wheel.png', 'impactsSW');
+					const infoOutputScheme = { damage: 'Damage/heal', status: 'Add status', target: 'Target', duration: 'Duration', lvl: 'Difficulty' };
+					let selectedImpactPromise = await new SelectionWheel(this.activeUnit.abilities, this.canvas, infoOutputScheme, document.body, 'src/img/selectionWheel/wheel.png', 'impactsSW');
 
 					// if player select impact
-					if (selectedImpactJSON) {
-						let selectedImpact = JSON.parse(selectedImpactJSON);
+					if (selectedImpactPromise) {
+						let selectedImpact = selectedImpactPromise;
 						let resultUserTask = await new UserTask(selectedImpact.lvl);
 
 						// if player gave the right answer
@@ -222,14 +220,21 @@ export default class Fight {
 	}
 
 	attack(attacker, target, impact) {
+		console.log('attacker: ', attacker);
+		console.log('target: ', target);
+		console.log('impact: ', impact);
 		attacker.sounds.attack.play();
 		attacker.animation.standBy.stop();
 		if (target === attacker) {
 			// do nothing
 		} else {
+
+
 			attacker.animation.attack.start();
 		}
+
 		attacker.animation.standBy.start();
+
 		this.impact(target, impact);
 		if (this.isUnitAlive(target)) {
 			setTimeout(() => {
@@ -261,6 +266,14 @@ export default class Fight {
 	}
 
 	impact(target, impact) {
+		this.animatedCastUnit = impact;
+		this.targetUnitCoord = this.getUnitObjCoordinates(target);
+		this.casterUnitCoord = this.getUnitObjCoordinates(this.activeUnit);
+		impact.position.x = this.casterUnitCoord.x;
+		impact.position.y = this.casterUnitCoord.y;
+		impact.animation.start(this.targetUnitCoord);
+		impact.sound.play();
+
 		if (this.isUnitAlive(target)) {
 			target.hp = target.hp - impact.damage;
 			if (target.hp > target.maxHP) {
@@ -363,10 +376,30 @@ export default class Fight {
 		if (this.selectedUnit !== this.activeUnit) {
 			this.drawUnitInfo(this.activeUnit);
 		}
+		if (this.animatedCastUnit && this.animatedCastUnit.sprite) {
+			this.drawCast(this.animatedCastUnit, this.casterUnitCoord, this.targetUnitCoord);
+		}
 	}
 
 	clearCanvas() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	}
+
+	drawCast(castObj) {
+		this.ctx.save();
+		let posX = castObj.position.x;
+		let posY = castObj.position.y;
+
+		this.ctx.translate(posX, posY);
+
+		this.ctx.rotate((Math.PI / 180) * castObj.sprite.rotation);
+
+		const width = castObj.sprite.width;
+		const height = castObj.sprite.height;
+
+		this.ctx.drawImage(castObj.sprite.image, castObj.sprite.sX, castObj.sprite.sY, width, height, -width / 2, - height / 2, width, height);
+
+		this.ctx.restore();
 	}
 
 	drawAttackerUnits() {

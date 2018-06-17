@@ -2,6 +2,7 @@ import GameManager from '../gameManager/gameManager';
 import KeyboardController from '../KeyboardController/KeyboardController';
 import Utils from '../utils/utils';
 import SelectionWheel from '../SelectionWheel/SelectionWheel';
+import Scoreboard from '../scoreboard/scoreboard';
 import $ from 'jquery';
 export default class GameInterface {
 	constructor() {
@@ -65,25 +66,34 @@ export default class GameInterface {
 		};
 		const backgroundImageWheel = 'src/img/selectionWheel/gameMenu.png';
 		const resultSelect = await new SelectionWheel(menuObj, document.getElementById('game-container'), infoOutputScheme, document.body, backgroundImageWheel, 'gameMenuSW');
-		if (!resultSelect) {
-			this.keyboardEnabled = true;
-		} else {
-			switch (JSON.parse(resultSelect).nameButton) {
-			case 'startNewGame':
-				this.pressStartNewGameButton();
-				break;
-			case 'musicOn_Off':
-				this.createMenu();
-				//console.log('musicOn_Off');
-				break;
-			case 'increaseVol':
-				this.createMenu();
-				//console.log('increaseVol');
-				break;
-			case 'decreaseVol':
-				this.createMenu();
-				//console.log('decreaseVol');
-				break;
+		if (resultSelect) {
+			if (!resultSelect.nameButton) {
+				this.keyboardEnabled = true;
+			} else {
+				switch (resultSelect.nameButton) {
+				case 'startNewGame':
+					this.pressStartNewGameButton();
+					break;
+				case 'musicOn_Off':
+					this.createMenu();
+					//console.log('musicOn_Off');
+					break;
+				case 'increaseVol':
+					this.createMenu();
+					//console.log('increaseVol');
+					break;
+				case 'decreaseVol':
+					this.createMenu();
+					//console.log('decreaseVol');
+					break;
+				case 'scoreboard':
+					console.log('scoreboard');
+					Scoreboard.createTableOfRecordsFromLocalStore('top10score');
+					//console.log('scoreboard');
+					break;
+				default:
+					//console.log('default');
+				}
 			}
 		}
 
