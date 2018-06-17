@@ -64,27 +64,29 @@ export default class GameInterface {
 		};
 		const backgroundImageWheel = 'src/img/selectionWheel/gameMenu.png';
 		const resultSelect = await new SelectionWheel(menuObj, document.getElementById('game-container'), infoOutputScheme, document.body, backgroundImageWheel, 'gameMenuSW');
-		if (!resultSelect.nameButton) {
-			this.keyboardEnabled = true;
-		} else {
-			switch (resultSelect.nameButton) {
-			case 'startNewGame':
-				this.pressStartNewGameButton();
-				break;
-			case 'musicOn_Off':
-				this.createMenu();
-				console.log('musicOn_Off');
-				break;
-			case 'increaseVol':
-				this.createMenu();
-				console.log('increaseVol');
-				break;
-			case 'decreaseVol':
-				this.createMenu();
-				console.log('decreaseVol');
-				break;
-			default:
-				console.log('default');
+		if (resultSelect) {
+			if (!resultSelect.nameButton) {
+				this.keyboardEnabled = true;
+			} else {
+				switch (resultSelect.nameButton) {
+				case 'startNewGame':
+					this.pressStartNewGameButton();
+					break;
+				case 'musicOn_Off':
+					this.createMenu();
+					console.log('musicOn_Off');
+					break;
+				case 'increaseVol':
+					this.createMenu();
+					console.log('increaseVol');
+					break;
+				case 'decreaseVol':
+					this.createMenu();
+					console.log('decreaseVol');
+					break;
+				default:
+					console.log('default');
+				}
 			}
 		}
 

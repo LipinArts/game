@@ -85,6 +85,7 @@ export default class SelectionWheel {
 		const backBtn = document.createElement('button');
 		backBtn.className = 'selection-btn selectionWheel-back-btn';
 		backBtn.classList.add('selectionWheel-back-btn');
+		backBtn.setAttribute('impact', 'backButton');
 		this.buttons.push(backBtn);
 		this.buttonsQuantity++;
 		modalBg.appendChild(backBtn);
