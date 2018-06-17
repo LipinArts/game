@@ -29,8 +29,8 @@ export default {
 		'src/img/bg/bg-27.jpg',
 		'src/img/bg/bg-28.jpg',
 	],
-	attacker: [{ x: 84, y: 425 }, { x: 284, y: 115 }, { x: 484, y: 425 }],
-	defender: [{ x: 784, y: 425 }, { x: 988, y: 115 }, { x: 1184, y: 425 }],
+	attacker: [{ x: 214, y: 425 }, { x: 384, y: 115 }, { x: 584, y: 425 }],
+	defender: [{ x: 900, y: 425 }, { x: 1088, y: 115 }, { x: 1264, y: 425 }],
 	canvas: document.getElementById('canvas'),
 
 };

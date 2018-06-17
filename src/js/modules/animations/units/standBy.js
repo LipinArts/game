@@ -2,6 +2,11 @@ import _ from 'lodash';
 export default class StandBy {
 	constructor(unitObj) {
 		this.unitObj = unitObj;
+		this.autoStart();
+	}
+
+	autoStart() {
+		this.start();
 	}
 
 	animation(unitObj) {
@@ -14,14 +19,16 @@ export default class StandBy {
 		function moveDown() {
 			unitObj.sprites.head.dY += .5;
 			unitObj.sprites.body.dY += .7;
-			unitObj.sprites.hands.dY += .5;
+			unitObj.sprites.hands_left.dY += .5;
+			unitObj.sprites.hands_right.dY += .5;
 			currentPos += 1;
 		}
 
 		function moveUp() {
 			unitObj.sprites.head.dY -= .5;
 			unitObj.sprites.body.dY -= .7;
-			unitObj.sprites.hands.dY -= .5;
+			unitObj.sprites.hands_left.dY -= .5;
+			unitObj.sprites.hands_right.dY -= .5;
 			currentPos -= 1;
 		}
 		unitObj.timer = setTimeout(function go() {
@@ -46,7 +53,7 @@ export default class StandBy {
 	}
 
 	stop() {
-
+		clearTimeout(this.unitObj.timer);
 	}
 
 

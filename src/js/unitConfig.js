@@ -37,18 +37,28 @@ export default {
 				dY: 60,
 				rotation: 0
 			},
-			hands: {
-				path: 'src/img/player/hands/hands.png',
+			hands_right: {
+				path: 'src/img/player/hands/hands-right.png',
 				width: 168,
 				height: 130,
 				sX: [0, 168, 336, 504, 672, 840],
 				sY: 0,
 				dX: 0,
-				dY: 65,
+				dY: 75,
 				rotation: 0
 			},
-			legs: {
-				path: 'src/img/player/legs/legs.png',
+			hands_left: {
+				path: 'src/img/player/hands/hands-left.png',
+				width: 168,
+				height: 130,
+				sX: [0, 168, 336, 504, 672, 840],
+				sY: 0,
+				dX: 0,
+				dY: 75,
+				rotation: 0
+			},
+			legs_right: {
+				path: 'src/img/player/legs/legs-right.png',
 				width: 168,
 				height: 112,
 				sX: [0, 168, 336, 504, 672, 840],
@@ -56,7 +66,17 @@ export default {
 				dX: 0,
 				dY: 150,
 				rotation: 0
-			}
+			},
+			legs_left: {
+				path: 'src/img/player/legs/legs-left.png',
+				width: 168,
+				height: 112,
+				sX: [0, 168, 336, 504, 672, 840],
+				sY: 0,
+				dX: 0,
+				dY: 150,
+				rotation: 0
+			},
 		}
 	},
 	monsters: {
@@ -94,29 +114,49 @@ export default {
 				sX: [0, 168, 336, 504, 672],
 				sY: 0,
 				dX: 0,
-				dY: 70,
+				dY: 80,
 				rotation: 0
 			},
-			hands: {
-				path: 'src/img/monster/hands/hands.png',
+			hands_right: {
+				path: 'src/img/monster/hands/hands-right.png',
 				width: 168,
 				height: 140,
 				sX: [0, 168, 336, 504, 672],
 				sY: 0,
 				dX: 0,
-				dY: 77,
+				dY: 105,
 				rotation: 0
 			},
-			legs: {
-				path: 'src/img/monster/legs/legs.png',
+			hands_left: {
+				path: 'src/img/monster/hands/hands-left.png',
+				width: 168,
+				height: 140,
+				sX: [0, 168, 336, 504, 672],
+				sY: 0,
+				dX: 0,
+				dY: 105,
+				rotation: 0
+			},
+			legs_right: {
+				path: 'src/img/monster/legs/legs-right.png',
 				width: 168,
 				height: 115,
 				sX: [0, 168, 336, 504, 672],
 				sY: 0,
 				dX: 0,
-				dY: 147,
+				dY: 165,
 				rotation: 0
-			}
+			},
+			legs_left: {
+				path: 'src/img/monster/legs/legs-left.png',
+				width: 168,
+				height: 115,
+				sX: [0, 168, 336, 504, 672],
+				sY: 0,
+				dX: 0,
+				dY: 165,
+				rotation: 0
+			},
 		}
 	},
 };

@@ -97,8 +97,7 @@ export default class Fight {
 			if (this.isFightNotOver()) {
 				this.updateSelecting();
 				this.updateTurn();
-			}
-			else {
+			} else {
 				this.frameLoopRunning = false;
 				this.finishFight();
 			}
@@ -155,7 +154,13 @@ export default class Fight {
 
 				if (KeyboardController.pressedKeys.impact) {
 					this.pauseFight();
-					const infoOutputScheme = { damage: 'Damage/heal', status: 'Add status', target: 'Target', duration: 'Duration', lvl: 'Difficulty' };
+					const infoOutputScheme = {
+						damage: 'Damage/heal',
+						status: 'Add status',
+						target: 'Target',
+						duration: 'Duration',
+						lvl: 'Difficulty'
+					};
 					let selectedImpactJSON = await new SelectionWheel(this.activeUnit.abilities, this.canvas, infoOutputScheme, document.body, 'src/img/selectionWheel/wheel.png', 'impactsSW');
 
 					// if player select impact
@@ -178,8 +183,7 @@ export default class Fight {
 								this.attack(this.activeUnit, this.selectedUnit, selectedImpact);
 							}
 							this.delayBetweenTurns = selectedImpact.animationTime;
-						}
-						else {
+						} else {
 							this.failure(this.activeUnit);
 						}
 
@@ -196,8 +200,7 @@ export default class Fight {
 				}
 
 			}
-		}
-		else {
+		} else {
 			// if player try do damane in while delay between turns is not left
 			if (KeyboardController.pressedKeys.impact) {
 				this.activeUnit.sounds.notYet.play();
@@ -220,11 +223,13 @@ export default class Fight {
 
 	attack(attacker, target, impact) {
 		attacker.sounds.attack.play();
-		target.animation.attack.start();
+		attacker.animation.attack.start();
+		attacker.animation.standBy.start();
 		this.impact(target, impact);
 		if (this.isUnitAlive(target)) {
 			target.sounds.pain.play();
 			target.animation.pain.start();
+			target.animation.standBy.start();
 		} else {
 			this.kill(target);
 		}
@@ -367,10 +372,12 @@ export default class Fight {
 	}
 
 	drawUnit(unit, posX, posY) {
-		this.drawUnitPart(unit.sprites.legs, posX, posY);
+		this.drawUnitPart(unit.sprites.legs_right, posX, posY);
+		this.drawUnitPart(unit.sprites.legs_left, posX, posY);
 		this.drawUnitPart(unit.sprites.body, posX, posY);
+		this.drawUnitPart(unit.sprites.hands_right, posX, posY);
+		this.drawUnitPart(unit.sprites.hands_left, posX, posY);
 		this.drawUnitPart(unit.sprites.head, posX, posY);
-		this.drawUnitPart(unit.sprites.hands, posX, posY);
 	}
 
 	drawUnitPart(part, posX, posY) {

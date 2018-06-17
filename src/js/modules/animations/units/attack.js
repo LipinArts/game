@@ -7,7 +7,7 @@ export default class Attack {
 		clearTimeout(unit.timer);
 		const fps = 20;
 		let startPos = 0;
-		const endPos = 200;
+		const endPos = 270;
 		let currentPos = 0;
 		let bubble = true;
 		let counter = 0;
@@ -15,35 +15,83 @@ export default class Attack {
 		function moveRightPlayer() {
 			unit.sprites.head.dX += 10;
 			unit.sprites.body.dX += 10;
-			unit.sprites.hands.dX += 10;
-			unit.sprites.legs.dX += 10;
+			unit.sprites.hands_left.dX += 11;
+			unit.sprites.hands_left.dY -= 2;
+			unit.sprites.hands_left.rotation -= 3;
+
+			unit.sprites.hands_right.dX += 12;
+			unit.sprites.hands_right.dY -= 1;
+			unit.sprites.hands_right.rotation -= 3;
+
+			unit.sprites.legs_left.dX += 11;
+			unit.sprites.legs_left.rotation -= 1;
+
+			unit.sprites.legs_right.dX += 8;
+			unit.sprites.legs_right.dY -= 1;
+			unit.sprites.legs_right.rotation += 2;
+
 			currentPos += 10;
 		}
+
 		function moveleftPlayer() {
 			unit.sprites.head.dX -= 10;
 			unit.sprites.body.dX -= 10;
-			unit.sprites.hands.dX -= 10;
-			unit.sprites.legs.dX -= 10;
+			unit.sprites.hands_left.dX -= 11;
+			unit.sprites.hands_left.dY += 2;
+			unit.sprites.hands_left.rotation += 3;
+
+			unit.sprites.hands_right.dX -= 12;
+			unit.sprites.hands_right.dY += 1;
+			unit.sprites.hands_right.rotation += 3;
+
+			unit.sprites.legs_left.dX -= 11;
+			unit.sprites.legs_left.rotation += 1;
+
+			unit.sprites.legs_right.dX -= 8;
+			unit.sprites.legs_right.dY += 1;
+			unit.sprites.legs_right.rotation -= 2;
 			currentPos -= 10;
 		}
 
 		function moveRightMonster() {
 			unit.sprites.head.dX += 10;
 			unit.sprites.body.dX += 10;
-			unit.sprites.hands.dX += 10;
-			unit.sprites.legs.dX += 10;
+			unit.sprites.hands_left.dX += 11;
+			unit.sprites.hands_left.dY += 2;
+			unit.sprites.hands_left.rotation -= 3;
+
+			unit.sprites.hands_right.dX += 12;
+			unit.sprites.hands_right.dY += 2;
+			unit.sprites.hands_right.rotation -= 3;
+
+			unit.sprites.legs_left.dX += 11;
+			unit.sprites.legs_left.rotation -= 1;
+
+			unit.sprites.legs_right.dX += 9;
+			unit.sprites.legs_right.rotation += 2;
 			currentPos -= 10;
 		}
 		function moveleftMonster() {
 			unit.sprites.head.dX -= 10;
 			unit.sprites.body.dX -= 10;
-			unit.sprites.hands.dX -= 10;
-			unit.sprites.legs.dX -= 10;
+			unit.sprites.hands_left.dX -= 11;
+			unit.sprites.hands_left.dY -= 2;
+			unit.sprites.hands_left.rotation += 3;
+
+			unit.sprites.hands_right.dX -= 12;
+			unit.sprites.hands_right.dY -= 2;
+			unit.sprites.hands_right.rotation += 3;
+
+			unit.sprites.legs_left.dX -= 11;
+			unit.sprites.legs_left.rotation += 1;
+
+			unit.sprites.legs_right.dX -= 9;
+			unit.sprites.legs_right.rotation -= 2;
 			currentPos += 10;
 		}
 		unit.timer = setTimeout(function go() {
 			if (bubble) {
-				if (currentPos > endPos) {
+				if (currentPos >= endPos) {
 					bubble = false;
 				}
 				if (unit.type === 'player') {
@@ -52,7 +100,7 @@ export default class Attack {
 					moveleftMonster();
 				}
 			} else {
-				if (currentPos < startPos + 30) {
+				if (currentPos <= startPos +10) {
 					bubble = true;
 					counter = 1;
 				}
@@ -76,7 +124,7 @@ export default class Attack {
 	}
 
 	stop() {
-
+		clearTimeout(this.unitObj.timer);
 	}
 
 

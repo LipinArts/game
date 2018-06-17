@@ -5,34 +5,47 @@ export default class Pain {
 
 	animation(unit) {
 		clearTimeout(unit.timer);
-		const fps = 80;
+		const fps = 30;
 		const startPos = 0;
-		const endPos = 10;
+		const endPos = 20;
 		let currentPos = 0;
 		let counter = 0;
 		let bubble = true;
 
 		function moveDown() {
 			unit.sprites.head.dY += 1;
-			// unit.sprites.body.dY += 2;
-			// unit.sprites.hands.dY += .5;
-			currentPos += 1;
+			unit.sprites.head.rotation += 1;
+			unit.sprites.body.dY += 1;
+
+			unit.sprites.hands_left.dX -= 1;
+			unit.sprites.hands_left.rotation += 1;
+
+			unit.sprites.hands_right.dX += 1;
+			unit.sprites.hands_right.rotation -= 1;
+			currentPos += 2;
 		}
 
 		function moveUp() {
 			unit.sprites.head.dY -= 1;
-			// unit.sprites.body.dY -= 2;
-			// unit.sprites.hands.dY -= .5;
-			currentPos -= 1;
+			unit.sprites.head.rotation -= 1;
+			unit.sprites.body.dY -= 1;
+
+			unit.sprites.hands_left.dX += 1;
+			unit.sprites.hands_left.rotation -= 1;
+
+			unit.sprites.hands_right.dX -= 1;
+			unit.sprites.hands_right.rotation += 1;
+			currentPos -= 2;
+
 		}
 		unit.timer = setTimeout(function go() {
 			if (bubble) {
-				if (currentPos > endPos) {
+				if (currentPos >= endPos) {
 					bubble = false;
 				}
 				moveDown();
 			} else {
-				if (currentPos < startPos) {
+				if (currentPos <= startPos +2 ) {
 					bubble = true;
 					counter = 1;
 				}
@@ -52,7 +65,7 @@ export default class Pain {
 	}
 
 	stop() {
-
+		clearTimeout(this.unitObj.timer);
 	}
 
 

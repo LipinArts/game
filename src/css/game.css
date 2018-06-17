@@ -167,8 +167,6 @@ input {
 .canvas-wrap {
   align-self: center;
   justify-self: center;
-  width: 1280px;
-  height: auto;
   margin: 0 auto;
 }
 

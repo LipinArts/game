@@ -19,7 +19,7 @@ export default class FightUnit {
 		this.generate();
 		this.timer = 0;
 		this.animation = {
-			standBy: AnimationManager.getAnimation('standBy', this).start(),
+			standBy: AnimationManager.getAnimation('standBy', this),
 			death: AnimationManager.getAnimation('death', this),
 			attack: AnimationManager.getAnimation('attack', this),
 			pain: AnimationManager.getAnimation('pain', this),
@@ -31,17 +31,17 @@ export default class FightUnit {
 		switch (this.type) {
 		case 'player':
 			this.generateUnit(unitConfig.players.adjectives, unitConfig.players.names_1, unitConfig.players.names_2, unitConfig.players.hp);
-			this.generateSprites(unitConfig.players.sprites.head, unitConfig.players.sprites.body, unitConfig.players.sprites.hands, unitConfig.players.sprites.legs, unitConfig.players.unitSize);
+			this.generateSprites(unitConfig.players.sprites.head, unitConfig.players.sprites.body, unitConfig.players.sprites.hands_left, unitConfig.players.sprites.hands_right, unitConfig.players.sprites.legs_left, unitConfig.players.sprites.legs_right, unitConfig.players.unitSize);
 			this.generateSounds(unitConfig.players);
 			break;
 		case 'monster':
 			this.generateUnit(unitConfig.monsters.adjectives, unitConfig.monsters.names_1, unitConfig.monsters.names_2, unitConfig.monsters.hp);
-			this.generateSprites(unitConfig.monsters.sprites.head, unitConfig.monsters.sprites.body, unitConfig.monsters.sprites.hands, unitConfig.monsters.sprites.legs, unitConfig.monsters.unitSize);
+			this.generateSprites(unitConfig.monsters.sprites.head, unitConfig.monsters.sprites.body, unitConfig.monsters.sprites.hands_left, unitConfig.monsters.sprites.hands_right, unitConfig.monsters.sprites.legs_left, unitConfig.monsters.sprites.legs_right, unitConfig.monsters.unitSize);
 			this.generateSounds(unitConfig.monsters);
 			break;
 		default:
 			this.generateUnit(unitConfig.monsters.adjectives, unitConfig.monsters.names_1, unitConfig.monsters.names_2, unitConfig.monsters.hp);
-			this.generateSprites(unitConfig.monsters.sprites.head, unitConfig.monsters.sprites.body, unitConfig.monsters.sprites.hands, unitConfig.monsters.sprites.legs, unitConfig.monsters.unitSize);
+			this.generateSprites(unitConfig.monsters.sprites.head, unitConfig.monsters.sprites.body, unitConfig.monsters.sprites.hands_left, unitConfig.monsters.sprites.hands_right, unitConfig.monsters.sprites.legs_left, unitConfig.monsters.sprites.legs_right, unitConfig.monsters.unitSize);
 			this.generateSounds(unitConfig.monsters);
 			break;
 		}
@@ -53,19 +53,27 @@ export default class FightUnit {
 		this.maxHP = this.hp;
 	}
 
-	generateSprites(head, body, hands, legs, unitSize) {
+	generateSprites(head, body, hands_left, hands_right, legs_left, legs_right, unitSize) {
 		this.sprites.head = _.clone(head);
 		this.sprites.head.image = Utils.setSprite(head.path);
 		this.sprites.head.sX = head.sX[_.random(0, head.sX.length - 1)];
 		this.sprites.body = _.clone(body);
 		this.sprites.body.image = Utils.setSprite(body.path);
 		this.sprites.body.sX = body.sX[_.random(0, body.sX.length - 1)];
-		this.sprites.hands = _.clone(hands);
-		this.sprites.hands.image = Utils.setSprite(hands.path);
-		this.sprites.hands.sX = hands.sX[_.random(0, hands.sX.length - 1)];
-		this.sprites.legs = _.clone(legs);
-		this.sprites.legs.image = Utils.setSprite(legs.path);
-		this.sprites.legs.sX = legs.sX[_.random(0, legs.sX.length - 1)];
+
+		this.sprites.hands_left = _.clone(hands_left);
+		this.sprites.hands_left.image = Utils.setSprite(hands_left.path);
+		this.sprites.hands_left.sX = hands_left.sX[_.random(0, hands_left.sX.length - 1)];
+		this.sprites.hands_right = _.clone(hands_right);
+		this.sprites.hands_right.image = Utils.setSprite(hands_right.path);
+		this.sprites.hands_right.sX = this.sprites.hands_left.sX;
+
+		this.sprites.legs_left = _.clone(legs_left);
+		this.sprites.legs_left.image = Utils.setSprite(legs_left.path);
+		this.sprites.legs_left.sX = legs_left.sX[_.random(0, legs_left.sX.length - 1)];
+		this.sprites.legs_right = _.clone(legs_right);
+		this.sprites.legs_right.image = Utils.setSprite(legs_right.path);
+		this.sprites.legs_right.sX = this.sprites.legs_left.sX;
 
 		this.unitSize = _.clone(unitSize);
 	}
@@ -79,6 +87,8 @@ export default class FightUnit {
 
 	generateUnitAbilities() {
 		const allCastsNames = Object.keys(ImpactConfig);
+		console.log(allCastsNames);
+
 		for (let numberUnitCast = 0; numberUnitCast < 6; numberUnitCast++) {
 			const impactName = allCastsNames[_.random(0, allCastsNames.length - 1)];
 			const lvlCast = _.random(1, this.difficulty);
