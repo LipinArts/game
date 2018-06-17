@@ -223,15 +223,25 @@ export default class Fight {
 
 	attack(attacker, target, impact) {
 		attacker.sounds.attack.play();
-		attacker.animation.attack.start();
+		attacker.animation.standBy.stop();
+		if (target === attacker) {
+			// do nothing
+		} else {
+			attacker.animation.attack.start();
+		}
 		attacker.animation.standBy.start();
 		this.impact(target, impact);
 		if (this.isUnitAlive(target)) {
-			target.sounds.pain.play();
-			target.animation.pain.start();
-			target.animation.standBy.start();
+			setTimeout(() => {
+				target.sounds.pain.play();
+				target.animation.standBy.stop();
+				target.animation.pain.start();
+				target.animation.standBy.start();
+			}, 400);
 		} else {
-			this.kill(target);
+			setTimeout(() => {
+				this.kill(target);
+			}, 400);
 		}
 	}
 

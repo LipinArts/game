@@ -2,7 +2,7 @@ import GameManager from '../gameManager/gameManager';
 import KeyboardController from '../KeyboardController/KeyboardController';
 import Utils from '../utils/utils';
 import SelectionWheel from '../SelectionWheel/SelectionWheel';
-
+import $ from 'jquery';
 export default class GameInterface {
 	constructor() {
 		this.userData = 'undef';
@@ -141,12 +141,18 @@ export default class GameInterface {
 	}
 
 	pressStartNewGameButton() {
+		$('.loader').show();
+		$('.loader_inner').show();
 		if (this.gameStarted) {
 			document.location.href = '/game.html';
 		} else {
 			this.gameStarted = true;
 			Utils.saveDataObjToStorage(this.userData, 'lastLoginUserData');
 			new GameManager(this.userData);
+			setTimeout(() => {
+				$('.loader_inner').fadeOut('slow');
+				$('.loader').delay(400).fadeOut('slow');
+			}, 1000);
 		}
 	}
 
