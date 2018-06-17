@@ -28,19 +28,18 @@ function generate(task) {
 	btn.className = 'btn';
 	btn.textContent = 'Воспроизвести';
 
-	const awaitVoices = new Promise(done =>
-		window.speechSynthesis.onvoiceschanged = done);
-	const speakTaskWord = () => {
-		awaitVoices.then(() => {
-			const synth = window.speechSynthesis;
-			const speech = new SpeechSynthesisUtterance(task);
+
+	window.speechSynthesis.onvoiceschanged = speakTaskWord;
+	let speakTaskWord = () => {
+			let synth = window.speechSynthesis;
+			let speech = new SpeechSynthesisUtterance(task);
 			let voices = [];
 			voices = synth.getVoices();
 			speech.voice = voices[8];
 			speech.rate = 0.8;
 			synth.speak(speech);
-		});
 	};
+
 
 	btn.onclick = speakTaskWord;
 	question.appendChild(btn);

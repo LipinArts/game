@@ -7,7 +7,13 @@ export default class Scoreboard {
 		const title = document.createElement('h2');
 		list.appendChild(title);
 		title.textContent = 'Scoreboard';
-		const records = JSON.parse(localStorage.getItem(name_localStorage));
+		let records = JSON.parse(localStorage.getItem(name_localStorage));
+		if(records === null){
+			const emptyArray = new Array(10);
+			const newRecords = emptyArray.fill('empty');
+			localStorage.setItem(name_localStorage, JSON.stringify(newRecords));
+		}
+		records = JSON.parse(localStorage.getItem(name_localStorage));
 		records.forEach(recordObj => {
 			let listElem = document.createElement('li');
 			if (recordObj === 'empty') listElem.textContent = 'empty';

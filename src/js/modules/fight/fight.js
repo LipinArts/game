@@ -237,18 +237,20 @@ export default class Fight {
 				target.animation.standBy.stop();
 				target.animation.pain.start();
 				target.animation.standBy.start();
-			}, 400);
+			}, 800);
 		} else {
 			setTimeout(() => {
 				this.kill(target);
-			}, 400);
+			}, 800);
 		}
 	}
 
 	heal(attacker, target, impact) {
 		//attacker.sounds.help.play();
 		//target.animation.help.start();
-		this.impact(target, impact);
+		setTimeout(() => {
+			this.impact(target, impact);
+		}, 800);
 	}
 
 	failure(unit) {

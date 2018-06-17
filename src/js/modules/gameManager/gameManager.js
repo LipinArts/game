@@ -25,7 +25,9 @@ export default class GameManager {
 		}
 
 		const currentScore = this.calcScore();
-		this.showScore(currentScore);
+		setTimeout(() => {
+			this.showScore(currentScore);
+		}, 1000);
 	}
 
 	generateGroupOfUnits(typeGroup, diffucult) {

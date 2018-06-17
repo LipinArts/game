@@ -33,7 +33,7 @@ export default class Attack {
 			currentPos += 10;
 		}
 
-		function moveleftPlayer() {
+		function moveLeftPlayer() {
 			unit.sprites.head.dX -= 10;
 			unit.sprites.body.dX -= 10;
 			unit.sprites.hands_left.dX -= 11;
@@ -71,7 +71,7 @@ export default class Attack {
 			unit.sprites.legs_right.rotation += 2;
 			currentPos -= 10;
 		}
-		function moveleftMonster() {
+		function moveLeftMonster() {
 			unit.sprites.head.dX -= 10;
 			unit.sprites.body.dX -= 10;
 			unit.sprites.hands_left.dX -= 11;
@@ -97,7 +97,7 @@ export default class Attack {
 				if (unit.type === 'player') {
 					moveRightPlayer();
 				} else {
-					moveleftMonster();
+					moveLeftMonster();
 				}
 			} else {
 				if (currentPos <= startPos +10) {
@@ -105,7 +105,7 @@ export default class Attack {
 					counter = 1;
 				}
 				if (unit.type === 'player') {
-					moveleftPlayer();
+					moveLeftPlayer();
 				} else {
 					moveRightMonster();
 				}

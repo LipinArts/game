@@ -87,7 +87,6 @@ export default class GameInterface {
 					//console.log('decreaseVol');
 					break;
 				case 'scoreboard':
-					console.log('scoreboard');
 					Scoreboard.createTableOfRecordsFromLocalStore('top10score');
 					//console.log('scoreboard');
 					break;

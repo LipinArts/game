@@ -11,7 +11,9 @@ export default {
 		['layout', ['макет', 'компановка', 'разметка', 'раскладка']],
 		['determinate', ['определенный', 'точно установленный', 'заданный']],
 		['redundant', ['избыточный', 'лишний', 'чрезмерный', 'резервный']],
-		['deployment', ['развертывание', 'размещение', 'внедрение', 'применение']]
+		['deployment', ['развертывание', 'размещение', 'внедрение', 'применение', 'развёртывание']],
+		['overflow',['переполнение','перелив','переливание через край','разлив',' наводнение', 'избыток']],
+		['inheritance',['наследование', 'унаследование', 'получение наследства', 'наследство', 'наследие']],
 	],
 	sequence: [
 		['function bind(func, context ) {', ' const bindArgs = [].slice.call(arguments, 2);', ' return function wrapper() {', '  const args = [].slice.call(arguments);', '  const unshiftArgs = bindArgs.concat(args);', '  return func.apply(context, unshiftArgs);', ' };', '}']
