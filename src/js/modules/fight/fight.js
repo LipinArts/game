@@ -156,11 +156,11 @@ export default class Fight {
 				if (KeyboardController.pressedKeys.impact) {
 					this.pauseFight();
 					const infoOutputScheme = { damage: 'Damage/heal', status: 'Add status', target: 'Target', duration: 'Duration', lvl: 'Difficulty' };
-					let selectedImpactJSON = await new SelectionWheel(this.activeUnit.abilities, this.canvas, infoOutputScheme, document.body, 'src/img/selectionWheel/wheel.png', 'impactsSW');
+					let selectedImpactPromise = await new SelectionWheel(this.activeUnit.abilities, this.canvas, infoOutputScheme, document.body, 'src/img/selectionWheel/wheel.png', 'impactsSW');
 
 					// if player select impact
-					if (selectedImpactJSON) {
-						let selectedImpact = JSON.parse(selectedImpactJSON);
+					if (selectedImpactPromise) {
+						let selectedImpact = selectedImpactPromise;
 						let resultUserTask = await new UserTask(selectedImpact.lvl);
 
 						// if player gave the right answer
