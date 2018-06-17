@@ -25,6 +25,10 @@ export default class Fight {
 		this.lastTurnEndtTime = new Date().getTime();
 		this.delayBetweenTurns = 0;
 
+		this.animatedCastUnit;
+		this.targetUnitCoord;
+		this.casterUnitCoord;
+
 		this.resolvePromiseFunc;
 		return new Promise(resolve => {
 			this.resolvePromiseFunc = resolve;
@@ -246,6 +250,13 @@ export default class Fight {
 	}
 
 	impact(target, impact) {
+		this.animatedCastUnit = impact;
+		this.targetUnitCoord = this.getUnitObjCoordinates(target);
+		this.casterUnitCoord = this.getUnitObjCoordinates(this.activeUnit);
+		impact.position.x = this.casterUnitCoord.x;
+		impact.position.y = this.casterUnitCoord.y;
+		impact.animation.start(this.targetUnitCoord);
+
 		if (this.isUnitAlive(target)) {
 			target.hp = target.hp - impact.damage;
 			if (target.hp > target.maxHP) {
@@ -348,10 +359,30 @@ export default class Fight {
 		if (this.selectedUnit !== this.activeUnit) {
 			this.drawUnitInfo(this.activeUnit);
 		}
+		if (this.animatedCastUnit && this.animatedCastUnit.sprite) {
+			this.drawCast(this.animatedCastUnit, this.casterUnitCoord, this.targetUnitCoord);
+		}
 	}
 
 	clearCanvas() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	}
+
+	drawCast(castObj) {
+		this.ctx.save();
+		let posX = castObj.position.x;
+		let posY = castObj.position.y;
+
+		this.ctx.translate(posX, posY);
+
+		this.ctx.rotate((Math.PI / 180) * castObj.sprite.rotation);
+
+		const width = castObj.sprite.width;
+		const height = castObj.sprite.height;
+
+		this.ctx.drawImage(castObj.sprite.image, castObj.sprite.sX, castObj.sprite.sY, width, height, -width / 2, - height / 2, width, height);
+
+		this.ctx.restore();
 	}
 
 	drawAttackerUnits() {

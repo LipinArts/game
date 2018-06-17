@@ -43,4 +43,16 @@ export default class Utils {
 		return [nx, ny];
 	}
 
+	static getDistanceBetweenPoints(x1, y1, x2, y2) {
+		return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+	}
+
+	static get_force_vector(rotation) {
+		let force_vector = {
+			x: Math.cos(rotation * (Math.PI / 180)),
+			y: Math.sin(rotation * (Math.PI / 180))
+		};
+		return force_vector;
+	}
+
 }
