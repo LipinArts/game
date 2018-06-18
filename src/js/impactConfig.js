@@ -127,7 +127,7 @@ export default {
 		target: 'target',
 		duration: function () { return 5; },
 		icon_path: 'src/img/impact/bless/icon/healPeriodic.jpg',
-		spritesheet: 'src/img/impact/fireball/sprites/spritesheet.png',
+		spritesheet: 'src/img/impact/bless/sprites/spritesheet.png',
 		animationTime: 2000,
 		sprites: {
 			image: null,
@@ -319,7 +319,7 @@ export default {
 		target: 'allies',
 		duration: function () { return 0; },
 		icon_path: 'src/img/impact/healMass/icon/healMass.jpg',
-		spritesheet: 'src/img/impact/fireball/sprites/spritesheet.png',
+		spritesheet: 'src/img/impact/healMass/sprites/spritesheet.png',
 		animationTime: 2000,
 		sprites: {
 			image: null,

@@ -1,6 +1,6 @@
 import Utils from '../../utils/utils';
 
-export default class Fireball {
+export default class ThrowingCast {
 	constructor(unitObj) {
 		this.unitObj = unitObj;
 	}
