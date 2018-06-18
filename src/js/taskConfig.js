@@ -8,7 +8,7 @@ export default {
 		['<pre>Какое событие из этого списка не существует?</pre>', ['onmousescroll', 'onclick', 'onmouseover', 'onmousemove', 'onwheel', 'все существуют'], 'onmousescroll'],
 		['<pre>Как получить HTML-содержимое DOM-элемента<code>elem ?</code></pre>', ['elem.html', 'elem.innerHTML', 'elem.content'], 'elem.innerHTML'],
 		['<pre>Этот код ничего не выведет. Почему?<br><code>document.onclick = function(event) {<br>  alert(event.type);<br>};<br>document.body.dispatchEvent(new CustomEvent("click"));</code></pre>', ['из JavaScript нельзя генерировать встроенные события', 'обработчик через on-свойство не срабатывает для событий, сгенерированных из JavaScript', 'встроенное событие нужно генерировать иначе, конструктор CustomEvent надо заменить на другой', 'при генерации события не указано, что оно должно всплывать'], 'обработчик через on-свойство не срабатывает для событий, сгенерированных из JavaScript'],
-		['<pre>Результат <code>elem.getBoundingClientRect()</code> содержит отрицательное значение <code>top: -10</code><br>Что это означает?</pre>', ['что верх элемента вылезает за верхнюю границу документа', 'что верх элемента вылезает за верхнюю границу окна', 'что содержимое элемента прокручено на 10px','ничего не означает, браузер чудит'], 'что содержимое элемента прокручено на 10px'],
+		['<pre>Результат <code>elem.getBoundingClientRect()</code> содержит отрицательное значение <code>top: -10</code><br>Что это означает?</pre>', ['что верх элемента вылезает за верхнюю границу документа', 'что верх элемента вылезает за верхнюю границу окна', 'что содержимое элемента прокручено на 10px', 'ничего не означает, браузер чудит'], 'что содержимое элемента прокручено на 10px'],
 
 	],
 	translate: [
@@ -17,14 +17,16 @@ export default {
 		['determinate', ['определенный', 'точно установленный', 'заданный']],
 		['redundant', ['избыточный', 'лишний', 'чрезмерный', 'резервный']],
 		['deployment', ['развертывание', 'размещение', 'внедрение', 'применение', 'развёртывание']],
-		['overflow',['переполнение','перелив','переливание через край','разлив',' наводнение', 'избыток']],
-		['inheritance',['наследование', 'унаследование', 'получение наследства', 'наследство', 'наследие']],
-		['to retrieve',['искать', 'находить', 'выборка', 'извлекать', 'вернуть', 'возвращать']],
-		['perfomance',['производительность','быстродействие', 'эффективность']],
-		['to evolve',['развиваться', 'развивать', 'эволюционировать', 'издавать запах']]
+		['overflow', ['переполнение', 'перелив', 'переливание через край', 'разлив', ' наводнение', 'избыток']],
+		['inheritance', ['наследование', 'унаследование', 'получение наследства', 'наследство', 'наследие']],
+		['to retrieve', ['искать', 'находить', 'выборка', 'извлекать', 'вернуть', 'возвращать']],
+		['perfomance', ['производительность', 'быстродействие', 'эффективность']],
+		['to evolve', ['развиваться', 'развивать', 'эволюционировать', 'издавать запах']]
 	],
 	sequence: [
-		['function bind(func, context ) {', ' const bindArgs = [].slice.call(arguments, 2);', ' return function wrapper() {', '  const args = [].slice.call(arguments);', '  const unshiftArgs = bindArgs.concat(args);', '  return func.apply(context, unshiftArgs);', ' };', '}']
+		['function bind(func, context ) {', ' const bindArgs = [].slice.call(arguments, 2);', ' return function wrapper() {', '  const args = [].slice.call(arguments);', '  const unshiftArgs = bindArgs.concat(args);', '  return func.apply(context, unshiftArgs);', ' };', '}'],
+		['function createSecret(secret) {', '	let mySecret = secret;', '	return {', '		getSecret: () => {', '			return mySecret;', '		},', '		setSecret: (newSecret) => {', '			mySecret = newSecret;', '		}', '	}', '}'],
+		['const sum = a => {', 'let results = a;', '	const func = b => {', '		results += b;', '		return func;', '	};', '	func.valueOf = () => results;', '	return func;', '}']
 	],
 	audition: [
 		['undefined'],
