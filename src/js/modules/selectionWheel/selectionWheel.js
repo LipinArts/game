@@ -10,7 +10,6 @@ export default class SelectionWheel {
 		this.impactsNames = Object.keys(inputObj);
 		this.buttonsQuantity = this.impactsNames.length;
 		this.impactsObj = this.getAllImpactsObj(this.impactsNames, inputObj);
-		this.resolvePromiseFunc;
 
 		this.idModule = idModule;
 

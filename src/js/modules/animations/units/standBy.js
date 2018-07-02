@@ -16,7 +16,7 @@ export default class StandBy {
 		let currentPos = _.random(startPos, endPos - 1);
 		let bubble = true;
 
-		function moveDown() {
+		function moveDown(unitObj) {
 			unitObj.sprites.head.dY += .5;
 			unitObj.sprites.body.dY += .7;
 			unitObj.sprites.hands_left.dY += .5;
@@ -24,7 +24,7 @@ export default class StandBy {
 			currentPos += 1;
 		}
 
-		function moveUp() {
+		function moveUp(unitObj) {
 			unitObj.sprites.head.dY -= .5;
 			unitObj.sprites.body.dY -= .7;
 			unitObj.sprites.hands_left.dY -= .5;
@@ -36,12 +36,12 @@ export default class StandBy {
 				if (currentPos > endPos) {
 					bubble = false;
 				}
-				moveDown();
+				moveDown(unitObj);
 			} else {
 				if (currentPos < startPos) {
 					bubble = true;
 				}
-				moveUp();
+				moveUp(unitObj);
 			}
 			unitObj.timer = setTimeout(go, fps);
 		}, fps);

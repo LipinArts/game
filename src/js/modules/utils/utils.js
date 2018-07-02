@@ -1,3 +1,4 @@
+import $ from 'jquery';
 export default class Utils {
 
 	static setSprite(src) {
@@ -53,6 +54,14 @@ export default class Utils {
 			y: Math.sin(rotation * (Math.PI / 180))
 		};
 		return force_vector;
+	}
+
+	static showLoader() {
+		$('.loader').show();
+	}
+
+	static hideLoader() {
+		$('.loader').delay(400).fadeOut('slow');
 	}
 
 }

@@ -12,7 +12,7 @@ export default class Pain {
 		let counter = 0;
 		let bubble = true;
 
-		function moveDown() {
+		function moveDown(unit) {
 			unit.sprites.head.dY += 1;
 			unit.sprites.head.rotation += 1;
 			unit.sprites.body.dY += 1;
@@ -25,7 +25,7 @@ export default class Pain {
 			currentPos += 2;
 		}
 
-		function moveUp() {
+		function moveUp(unit) {
 			unit.sprites.head.dY -= 1;
 			unit.sprites.head.rotation -= 1;
 			unit.sprites.body.dY -= 1;
@@ -43,13 +43,13 @@ export default class Pain {
 				if (currentPos >= endPos) {
 					bubble = false;
 				}
-				moveDown();
+				moveDown(unit);
 			} else {
-				if (currentPos <= startPos +2 ) {
+				if (currentPos <= startPos + 2) {
 					bubble = true;
 					counter = 1;
 				}
-				moveUp();
+				moveUp(unit);
 			}
 			if (counter === 0) {
 				unit.timer = setTimeout(go, fps);

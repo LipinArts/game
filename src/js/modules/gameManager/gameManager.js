@@ -1,7 +1,7 @@
 import Fight from '../fight/fight';
 import FightUnit from '../fightUnit/fightUnit';
 import Scoreboard from '../scoreboard/scoreboard';
-import $ from 'jquery';
+import Utils from '../utils/utils';
 
 export default class GameManager {
 	constructor(userData) {
@@ -15,12 +15,7 @@ export default class GameManager {
 		let player = this.generateGroupOfUnits('player', diffucult);
 
 		while (this.isGroupAlive(player)) {
-			$('.loader').show();
-			$('.loader_inner').show();
-			setTimeout(() => {
-				$('.loader_inner').fadeOut('slow');
-				$('.loader').delay(400).fadeOut('slow');
-			}, 1000);
+			Utils.showLoader();
 			let monster = this.generateGroupOfUnits('monster', diffucult);
 			diffucult = diffucult * 1.5;
 			this.monsterGroupsCounter++;
@@ -32,9 +27,7 @@ export default class GameManager {
 		}
 
 		const currentScore = this.calcScore();
-		setTimeout(() => {
-			this.showScore(currentScore);
-		}, 1000);
+		this.showScore(currentScore);
 	}
 
 	generateGroupOfUnits(typeGroup, diffucult) {

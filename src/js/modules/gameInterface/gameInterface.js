@@ -3,7 +3,7 @@ import KeyboardController from '../KeyboardController/KeyboardController';
 import Utils from '../utils/utils';
 import SelectionWheel from '../SelectionWheel/SelectionWheel';
 import Scoreboard from '../scoreboard/scoreboard';
-import $ from 'jquery';
+
 export default class GameInterface {
 	constructor() {
 		this.userData = 'undef';
@@ -71,26 +71,25 @@ export default class GameInterface {
 				this.keyboardEnabled = true;
 			} else {
 				switch (resultSelect.nameButton) {
-				case 'startNewGame':
-					this.pressStartNewGameButton();
-					break;
-				case 'musicOn_Off':
-					this.createMenu();
-					//console.log('musicOn_Off');
-					break;
-				case 'increaseVol':
-					this.createMenu();
-					//console.log('increaseVol');
-					break;
-				case 'decreaseVol':
-					this.createMenu();
-					//console.log('decreaseVol');
-					break;
-				case 'scoreboard':
-					Scoreboard.createTableOfRecordsFromLocalStore('top10score');
-					//console.log('scoreboard');
-					break;
-				default:
+					case 'startNewGame':
+						this.pressStartNewGameButton();
+						break;
+					case 'musicOn_Off':
+						this.createMenu();
+						//console.log('musicOn_Off');
+						break;
+					case 'increaseVol':
+						this.createMenu();
+						//console.log('increaseVol');
+						break;
+					case 'decreaseVol':
+						this.createMenu();
+						//console.log('decreaseVol');
+						break;
+					case 'scoreboard':
+						Scoreboard.createTableOfRecordsFromLocalStore('top10score');
+						break;
+					default:
 					//console.log('default');
 				}
 			}
@@ -104,44 +103,44 @@ export default class GameInterface {
 
 		function keydownHandler(event) {
 			switch (keyMap[event.keyCode]) {
-			case 'decreaseVol':
-				// Sound_Module.decreaseMusicVol(that.musicPlaylist, 0.05);
-				break;
-			case 'increaseVol':
-				// Sound_Module.increaseMusicVol(that.musicPlaylist, 0.05);
-				break;
+				case 'decreaseVol':
+					// Sound_Module.decreaseMusicVol(that.musicPlaylist, 0.05);
+					break;
+				case 'increaseVol':
+					// Sound_Module.increaseMusicVol(that.musicPlaylist, 0.05);
+					break;
 			}
 		}
 
 		function keyupHandler(event) {
 			switch (keyMap[event.keyCode]) {
-			case 'music_Off_On':
-				// Sound_Module.musicPause_Unpause(that.musicPlaylist);
-				break;
-			case 'showGameMenu':
-				if (!document.getElementById('gameMenuSW')) {
-					that.createMenu();
-					that.keyboardEnabled = false;
-				} else {
-					that.keyboardEnabled = true;
-				}
-				break;
-			case 'nextTarget':
-				if (that.keyboardEnabled) {
-					KeyboardController.pressedKeys.nextTarget = true;
-				}
+				case 'music_Off_On':
+					// Sound_Module.musicPause_Unpause(that.musicPlaylist);
+					break;
+				case 'showGameMenu':
+					if (!document.getElementById('gameMenuSW')) {
+						that.createMenu();
+						that.keyboardEnabled = false;
+					} else {
+						that.keyboardEnabled = true;
+					}
+					break;
+				case 'nextTarget':
+					if (that.keyboardEnabled) {
+						KeyboardController.pressedKeys.nextTarget = true;
+					}
 
-				break;
-			case 'prevTarget':
-				if (that.keyboardEnabled) {
-					KeyboardController.pressedKeys.prevTarget = true;
-				}
-				break;
-			case 'impact':
-				if (that.keyboardEnabled) {
-					KeyboardController.pressedKeys.impact = true;
-				}
-				break;
+					break;
+				case 'prevTarget':
+					if (that.keyboardEnabled) {
+						KeyboardController.pressedKeys.prevTarget = true;
+					}
+					break;
+				case 'impact':
+					if (that.keyboardEnabled) {
+						KeyboardController.pressedKeys.impact = true;
+					}
+					break;
 			}
 		}
 
@@ -150,18 +149,13 @@ export default class GameInterface {
 	}
 
 	pressStartNewGameButton() {
-		$('.loader').show();
-		$('.loader_inner').show();
+		Utils.showLoader();
 		if (this.gameStarted) {
 			document.location.href = 'game';
 		} else {
 			this.gameStarted = true;
 			Utils.saveDataObjToStorage(this.userData, 'lastLoginUserData');
 			new GameManager(this.userData);
-			setTimeout(() => {
-				$('.loader_inner').fadeOut('slow');
-				$('.loader').delay(400).fadeOut('slow');
-			}, 1000);
 		}
 	}
 

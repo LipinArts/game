@@ -9,7 +9,7 @@ export default class Death {
 		let startPos = 0;
 		const endPos = unitObj.unitSize.height;
 
-		function moveDown() {
+		function moveDown(unitObj) {
 			if (unitObj.type === 'monster') {
 				unitObj.sprites.head.dY += 11;
 				unitObj.sprites.head.rotation += 6;
@@ -28,7 +28,7 @@ export default class Death {
 				unitObj.sprites.legs_right.dX += 3;
 				unitObj.sprites.legs_right.rotation -= 6;
 				startPos += 10;
-			}else{
+			} else {
 				unitObj.sprites.head.dY += 11;
 				unitObj.sprites.head.dX -= 11;
 				unitObj.sprites.head.rotation -= 6.8;
@@ -53,7 +53,7 @@ export default class Death {
 		}
 		setTimeout(function go() {
 			if (startPos < endPos) {
-				moveDown();
+				moveDown(unitObj);
 			}
 			setTimeout(go, fps);
 		}, fps);

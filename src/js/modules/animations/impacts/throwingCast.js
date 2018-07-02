@@ -1,23 +1,87 @@
 import Utils from '../../utils/utils';
 
 export default class ThrowingCast {
-	constructor(unitObj) {
-		this.unitObj = unitObj;
+	constructor(impact) {
+		this.impact = impact;
+		this.currentFrame;
+		this.allFrames_sX = this.impact.sprite.allSprites_sX;
+		this.spritesNumber = this.allFrames_sX.length;
+		this.speed = 10;
+		this.distance;
+		this.currentMovingDist;
+		this.onceFlag;
 	}
 
-	animation(unit, target) {
-		const timeBetweenFrames = 16;
-		let speed = 10;
-		const x1 = unit.position.x;
-		const y1 = unit.position.y;
-		const x2 = target.x;
-		const y2 = target.y;
-		const distance = Utils.getDistanceBetweenPoints(x1, y1, x2, y2);
-		let angle = (Math.atan((y2 - y1) / (x2 - x1))) * 180 / Math.PI;
-		let force_vector = Utils.get_force_vector(angle);
-		let currenMovingDist = 0;
+	initObject() {
+		this.currentFrame = 0;
+		this.distance = 0;
+		this.currentMovingDist = 0;
+		this.onceFlag = true;
+		this.impact.animation.finish = false;
+	}
 
-		unit.animation.finish = false;
+	start(targetPosition) {
+		this.initObject();
+		this.impact.sound.play();
+		this.updateMovement(this.impact, targetPosition);
+		this.startAnimationLoop(this.impact, targetPosition);
+	}
+
+	stop() {
+		this.impact.animation.finish = true;
+	}
+
+	startAnimationLoop(impact, targetPosition) {
+		const that = this;
+		let now;
+		let dt = 0;
+		let last = timestamp();
+		let step = 1 / 60;
+
+		function timestamp() {
+			return window.performance && window.performance.now ? window.performance.now() : new Date().getTime();
+		}
+
+		function frame() {
+			if (that.impact.animation.finish === false) {
+				now = timestamp();
+				dt = dt + Math.min(1, (now - last) / 1000);
+				while (dt > step) {
+					dt = dt - step;
+					that.update(impact, targetPosition);
+				}
+				last = now;
+				requestAnimationFrame(frame);
+			}
+		}
+		this.impact.animation.finish = false;
+		requestAnimationFrame(frame);
+	}
+
+	update(impact, targetPosition) {
+		this.updateSprites(impact);
+		if (this.onceFlag) {
+			if (this.isTargetReached()) {
+				this.onceFlag = false;
+				// neet test mb have bugs when delation less then time between frames
+				const timeDelation = 500;
+				this.delayBeforeDeleting(impact, timeDelation);
+			}
+			else {
+				this.updatecurrentMovingDist();
+				this.updatePosition(this.impact, targetPosition);
+			}
+		}
+	}
+
+	updateMovement(impact, targetPosition) {
+		const x1 = impact.position.x;
+		const y1 = impact.position.y;
+		const x2 = targetPosition.x;
+		const y2 = targetPosition.y;
+		this.distance = Utils.getDistanceBetweenPoints(x1, y1, x2, y2);
+		const angle = (Math.atan((y2 - y1) / (x2 - x1))) * 180 / Math.PI;
+		const force_vector = Utils.get_force_vector(angle);
 
 		if (x1 === x2 && y1 === y2) {
 			force_vector.x = 0;
@@ -30,55 +94,36 @@ export default class ThrowingCast {
 			}
 		}
 
-		unit.movement.x = force_vector.x * speed;
-		unit.movement.y = force_vector.y * speed;
-
-
-		let allFrames_sX = unit.sprite.allSprites_sX;
-		let spritesNumber = allFrames_sX.length;
-		let currentFrame = 0;
-
-		function castMoving() {
-			unit.position.x = unit.position.x + unit.movement.x;
-			unit.position.y = unit.position.y + unit.movement.y;
-		}
-
-		function changeSprites() {
-			if (currentFrame >= spritesNumber) {
-				currentFrame = 0;
-			}
-			unit.sprite.sX = allFrames_sX[currentFrame];
-			currentFrame++;
-		}
-
-		function delayBeforeDeleting() {
-			unit.animation.finish = true;
-		}
-
-		unit.sound.play();
-
-		unit.setTimeOut_id = setTimeout(function go() {
-			castMoving();
-			changeSprites();
-			if (currenMovingDist >= (distance - speed - 1) && (currenMovingDist <= distance + speed + 1)) {
-				clearTimeout(unit.setTimeOut_id);
-				unit.sound.pause();
-				setTimeout(delayBeforeDeleting, 300);
-			} else {
-				unit.setTimeOut_id = setTimeout(go, timeBetweenFrames);
-			}
-			currenMovingDist = currenMovingDist + speed;
-
-		}, timeBetweenFrames);
-
+		impact.movement.x = force_vector.x * this.speed;
+		impact.movement.y = force_vector.y * this.speed;
 	}
 
-	start(target) {
-		this.animation(this.unitObj, target);
+	updatecurrentMovingDist() {
+		this.currentMovingDist = this.currentMovingDist + this.speed;
 	}
 
-	stop() {
+	updatePosition(impact) {
+		impact.position.x = impact.position.x + impact.movement.x;
+		impact.position.y = impact.position.y + impact.movement.y;
+	}
 
+	updateSprites(impact) {
+		if (this.currentFrame >= this.spritesNumber) {
+			this.currentFrame = 0;
+		}
+		impact.sprite.sX = this.allFrames_sX[this.currentFrame];
+		this.currentFrame++;
+	}
+
+	delayBeforeDeleting(impact, time = impact.animationTime) {
+		setTimeout(() => {
+			this.stop();
+			impact.sound.pause();
+		}, time);
+	}
+
+	isTargetReached() {
+		return this.currentMovingDist >= this.distance;
 	}
 
 }

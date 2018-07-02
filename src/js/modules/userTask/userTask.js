@@ -44,18 +44,19 @@ export default class UserTask {
 
 	checkTaskType(lvl) {
 		switch (true) {
-			case (lvl >= 0 && lvl < 4):
-				return 'code';
-			case (lvl >= 4 && lvl < 8):
-				return 'translate';
-			case (lvl >= 8 && lvl < 10):
-				return 'speech';
-			case (lvl >= 10 && lvl < 13):
-				return 'audition';
-			case (lvl >= 13 && lvl < 16):
-				return 'sequence';
-			default:
-				return 'code';
+		case (lvl >= 0 && lvl < 4):
+			return 'code';
+		case (lvl >= 4 && lvl < 8):
+			return 'translate';
+			//  disabled for presentation Now it not correct works if user have not micro
+			// case (lvl >= 8 && lvl < 10):
+			// 	return 'speech';
+		case (lvl >= 10 && lvl < 13):
+			return 'audition';
+		case (lvl >= 13 && lvl < 16):
+			return 'sequence';
+		default:
+			return 'code';
 		}
 	}
 
@@ -67,100 +68,100 @@ export default class UserTask {
 
 	generateTask() {
 		switch (this.type) {
-			case 'code':
-				return taskConfig.code[_.random(0, taskConfig.code.length - 1)];
-			case 'translate':
-				return taskConfig.translate[_.random(0, taskConfig.translate.length - 1)];
-			case 'sequence':
-				return taskConfig.sequence[_.random(0, taskConfig.sequence.length - 1)];
-			case 'audition':
-				return taskConfig.audition[_.random(0, taskConfig.audition.length - 1)];
-			case 'speech':
-				return taskConfig.speech[_.random(0, taskConfig.speech.length - 1)];
-			default:
-				return taskConfig.code[_.random(0, taskConfig.code.length - 1)];
+		case 'code':
+			return taskConfig.code[_.random(0, taskConfig.code.length - 1)];
+		case 'translate':
+			return taskConfig.translate[_.random(0, taskConfig.translate.length - 1)];
+		case 'sequence':
+			return taskConfig.sequence[_.random(0, taskConfig.sequence.length - 1)];
+		case 'audition':
+			return taskConfig.audition[_.random(0, taskConfig.audition.length - 1)];
+		case 'speech':
+			return taskConfig.speech[_.random(0, taskConfig.speech.length - 1)];
+		default:
+			return taskConfig.code[_.random(0, taskConfig.code.length - 1)];
 		}
 	}
 
 	renderTask(task) {
 		switch (this.type) {
-			case 'code':
-				generateCodeTask(task);
-				break;
-			case 'translate':
-				generateTranslateTask(task);
-				break;
-			case 'sequence':
-				generateSequenceTask(task);
-				break;
-			case 'audition':
-				generateAuditionTask(task);
-				break;
-			case 'speech':
-				generateSpeechTask(task);
-				break;
+		case 'code':
+			generateCodeTask(task);
+			break;
+		case 'translate':
+			generateTranslateTask(task);
+			break;
+		case 'sequence':
+			generateSequenceTask(task);
+			break;
+		case 'audition':
+			generateAuditionTask(task);
+			break;
+		case 'speech':
+			generateSpeechTask(task);
+			break;
 		}
 	}
 
 	checkAnswer(task) {
 		let userAnswer;
 		switch (this.type) {
-			case 'code':
-				userAnswer = document.querySelector('input[name=answer]:checked');
-				if (userAnswer !== null) {
-					if (userAnswer.value === task[2]) {
-						return true;
-					} else {
-						return false;
-					}
-				}
-				break;
-			case 'translate':
-				userAnswer = document.querySelector('input[name=answer]');
-				if (userAnswer.value !== '') {
-					for (let i = 0; i < task[1].length; i++) {
-						if (userAnswer.value.trim().toLowerCase() === task[1][i]) {
-							return true;
-						}
-					}
-					return false;
-				}
-				break;
-			case 'sequence':
-				userAnswer = document.querySelectorAll('.task-modal-anwer-variants')[0];
-				let results = [];
-				let taskAnswer = [];
-				for (let i = 0; i < userAnswer.children.length; i++) {
-					results.push(userAnswer.children[i].innerText.trim());
-					taskAnswer.push(task[i].trim());
-				}
-				taskAnswer = taskAnswer.join('');
-				results = results.join('');
-				if (results === taskAnswer) {
+		case 'code':
+			userAnswer = document.querySelector('input[name=answer]:checked');
+			if (userAnswer !== null) {
+				if (userAnswer.value === task[2]) {
 					return true;
 				} else {
 					return false;
 				}
-			case 'audition':
-				userAnswer = document.querySelector('input[name=answer]');
-				if (userAnswer.value !== '') {
-					if (userAnswer.value.trim().toLowerCase() === task[0]) {
+			}
+			break;
+		case 'translate':
+			userAnswer = document.querySelector('input[name=answer]');
+			if (userAnswer.value !== '') {
+				for (let i = 0; i < task[1].length; i++) {
+					if (userAnswer.value.trim().toLowerCase() === task[1][i]) {
 						return true;
-					} else {
-						return false;
 					}
 				}
-				break;
-			case 'speech':
-				userAnswer = document.querySelector('input[name=answer]');
-				if (userAnswer !== null) {
-					if (userAnswer.value.trim().toLowerCase() === task[0]) {
-						return true;
-					} else {
-						return false;
-					}
+				return false;
+			}
+			break;
+		case 'sequence':
+			userAnswer = document.querySelectorAll('.task-modal-anwer-variants')[0];
+			let results = [];
+			let taskAnswer = [];
+			for (let i = 0; i < userAnswer.children.length; i++) {
+				results.push(userAnswer.children[i].innerText.trim());
+				taskAnswer.push(task[i].trim());
+			}
+			taskAnswer = taskAnswer.join('');
+			results = results.join('');
+			if (results === taskAnswer) {
+				return true;
+			} else {
+				return false;
+			}
+		case 'audition':
+			userAnswer = document.querySelector('input[name=answer]');
+			if (userAnswer.value !== '') {
+				if (userAnswer.value.trim().toLowerCase() === task[0]) {
+					return true;
+				} else {
+					return false;
 				}
-				break;
+			}
+			break;
+		case 'speech':
+			userAnswer = document.querySelector('input[name=answer]');
+			if (userAnswer !== null) {
+				if (userAnswer.value.trim().toLowerCase() === task[0]) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+			break;
 		}
 	}
 }

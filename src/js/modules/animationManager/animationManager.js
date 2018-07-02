@@ -10,26 +10,26 @@ export default class AnimationManager {
 
 	static getAnimation(name, context) {
 		switch (name) {
-			case 'fireball':
-				return new ThrowingCast(context);
-			case 'standBy':
-				return new StandBy(context);
-			case 'death':
-				return new Death(context);
-			case 'attack':
-				return new Attack(context);
-			case 'pain':
-				return new Pain(context);
-			case 'healWeak':
-				return new ImpactOnTargetAnim(context);
-			case 'divineHeal':
-				return new ImpactOnTargetAnim(context);
-			case 'healMass':
-				return new ImpactOnTargetAnim(context);
-			case 'bless':
-				return new ImpactOnTargetAnim(context);
-			default:
-				return new ThrowingCast(context);
+		case 'fireball':
+			return new ThrowingCast(context);
+		case 'standBy':
+			return new StandBy(context);
+		case 'death':
+			return new Death(context);
+		case 'attack':
+			return new Attack(context);
+		case 'pain':
+			return new Pain(context);
+		case 'healWeak':
+			return new ImpactOnTargetAnim(context);
+		case 'divineHeal':
+			return new ImpactOnTargetAnim(context);
+		case 'healMass':
+			return new ImpactOnTargetAnim(context);
+		case 'bless':
+			return new ImpactOnTargetAnim(context);
+		default:
+			return new ThrowingCast(context);
 		}
 	}
 

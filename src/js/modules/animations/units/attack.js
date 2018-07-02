@@ -12,7 +12,7 @@ export default class Attack {
 		let bubble = true;
 		let counter = 0;
 
-		function moveRightPlayer() {
+		function moveRightPlayer(unit) {
 			unit.sprites.head.dX += 10;
 			unit.sprites.body.dX += 10;
 			unit.sprites.hands_left.dX += 11;
@@ -33,7 +33,7 @@ export default class Attack {
 			currentPos += 10;
 		}
 
-		function moveLeftPlayer() {
+		function moveLeftPlayer(unit) {
 			unit.sprites.head.dX -= 10;
 			unit.sprites.body.dX -= 10;
 			unit.sprites.hands_left.dX -= 11;
@@ -53,7 +53,7 @@ export default class Attack {
 			currentPos -= 10;
 		}
 
-		function moveRightMonster() {
+		function moveRightMonster(unit) {
 			unit.sprites.head.dX += 10;
 			unit.sprites.body.dX += 10;
 			unit.sprites.hands_left.dX += 11;
@@ -71,7 +71,7 @@ export default class Attack {
 			unit.sprites.legs_right.rotation += 2;
 			currentPos -= 10;
 		}
-		function moveLeftMonster() {
+		function moveLeftMonster(unit) {
 			unit.sprites.head.dX -= 10;
 			unit.sprites.body.dX -= 10;
 			unit.sprites.hands_left.dX -= 11;
@@ -95,19 +95,19 @@ export default class Attack {
 					bubble = false;
 				}
 				if (unit.type === 'player') {
-					moveRightPlayer();
+					moveRightPlayer(unit);
 				} else {
-					moveLeftMonster();
+					moveLeftMonster(unit);
 				}
 			} else {
-				if (currentPos <= startPos +10) {
+				if (currentPos <= startPos + 10) {
 					bubble = true;
 					counter = 1;
 				}
 				if (unit.type === 'player') {
-					moveLeftPlayer();
+					moveLeftPlayer(unit);
 				} else {
-					moveRightMonster();
+					moveRightMonster(unit);
 				}
 			}
 			if (counter === 0) {

@@ -23,12 +23,7 @@ export default class ImpactUnit {
 			y: 0
 		},
 		this.setTimeOut_id;
-		this.rotation = 45;
-
-		// while we don't hall all sprites for every impact
-		// if (!impactConfig[name].spritesheet) {
-		// 	this.temp = 'fireball';
-		// }
+		this.rotation = 0;
 
 		this.sprite = {
 			image: Utils.setSprite(impactConfig[name].spritesheet),

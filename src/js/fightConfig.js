@@ -32,5 +32,6 @@ export default {
 	attacker: [{ x: 214, y: 425 }, { x: 384, y: 115 }, { x: 584, y: 425 }],
 	defender: [{ x: 900, y: 425 }, { x: 1088, y: 115 }, { x: 1264, y: 425 }],
 	canvas: document.getElementById('canvas'),
+	delayAfterEndFight: 3000,
 
 };

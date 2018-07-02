@@ -16,7 +16,7 @@ module.exports = {
         ],
         "linebreak-style": [
             "error",
-            "unit"
+            "windows"
         ],
         "quotes": [
             "error",
