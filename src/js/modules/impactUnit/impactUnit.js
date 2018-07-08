@@ -1,6 +1,5 @@
-import impactConfig from '../../impactConfig';
+import impactConfig from '../../configs/impactConfig';
 import Utils from '../utils/utils';
-import SoundManager from '../soundManager/soundManager';
 import AnimationManager from '../animationManager/animationManager';
 
 export default class ImpactUnit {
@@ -40,6 +39,6 @@ export default class ImpactUnit {
 		this.animation = AnimationManager.getAnimation(name, this);
 
 		const src = impactConfig[name].sounds.moving;
-		this.sound = SoundManager.setAudioTrack(src);
+		this.sound = Utils.setAudioTrack(src);
 	}
 }

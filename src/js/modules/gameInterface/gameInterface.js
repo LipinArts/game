@@ -6,7 +6,7 @@ import Scoreboard from '../scoreboard/scoreboard';
 
 export default class GameInterface {
 	constructor() {
-		this.userData = 'undef';
+		this.userData;
 		this.keyboardEnabled = true;
 		this.initialization();
 		this.gameStarted = false;
@@ -71,25 +71,25 @@ export default class GameInterface {
 				this.keyboardEnabled = true;
 			} else {
 				switch (resultSelect.nameButton) {
-					case 'startNewGame':
-						this.pressStartNewGameButton();
-						break;
-					case 'musicOn_Off':
-						this.createMenu();
-						//console.log('musicOn_Off');
-						break;
-					case 'increaseVol':
-						this.createMenu();
-						//console.log('increaseVol');
-						break;
-					case 'decreaseVol':
-						this.createMenu();
-						//console.log('decreaseVol');
-						break;
-					case 'scoreboard':
-						Scoreboard.createTableOfRecordsFromLocalStore('top10score');
-						break;
-					default:
+				case 'startNewGame':
+					this.pressStartNewGameButton();
+					break;
+				case 'musicOn_Off':
+					this.createMenu();
+					//console.log('musicOn_Off');
+					break;
+				case 'increaseVol':
+					this.createMenu();
+					//console.log('increaseVol');
+					break;
+				case 'decreaseVol':
+					this.createMenu();
+					//console.log('decreaseVol');
+					break;
+				case 'scoreboard':
+					Scoreboard.createTableOfRecordsFromLocalStore('top10score');
+					break;
+				default:
 					//console.log('default');
 				}
 			}
@@ -103,44 +103,44 @@ export default class GameInterface {
 
 		function keydownHandler(event) {
 			switch (keyMap[event.keyCode]) {
-				case 'decreaseVol':
-					// Sound_Module.decreaseMusicVol(that.musicPlaylist, 0.05);
-					break;
-				case 'increaseVol':
-					// Sound_Module.increaseMusicVol(that.musicPlaylist, 0.05);
-					break;
+			case 'decreaseVol':
+				// Sound_Module.decreaseMusicVol(that.musicPlaylist, 0.05);
+				break;
+			case 'increaseVol':
+				// Sound_Module.increaseMusicVol(that.musicPlaylist, 0.05);
+				break;
 			}
 		}
 
 		function keyupHandler(event) {
 			switch (keyMap[event.keyCode]) {
-				case 'music_Off_On':
-					// Sound_Module.musicPause_Unpause(that.musicPlaylist);
-					break;
-				case 'showGameMenu':
-					if (!document.getElementById('gameMenuSW')) {
-						that.createMenu();
-						that.keyboardEnabled = false;
-					} else {
-						that.keyboardEnabled = true;
-					}
-					break;
-				case 'nextTarget':
-					if (that.keyboardEnabled) {
-						KeyboardController.pressedKeys.nextTarget = true;
-					}
+			case 'music_Off_On':
+				// Sound_Module.musicPause_Unpause(that.musicPlaylist);
+				break;
+			case 'showGameMenu':
+				if (!document.getElementById('gameMenuSW')) {
+					that.createMenu();
+					that.keyboardEnabled = false;
+				} else {
+					that.keyboardEnabled = true;
+				}
+				break;
+			case 'nextTarget':
+				if (that.keyboardEnabled) {
+					KeyboardController.pressedKeys.nextTarget = true;
+				}
 
-					break;
-				case 'prevTarget':
-					if (that.keyboardEnabled) {
-						KeyboardController.pressedKeys.prevTarget = true;
-					}
-					break;
-				case 'impact':
-					if (that.keyboardEnabled) {
-						KeyboardController.pressedKeys.impact = true;
-					}
-					break;
+				break;
+			case 'prevTarget':
+				if (that.keyboardEnabled) {
+					KeyboardController.pressedKeys.prevTarget = true;
+				}
+				break;
+			case 'impact':
+				if (that.keyboardEnabled) {
+					KeyboardController.pressedKeys.impact = true;
+				}
+				break;
 			}
 		}
 

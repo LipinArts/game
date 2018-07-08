@@ -229,11 +229,7 @@ export default class SelectionWheel {
 		if (this.indexButton > this.buttonsQuantity - 1) {
 			this.indexButton = 0;
 		}
-		if (this.indexButton < this.buttonsQuantity) {
-			return this.buttons[this.indexButton];
-		} else {
-			return this.buttons[this.indexButton - 3];
-		}
+		return this.buttons[this.indexButton];
 	}
 
 	prevTarget() {
@@ -241,11 +237,7 @@ export default class SelectionWheel {
 		if (this.indexButton < 0) {
 			this.indexButton = this.buttonsQuantity - 1;
 		}
-		if (this.indexButton < this.buttonsQuantity) {
-			return this.buttons[this.indexButton];
-		} else {
-			return this.buttons[this.indexButton - 3];
-		}
+		return this.buttons[this.indexButton];
 	}
 
 	focus_next() {

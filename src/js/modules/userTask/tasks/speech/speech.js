@@ -31,7 +31,7 @@ function generate(task) {
 		btn.textContent = 'Запись';
 		const phrase = task[0];
 
-		const grammar = '#JSGF V1.0; grammar phrase; public <phrase> = ' + phrase +';';
+		const grammar = '#JSGF V1.0; grammar phrase; public <phrase> = ' + phrase + ';';
 		const recognition = new SpeechRecognition();
 		const speechRecognitionList = new SpeechGrammarList();
 		speechRecognitionList.addFromString(grammar, 1);
@@ -42,7 +42,7 @@ function generate(task) {
 
 		recognition.start();
 
-		recognition.onresult = function(event) {
+		recognition.onresult = function (event) {
 			let speechResult = event.results[0][0].transcript;
 			const input = document.createElement('input');
 			input.setAttribute('type', 'text');
@@ -52,13 +52,13 @@ function generate(task) {
 			answer.appendChild(input);
 		};
 
-		recognition.onspeechend = function() {
+		recognition.onspeechend = function () {
 			recognition.stop();
 			btn.disabled = false;
 			btn.textContent = 'Произнести';
 		};
 
-		recognition.onerror = function(event) {
+		recognition.onerror = function (event) {
 			btn.disabled = false;
 			btn.textContent = 'Произнести снова';
 			console.log(event.error);

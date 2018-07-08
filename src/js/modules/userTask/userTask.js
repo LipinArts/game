@@ -1,10 +1,10 @@
 import _ from 'lodash';
-import taskConfig from '../../taskConfig';
-import generateAuditionTask from './tasks/audition';
-import generateCodeTask from './tasks/code';
-import generateSequenceTask from './tasks/sequence';
-import generateTranslateTask from './tasks/translate';
-import generateSpeechTask from './tasks/speech';
+import taskConfig from '../../modules/userTask/data/data';
+import generateAuditionTask from './tasks/audition/audition';
+import generateCodeTask from './tasks/code/code';
+import generateSequenceTask from './tasks/sequence/sequence';
+import generateTranslateTask from './tasks/translate/translate';
+import generateSpeechTask from './tasks/speech/speech';
 
 /*eslint no-case-declarations: 0*/
 
@@ -48,9 +48,8 @@ export default class UserTask {
 			return 'code';
 		case (lvl >= 4 && lvl < 8):
 			return 'translate';
-			//  disabled for presentation Now it not correct works if user have not micro
-			// case (lvl >= 8 && lvl < 10):
-			// 	return 'speech';
+		case (lvl >= 8 && lvl < 10):
+			return 'speech';
 		case (lvl >= 10 && lvl < 13):
 			return 'audition';
 		case (lvl >= 13 && lvl < 16):

@@ -1,7 +1,7 @@
 import KeyboardController from '../KeyboardController/KeyboardController';
 import SelectionWheel from '../SelectionWheel/SelectionWheel';
 import UserTask from '../userTask/userTask';
-import fightConfig from '../../fightConfig';
+import fightConfig from '../../configs/fightConfig';
 import _ from 'lodash';
 import Utils from '../utils/utils';
 
@@ -22,28 +22,26 @@ export default class Fight {
 		this.unitsDefenderCoordinates = fightConfig.defender;
 		this.canvas = fightConfig.canvas;
 		this.ctx = this.canvas.getContext('2d');
-		this.frameLoopRunning = false;
+		this.gameLoopRunning = false;
 		this.lastTurnEndtTime = new Date().getTime();
 		this.delayBetweenTurns = 0;
 		this.animatedCastUnit;
 		this.targetUnitCoord;
 		this.casterUnitCoord;
 
-		this.cheat = false;
-
 		this.resolvePromiseFunc;
 		return new Promise(resolve => {
 			this.resolvePromiseFunc = resolve;
-			this.fightModulCycle();
+			this.fightModulLifeCycle();
 		});
 	}
 
-	fightModulCycle() {
+	fightModulLifeCycle() {
 		this.showLoadingScreen();
 		this.showCanvasAfterLoading();
 		this.setBackground();
 		this.hideLoadingScreen();
-		this.startGameLoop();
+		this.startEndlessGameLoop();
 	}
 
 	showLoadingScreen() {
@@ -69,7 +67,7 @@ export default class Fight {
 		return background;
 	}
 
-	startGameLoop() {
+	startEndlessGameLoop() {
 		const that = this;
 		let now;
 		let dt = 0;
@@ -81,7 +79,7 @@ export default class Fight {
 		}
 
 		function frame() {
-			if (that.frameLoopRunning) {
+			if (that.gameLoopRunning) {
 				now = timestamp();
 				dt = dt + Math.min(1, (now - last) / 1000);
 				while (dt > step) {
@@ -93,13 +91,13 @@ export default class Fight {
 				requestAnimationFrame(frame);
 			}
 		}
-		this.frameLoopRunning = true;
+		this.gameLoopRunning = true;
 		requestAnimationFrame(frame);
 	}
 
 	update() {
-		// this.round < 100 safety exit from endless cycle
-		if (this.frameLoopRunning && this.round < 100) {
+		// this.round < 1000 safety exit from endless cycle if something goes wrong
+		if (this.gameLoopRunning && this.round < 1000) {
 			if (this.isFightNotOver()) {
 				this.updateSelecting();
 				this.updateTurn();
@@ -110,19 +108,19 @@ export default class Fight {
 	}
 
 	pauseFight() {
-		this.frameLoopRunning = false;
+		this.gameLoopRunning = false;
 	}
 
 	unpauseFight() {
-		this.frameLoopRunning = true;
-		this.startGameLoop();
+		this.gameLoopRunning = true;
+		this.startEndlessGameLoop();
 	}
 
 	finishFight() {
 		const delayAfterEndFight = fightConfig.delayAfterEndFight;
 		const that = this;
 		setTimeout(() => {
-			that.frameLoopRunning = false;
+			that.gameLoopRunning = false;
 			that.resolvePromiseFunc({
 				'attacker': this.attacker,
 				'defender': this.defender
@@ -183,14 +181,10 @@ export default class Fight {
 	async playerTurning() {
 		this.pauseFight();
 		const infoOutputScheme = { damage: 'Damage/heal', status: 'Add status', target: 'Target', duration: 'Duration', lvl: 'Difficulty' };
-		let selectedImpact = await new SelectionWheel(this.activeUnit.abilities, this.canvas, infoOutputScheme, document.body, 'src/img/selectionWheel/wheel.png', 'impactsSW');
+		const selectedImpact = await new SelectionWheel(this.activeUnit.abilities, this.canvas, infoOutputScheme, document.body, 'src/img/selectionWheel/wheel.png', 'impactsSW');
 
 		if (selectedImpact) {
-			let resultUserTask = await new UserTask(selectedImpact.lvl);
-
-			// CHEAT for presentation
-			if (this.cheat) { resultUserTask = true; }
-			// CHEAT for presentation
+			const resultUserTask = await new UserTask(selectedImpact.lvl);
 
 			if (resultUserTask) {
 				if (this.selectedUnit.type === 'player') {
@@ -229,6 +223,12 @@ export default class Fight {
 	}
 
 	attack(attacker, target, impact) {
+		this.startAttackerActionsOfAttack(attacker, target);
+		this.impact(target, impact);
+		this.startTargetActionsOfTakeDamage(target);
+	}
+
+	startAttackerActionsOfAttack(attacker, target) {
 		attacker.sounds.attack.play();
 		attacker.animation.standBy.stop();
 		if (target === attacker) {
@@ -237,7 +237,9 @@ export default class Fight {
 			attacker.animation.attack.start();
 		}
 		attacker.animation.standBy.start();
-		this.impact(target, impact);
+	}
+
+	startTargetActionsOfTakeDamage(target) {
 		if (this.isUnitAlive(target)) {
 			target.sounds.pain.play();
 			target.animation.standBy.stop();

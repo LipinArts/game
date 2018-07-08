@@ -12,7 +12,7 @@ export default class ThrowingCast {
 		this.onceFlag;
 	}
 
-	initObject() {
+	initAnimationObject() {
 		this.currentFrame = 0;
 		this.distance = 0;
 		this.currentMovingDist = 0;
@@ -21,7 +21,7 @@ export default class ThrowingCast {
 	}
 
 	start(targetPosition) {
-		this.initObject();
+		this.initAnimationObject();
 		this.impact.sound.play();
 		this.updateMovement(this.impact, targetPosition);
 		this.startAnimationLoop(this.impact, targetPosition);
@@ -63,9 +63,8 @@ export default class ThrowingCast {
 		if (this.onceFlag) {
 			if (this.isTargetReached()) {
 				this.onceFlag = false;
-				// neet test mb have bugs when delation less then time between frames
-				const timeDelation = 500;
-				this.delayBeforeDeleting(impact, timeDelation);
+				const animationTimeAfterReachTarget = 500;
+				this.delayBeforeDeleting(impact, animationTimeAfterReachTarget);
 			}
 			else {
 				this.updatecurrentMovingDist();

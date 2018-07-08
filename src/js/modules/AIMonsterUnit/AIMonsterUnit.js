@@ -4,6 +4,7 @@ export default class AIMonsterUnit {
 		let bestToDoDamageOrKillTurn = this.getBestToDoDamageOrKillTurn(playerUnits, ownAbilities);
 		let bestTurn;
 		let ToDoMaxHealAlly;
+
 		if (bestToDoDamageOrKillTurn.possibleKill) {
 			bestTurn = bestToDoDamageOrKillTurn;
 		} else {
@@ -20,7 +21,6 @@ export default class AIMonsterUnit {
 			selectedUnit: bestTurn.bestTarget,
 			selectedImpact: bestTurn.bestImpact
 		};
-
 	}
 
 	static getBestToDoDamageOrKillTurn(playerUnits, ownAbilities) {
@@ -28,43 +28,24 @@ export default class AIMonsterUnit {
 		let bestTarget;
 		let bestImpact;
 		let abilitiesNames = Object.keys(ownAbilities);
-		playerUnits.forEach(unit => {
+
+		// for best perormance 2 logic methods use the same combinatorics cycles
+		// the first try to find combination target-impact when we will kill target
+		// the second just find the best combination target-impact for will do max damage to player unit
+		playerUnits.forEach(target => {
 			abilitiesNames.forEach(abilityName => {
 				let impact = ownAbilities[abilityName];
-				if (unit.hp > 0 && impact.damage > 0) {
-					if (unit.hp - impact.damage <= 0) {
+				if (this.isTargetAliveAndImpactNotHeal(target, impact)) {
+					if (this.isTargetWillKilledAfterImpact(target, impact)) {
 						possibleKill = true;
-						if (!bestTarget) {
-							bestTarget = unit;
-							bestImpact = impact;
-						} else {
-							if (unit.hp > bestTarget.hp) {
-								bestTarget = unit;
-								bestImpact = impact;
-							} else {
-								if (bestImpact.lv > impact && bestTarget.hp === unit.hp) {
-									bestImpact = impact;
-								}
-							}
-						}
+						const updatedBesturn = this.updateBestTurnForPossibilityToKill(bestTarget, bestImpact, target, impact);
+						bestTarget = updatedBesturn.bestTarget;
+						bestImpact = updatedBesturn.bestImpact;
 					} else {
 						if (!possibleKill) {
-							if (!bestImpact) {
-								bestImpact = impact;
-							}
-							else {
-								if (bestImpact.damage < impact.damage) {
-									bestImpact = impact;
-								}
-							}
-							if (!bestTarget) {
-								bestTarget = unit;
-							}
-							else {
-								if (bestTarget.hp > unit.hp) {
-									bestTarget = unit;
-								}
-							}
+							const updatedBesturn = this.updateBestTurnForDoMaxDamage(bestTarget, bestImpact, target, impact);
+							bestTarget = updatedBesturn.bestTarget;
+							bestImpact = updatedBesturn.bestImpact;
 						}
 					}
 				}
@@ -81,34 +62,34 @@ export default class AIMonsterUnit {
 	static getTurnToDoMaxHealAlly(botsUnits, ownAbilities) {
 		let bestTarget;
 		let bestImpact;
-		let bestHealInPercent = 0;
+		let bestHealInPercents = 0;
 		let possibleToHeal = false;
 		let abilitiesNames = Object.keys(ownAbilities);
-		botsUnits.forEach(unit => {
+		botsUnits.forEach(target => {
 			abilitiesNames.forEach(abilityName => {
 				let impact = ownAbilities[abilityName];
-				if (unit.hp > 0 && impact.damage < 0) {
+				if (this.isTargetAliveAndImpactHeal(target, impact)) {
 					possibleToHeal = true;
 					let heal;
 					let impactHeal = impact.damage * -1;
-					if (unit.hp + impactHeal <= unit.maxHP) {
-						heal = impactHeal;
+					if (this.isPossibleToHealOverMaxHPOfTarget(target, impactHeal)) {
+						heal = impactHeal - ((target.hp + impactHeal) - target.maxHP);
 					}
 					else {
-						heal = impactHeal - ((unit.hp + impactHeal) - unit.maxHP);
+						heal = impactHeal;
 					}
-					let healInPercent = (heal / unit.hp) * 100;
-					if (bestHealInPercent < healInPercent) {
-						bestHealInPercent = healInPercent;
-						bestTarget = unit;
+					let healInPercent = (heal / target.hp) * 100;
+					if (bestHealInPercents < healInPercent) {
+						bestHealInPercents = healInPercent;
+						bestTarget = target;
 						bestImpact = impact;
 					}
 				}
 			});
 		});
 
-		// when all unit fullHP
-		if (bestHealInPercent === 0) {
+		// when all units fullHP
+		if (bestHealInPercents === 0) {
 			possibleToHeal = false;
 		}
 
@@ -120,11 +101,85 @@ export default class AIMonsterUnit {
 	}
 
 	static getBestTurnByCompare(turnDamage, turnHeal) {
-		if (turnDamage.bestImpact.damage > (turnHeal.bestImpact.damage * -1)) {
+		if (turnDamage.bestImpact.damage >= (turnHeal.bestImpact.damage * -1)) {
 			return turnDamage;
 		}
 		else {
 			return turnHeal;
 		}
 	}
+
+	static updateBestTurnForPossibilityToKill(bestTarget, bestImpact, target, impact) {
+		if (!bestTarget) {
+			bestTarget = target;
+			bestImpact = impact;
+		} else {
+			if (this.isCurrentTargetBestThenLastBestTarget(target, bestTarget)) {
+				bestTarget = target;
+				bestImpact = impact;
+			} else {
+				if (this.isCurrentImpactLowerCostThenLastBestImpactForTheSameTarget(target, bestTarget, bestImpact, impact)) {
+					bestImpact = impact;
+				}
+			}
+		}
+
+		return {
+			bestTarget: bestTarget,
+			bestImpact: bestImpact
+		};
+	}
+
+	static updateBestTurnForDoMaxDamage(bestTarget, bestImpact, target, impact) {
+		if (!bestImpact) {
+			bestImpact = impact;
+		}
+		else {
+			if (this.isCurrentImpactWillDoMoreDamageThenLastBestImpact(impact, bestImpact)) {
+				bestImpact = impact;
+			}
+		}
+		if (!bestTarget) {
+			bestTarget = target;
+		}
+		else {
+			if (this.isCurrentTargetBestThenLastBestTarget(target, bestTarget)) {
+				bestTarget = target;
+			}
+		}
+
+		return {
+			bestTarget: bestTarget,
+			bestImpact: bestImpact
+		};
+	}
+
+	static isTargetAliveAndImpactNotHeal(target, impact) {
+		return target.hp > 0 && impact.damage > 0;
+	}
+
+	static isTargetWillKilledAfterImpact(target, impact) {
+		return target.hp - impact.damage <= 0;
+	}
+
+	static isCurrentTargetBestThenLastBestTarget(target, bestTarget) {
+		return target.hp < bestTarget.hp;
+	}
+
+	static isCurrentImpactLowerCostThenLastBestImpactForTheSameTarget(target, bestTarget, bestImpact, impact) {
+		return bestTarget === target && bestImpact.lv > impact;
+	}
+
+	static isCurrentImpactWillDoMoreDamageThenLastBestImpact(impact, bestImpact) {
+		return bestImpact.damage < impact.damage;
+	}
+
+	static isTargetAliveAndImpactHeal(target, impact) {
+		return target.hp > 0 && impact.damage < 0;
+	}
+
+	static isPossibleToHealOverMaxHPOfTarget(target, impactHeal) {
+		return target.hp + impactHeal > target.maxHP;
+	}
+
 }

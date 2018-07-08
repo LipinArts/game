@@ -7,10 +7,10 @@ export default class GameManager {
 	constructor(userData) {
 		this.monsterGroupsCounter = 0;
 		this.userData = userData;
-		this.lvlGenerator();
+		this.startLvlGenerateCycle();
 	}
 
-	async lvlGenerator() {
+	async startLvlGenerateCycle() {
 		let diffucult = 1;
 		let player = this.generateGroupOfUnits('player', diffucult);
 

@@ -31,13 +31,13 @@ function generate(task) {
 
 	window.speechSynthesis.onvoiceschanged = speakTaskWord;
 	let speakTaskWord = () => {
-			let synth = window.speechSynthesis;
-			let speech = new SpeechSynthesisUtterance(task);
-			let voices = [];
-			voices = synth.getVoices();
-			speech.voice = voices[8];
-			speech.rate = 0.8;
-			synth.speak(speech);
+		let synth = window.speechSynthesis;
+		let speech = new SpeechSynthesisUtterance(task);
+		let voices = [];
+		voices = synth.getVoices();
+		speech.voice = voices[8];
+		speech.rate = 0.8;
+		synth.speak(speech);
 	};
 
 

@@ -1,9 +1,8 @@
 import _ from 'lodash';
-import unitConfig from '../../unitConfig';
-import ImpactConfig from '../../impactConfig';
+import unitConfig from '../../configs/unitConfig';
+import ImpactConfig from '../../configs/impactConfig';
 import AIMonsterUnit from '../AIMonsterUnit/AIMonsterUnit';
-import ImpactUnit from '../ImpactUnit/ImpactUnit';
-import SoundManager from '../soundManager/soundManager';
+import ImpactUnit from '../impactUnit/impactUnit';
 import AnimationManager from '../animationManager/animationManager';
 import Utils from '../utils/utils';
 
@@ -27,21 +26,23 @@ export default class FightUnit {
 	}
 
 	generate() {
-		this.generateUnitAbilities();
 		switch (this.type) {
 		case 'player':
+			this.generateUnitAbilities(unitConfig.players.maxQuantityOfAbilities);
 			this.generateUnit(unitConfig.players.adjectives, unitConfig.players.names_1, unitConfig.players.names_2, unitConfig.players.hp);
-			this.generateSprites(unitConfig.players.sprites.head, unitConfig.players.sprites.body, unitConfig.players.sprites.hands_left, unitConfig.players.sprites.hands_right, unitConfig.players.sprites.legs_left, unitConfig.players.sprites.legs_right, unitConfig.players.unitSize);
+			this.generateSprites(unitConfig.players.sprites, unitConfig.players.unitSize);
 			this.generateSounds(unitConfig.players);
 			break;
 		case 'monster':
+			this.generateUnitAbilities(unitConfig.monsters.maxQuantityOfAbilities);
 			this.generateUnit(unitConfig.monsters.adjectives, unitConfig.monsters.names_1, unitConfig.monsters.names_2, unitConfig.monsters.hp);
-			this.generateSprites(unitConfig.monsters.sprites.head, unitConfig.monsters.sprites.body, unitConfig.monsters.sprites.hands_left, unitConfig.monsters.sprites.hands_right, unitConfig.monsters.sprites.legs_left, unitConfig.monsters.sprites.legs_right, unitConfig.monsters.unitSize);
+			this.generateSprites(unitConfig.monsters.sprites, unitConfig.monsters.unitSize);
 			this.generateSounds(unitConfig.monsters);
 			break;
 		default:
+			this.generateUnitAbilities(unitConfig.monsters.maxQuantityOfAbilities);
 			this.generateUnit(unitConfig.monsters.adjectives, unitConfig.monsters.names_1, unitConfig.monsters.names_2, unitConfig.monsters.hp);
-			this.generateSprites(unitConfig.monsters.sprites.head, unitConfig.monsters.sprites.body, unitConfig.monsters.sprites.hands_left, unitConfig.monsters.sprites.hands_right, unitConfig.monsters.sprites.legs_left, unitConfig.monsters.sprites.legs_right, unitConfig.monsters.unitSize);
+			this.generateSprites(unitConfig.monsters.sprites, unitConfig.monsters.unitSize);
 			this.generateSounds(unitConfig.monsters);
 			break;
 		}
@@ -53,26 +54,27 @@ export default class FightUnit {
 		this.maxHP = this.hp;
 	}
 
-	generateSprites(head, body, hands_left, hands_right, legs_left, legs_right, unitSize) {
-		this.sprites.head = _.clone(head);
-		this.sprites.head.image = Utils.setSprite(head.path);
-		this.sprites.head.sX = head.sX[_.random(0, head.sX.length - 1)];
-		this.sprites.body = _.clone(body);
-		this.sprites.body.image = Utils.setSprite(body.path);
-		this.sprites.body.sX = body.sX[_.random(0, body.sX.length - 1)];
+	generateSprites(allSprites, unitSize) {
+		this.sprites.head = _.clone(allSprites.head);
+		this.sprites.head.image = Utils.setSprite(allSprites.head.path);
+		this.sprites.head.sX = allSprites.head.sX[_.random(0, allSprites.head.sX.length - 1)];
 
-		this.sprites.hands_left = _.clone(hands_left);
-		this.sprites.hands_left.image = Utils.setSprite(hands_left.path);
-		this.sprites.hands_left.sX = hands_left.sX[_.random(0, hands_left.sX.length - 1)];
-		this.sprites.hands_right = _.clone(hands_right);
-		this.sprites.hands_right.image = Utils.setSprite(hands_right.path);
+		this.sprites.body = _.clone(allSprites.body);
+		this.sprites.body.image = Utils.setSprite(allSprites.body.path);
+		this.sprites.body.sX = allSprites.body.sX[_.random(0, allSprites.body.sX.length - 1)];
+
+		this.sprites.hands_left = _.clone(allSprites.hands_left);
+		this.sprites.hands_left.image = Utils.setSprite(allSprites.hands_left.path);
+		this.sprites.hands_left.sX = allSprites.hands_left.sX[_.random(0, allSprites.hands_left.sX.length - 1)];
+		this.sprites.hands_right = _.clone(allSprites.hands_right);
+		this.sprites.hands_right.image = Utils.setSprite(allSprites.hands_right.path);
 		this.sprites.hands_right.sX = this.sprites.hands_left.sX;
 
-		this.sprites.legs_left = _.clone(legs_left);
-		this.sprites.legs_left.image = Utils.setSprite(legs_left.path);
-		this.sprites.legs_left.sX = legs_left.sX[_.random(0, legs_left.sX.length - 1)];
-		this.sprites.legs_right = _.clone(legs_right);
-		this.sprites.legs_right.image = Utils.setSprite(legs_right.path);
+		this.sprites.legs_left = _.clone(allSprites.legs_left);
+		this.sprites.legs_left.image = Utils.setSprite(allSprites.legs_left.path);
+		this.sprites.legs_left.sX = allSprites.legs_left.sX[_.random(0, allSprites.legs_left.sX.length - 1)];
+		this.sprites.legs_right = _.clone(allSprites.legs_right);
+		this.sprites.legs_right.image = Utils.setSprite(allSprites.legs_right.path);
 		this.sprites.legs_right.sX = this.sprites.legs_left.sX;
 
 		this.unitSize = _.clone(unitSize);
@@ -85,12 +87,14 @@ export default class FightUnit {
 		this.name = `${firstName} ${secondName} ${thirdName}`;
 	}
 
-	generateUnitAbilities() {
+	generateUnitAbilities(maxQuantityOfAbilities) {
 		const allCastsNames = Object.keys(ImpactConfig);
 
-		for (let numberUnitCast = 0; numberUnitCast < 6; numberUnitCast++) {
+		for (let numberUnitCast = 0; numberUnitCast < maxQuantityOfAbilities; numberUnitCast++) {
 			const impactName = allCastsNames[_.random(0, allCastsNames.length - 1)];
-			const lvlCast = _.random(1, 16);
+			const maxLvlCast = 15;
+			const minLvlCast = 1;
+			const lvlCast = _.random(minLvlCast, maxLvlCast + 1);
 			this.abilities[impactName] = new ImpactUnit(impactName, lvlCast);
 		}
 	}
@@ -101,11 +105,11 @@ export default class FightUnit {
 
 	generateSounds(unitConfig) {
 		const randomSoundsSetUp = unitConfig.sounds.setUp[_.random(0, unitConfig.sounds.setUp.length - 1)];
-		this.sounds.notYet = SoundManager.setAudioTrack(randomSoundsSetUp.notYet);
-		this.sounds.attack = SoundManager.setAudioTrack(randomSoundsSetUp.attack);
-		this.sounds.pain = SoundManager.setAudioTrack(randomSoundsSetUp.pain);
-		this.sounds.death = SoundManager.setAudioTrack(randomSoundsSetUp.death);
-		this.sounds.failure = SoundManager.setAudioTrack(randomSoundsSetUp.failure);
+		this.sounds.notYet = Utils.setAudioTrack(randomSoundsSetUp.notYet);
+		this.sounds.attack = Utils.setAudioTrack(randomSoundsSetUp.attack);
+		this.sounds.pain = Utils.setAudioTrack(randomSoundsSetUp.pain);
+		this.sounds.death = Utils.setAudioTrack(randomSoundsSetUp.death);
+		this.sounds.failure = Utils.setAudioTrack(randomSoundsSetUp.failure);
 	}
 
 }

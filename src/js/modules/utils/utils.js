@@ -7,6 +7,12 @@ export default class Utils {
 		return img;
 	}
 
+	static setAudioTrack(src) {
+		const audObj = new Audio();
+		audObj.src = src;
+		return audObj;
+	}
+
 	static minMaxValid(value, min, max) {
 		if (value > max) {
 			value = max;
@@ -62,6 +68,12 @@ export default class Utils {
 
 	static hideLoader() {
 		$('.loader').delay(400).fadeOut('slow');
+	}
+
+	static pause(time) {
+		return new Promise((resolve) => {
+			setTimeout(resolve, time);
+		});
 	}
 
 }

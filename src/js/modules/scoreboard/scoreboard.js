@@ -8,8 +8,9 @@ export default class Scoreboard {
 		list.appendChild(title);
 		title.textContent = 'Scoreboard';
 		let records = JSON.parse(localStorage.getItem(name_localStorage));
-		if(records === null){
-			const emptyArray = new Array(10);
+		if (records === null) {
+			const quantityScoreRecords = 10;
+			const emptyArray = new Array(quantityScoreRecords);
 			const newRecords = emptyArray.fill('empty');
 			localStorage.setItem(name_localStorage, JSON.stringify(newRecords));
 		}
@@ -45,8 +46,9 @@ export default class Scoreboard {
 	}
 
 	static chkAndUpdateTop10LocalStorageRecords(name_localStorage, current_score, user_data) {
+		const quantityScoreRecords = 10;
 		if (!localStorage.getItem(name_localStorage)) {
-			const emptyArray = new Array(10);
+			const emptyArray = new Array(quantityScoreRecords);
 			const newRecords = emptyArray.fill('empty');
 			newRecords[0] = {
 				'score': current_score,
@@ -59,14 +61,14 @@ export default class Scoreboard {
 				'score': current_score,
 				'user_data': user_data
 			};
-			for (let i = 0; i < 10; i++) {
+			for (let i = 0; i < quantityScoreRecords; i++) {
 				if (records[i] === 'empty') {
 					records[i] = newRecordObj;
 					localStorage.setItem(name_localStorage, JSON.stringify(records));
 					break;
 				} else {
 					if (current_score > records[i].score) {
-						let copyRightPartOfArr = records.slice(i, 9);
+						let copyRightPartOfArr = records.slice(i, quantityScoreRecords - 1);
 						let copyLeftPartOfArr = records.slice(0, i);
 						copyLeftPartOfArr.push(newRecordObj);
 						records = copyLeftPartOfArr.concat(copyRightPartOfArr);
